@@ -2,8 +2,7 @@
 {-# LANGUAGE UnicodeSyntax #-}
 
 module OnlineATPs.SystemOnTPTP
-  (
-    SystemOnTPTP
+  ( SystemOnTPTP
     ( SystemOnTPTP
     , optAutoMode
     , optAutoModeSystemsLimit

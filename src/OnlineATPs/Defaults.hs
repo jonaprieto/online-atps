@@ -1,8 +1,7 @@
 {-# LANGUAGE UnicodeSyntax #-}
 
 module OnlineATPs.Defaults
-  (
-    defaultOnlineATP
+  ( defaultOnlineATP
   , defaultSystemOnTPTP
   ) where
 

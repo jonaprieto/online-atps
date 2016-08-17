@@ -1,3 +1,7 @@
-module OnlineATPs where
+module OnlineATPs
+  (
+    getOnlineATPs
+  , getResponseSystemOnTPTP
+  ) where
 
-import OnlineATPs.Internal
+import OnlineATPs.Consult (getOnlineATPs, getResponseSystemOnTPTP)

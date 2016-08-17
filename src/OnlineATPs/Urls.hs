@@ -1,7 +1,6 @@
 {-# LANGUAGE UnicodeSyntax #-}
 module OnlineATPs.Urls
-  (
-    urlSystemOnTPTP
+  ( urlSystemOnTPTP
   , urlSystemOnTPTPReply
   ) where
 

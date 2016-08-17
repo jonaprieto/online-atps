@@ -1,11 +1,9 @@
 {-# LANGUAGE UnicodeSyntax #-}
 
 module OnlineATPs.Consult
-  (
-    getOnlineATPs
+  ( getOnlineATPs
   , getResponseSystemOnTPTP
-  )
-  where
+  ) where
 
 import           Control.Arrow            ((***))
 import           Control.Monad.IO.Class   (liftIO)

@@ -1,8 +1,7 @@
 {-# LANGUAGE UnicodeSyntax #-}
 
 module OnlineATPs.SystemATP
-  (
-    SystemATP
+  ( SystemATP
     ( SystemATP
     , sysApplication
     , sysCommand
@@ -18,7 +17,7 @@ module OnlineATPs.SystemATP
   , printListOnlineATPs
   ) where
 
-import           Data.List (isInfixOf, intercalate)
+import           Data.List (intercalate, isInfixOf)
 
 data SystemATP = SystemATP
   { sysApplication ∷ String
@@ -37,7 +36,7 @@ instance Show SystemATP where
     ++ "\n version: " ++ sysVersion atp
     ++ "\n application: " ++ sysApplication atp
 
-getDataSystemATP :: SystemATP → [(String, String)]
+getDataSystemATP ∷ SystemATP → [(String, String)]
 getDataSystemATP atp = [
      ( "Command___"    ++ label, sysCommand atp )
   ,  ( "Format___"     ++ label, sysFormat atp )
