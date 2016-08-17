@@ -1,14 +1,17 @@
-{-# LANGUAGE UnicodeSyntax #-}
+{-# LANGUAGE ScopedTypeVariables #-}
+{-# LANGUAGE UnicodeSyntax       #-}
 
 module OnlineATPs.Consult
   ( getOnlineATPs
   , getResponseSystemOnTPTP
+  , getSystemATP
   ) where
 
 import           Control.Arrow            ((***))
 import           Control.Monad.IO.Class   (liftIO)
 import           Data.ByteString.Internal (packChars)
 import           Data.Char                (toLower)
+import qualified Data.HashMap.Strict      as HashMap
 import           Data.List                (isPrefixOf)
 import           Data.List.Split          (splitOn)
 import           Network                  (withSocketsDo)
@@ -22,7 +25,6 @@ import           OnlineATPs.SystemOnTPTP  (SystemOnTPTP, getDataSystemOnTPTP)
 import           OnlineATPs.Urls          (urlSystemOnTPTP,
                                            urlSystemOnTPTPReply)
 import           Text.HTML.TagSoup
-
 
 getNameTag ∷ Tag String → String
 getNameTag = fromAttrib "name"
@@ -110,7 +112,9 @@ getVal = fromAttrib "value"
 buildSystemATP ∷ [Tag String] → SystemATP
 buildSystemATP [tSys, tTime, tTrans, tFormat, tCmd, tApp] = newATP
   where
+    name, version ∷ String
     [name, version] = splitOn "---" $ getVal tSys
+
     newATP ∷ SystemATP
     newATP = SystemATP
       { sysName = name
@@ -127,12 +131,34 @@ buildSystemATP _  = error "ATP data has not the appropriate shape."
 getOnlineATPs ∷ IO [SystemATP]
 getOnlineATPs = do
   tags ← canonicalizeTags . parseTags <$> openURL urlSystemOnTPTP
+
   let systems ∷ [SystemATP]
       systems = map buildSystemATP $ groupEachSix $ getInfoATP tags
+
   let fofSystems ∷ [SystemATP]
       fofSystems = checkNameVersion $ filter isFOFATP systems
+
   return fofSystems
 
+getSystemATP ∷ String → IO SystemATP
+getSystemATP "" = return NoSystemATP
+getSystemATP name = do
+  if not $ "online-" `isPrefixOf` name
+  then getSystemATP $ "online-" ++ name
+  else do
+
+    atps ∷ [SystemATP] ← getOnlineATPs
+
+    let namesATPs ∷ [String]
+        namesATPs = map sysKey atps
+
+    let mapATP = HashMap.fromList $ zip namesATPs atps
+    -- Future:
+    -- The idea is when the name is not valid, we'll try to find
+    -- the most similar ATP. We can do this using Levenstein
+    -- The HashMap is not  necesary yet. Anyway, I'll use it.
+
+    return $ HashMap.lookupDefault NoSystemATP name mapATP
 
 getResponseSystemOnTPTP ∷ SystemOnTPTP → IO String
 getResponseSystemOnTPTP spec = withSocketsDo $ do

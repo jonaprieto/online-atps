@@ -6,14 +6,18 @@ module OnlineATPs.SystemATP
     , sysApplication
     , sysCommand
     , sysFormat
-    , sysName
     , sysKey
-    , sysVersion
+    , sysName
     , sysTimeLimit
     , sysTransform
+    , sysVersion
+    , NoSystemATP
     )
+  , checkOnlineATPOutput
   , getDataSystemATP
   , isFOFATP
+  , onlineATPOk
+  , onlineATPVersion
   , printListOnlineATPs
   ) where
 
@@ -23,20 +27,26 @@ data SystemATP = SystemATP
   { sysApplication ∷ String
   , sysCommand     ∷ String
   , sysFormat      ∷ String
-  , sysName        ∷ String
   , sysKey         ∷ String
-  , sysVersion     ∷ String
+  , sysName        ∷ String
   , sysTimeLimit   ∷ String
   , sysTransform   ∷ String
-  }
+  , sysVersion     ∷ String
+  } | NoSystemATP
+  deriving Eq
+
+msgErrorNoSystemATP ∷ String
+msgErrorNoSystemATP = "The system is not a valid ATP."
 
 instance Show SystemATP where
+  show NoSystemATP = msgErrorNoSystemATP
   show atp = sysKey atp ++ ": "
     ++ "\n name: " ++ sysName atp
     ++ "\n version: " ++ sysVersion atp
     ++ "\n application: " ++ sysApplication atp
 
 getDataSystemATP ∷ SystemATP → [(String, String)]
+getDataSystemATP NoSystemATP = []
 getDataSystemATP atp = [
      ( "Command___"    ++ label, sysCommand atp )
   ,  ( "Format___"     ++ label, sysFormat atp )
@@ -49,8 +59,20 @@ getDataSystemATP atp = [
     label = sysName atp
 
 isFOFATP ∷ SystemATP → Bool
+isFOFATP NoSystemATP = False
 isFOFATP atp = isInfixOf "FOF" $ sysApplication atp
+
+onlineATPOk ∷ SystemATP → String
+onlineATPOk NoSystemATP = error msgErrorNoSystemATP
+onlineATPOk atp = sysName atp ++ "---" ++ sysVersion atp ++ " says Theorem"
+
+onlineATPVersion ∷ SystemATP → String
+onlineATPVersion NoSystemATP = error msgErrorNoSystemATP
+onlineATPVersion atp = sysVersion atp
+
+checkOnlineATPOutput ∷ SystemATP → String → Bool
+checkOnlineATPOutput NoSystemATP _ = False
+checkOnlineATPOutput atp output = onlineATPOk atp `isInfixOf` output
 
 printListOnlineATPs ∷ [SystemATP] → IO ()
 printListOnlineATPs atps = putStrLn $ intercalate "\n\n" $ map show atps
-

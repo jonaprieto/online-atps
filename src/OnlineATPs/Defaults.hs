@@ -18,7 +18,7 @@ defaultOnlineATP = SystemATP
   , sysFormat      = "tptp:raw"
   , sysCommand     = "eprover -s --cpu-limit=%d %s"
   , sysApplication = "Prover and model finder, for FOF CNF"
-  }
+}
 
 defaultSystemOnTPTP ∷ SystemOnTPTP
 defaultSystemOnTPTP = SystemOnTPTP
