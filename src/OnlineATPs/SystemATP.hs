@@ -53,3 +53,4 @@ isFOFATP atp = isInfixOf "FOF" $ sysApplication atp
 
 printListOnlineATPs ∷ [SystemATP] → IO ()
 printListOnlineATPs atps = putStrLn $ intercalate "\n\n" $ map show atps
+
