@@ -60,7 +60,7 @@ getDataSystemATP atp = [
 
 isFOFATP ∷ SystemATP → Bool
 isFOFATP NoSystemATP = False
-isFOFATP atp = isInfixOf "FOF" $ sysApplication atp
+isFOFATP atp         = isInfixOf "FOF" $ sysApplication atp
 
 onlineATPOk ∷ SystemATP → String
 onlineATPOk NoSystemATP = error msgErrorNoSystemATP
@@ -68,11 +68,11 @@ onlineATPOk atp = sysName atp ++ "---" ++ sysVersion atp ++ " says Theorem"
 
 onlineATPVersion ∷ SystemATP → String
 onlineATPVersion NoSystemATP = error msgErrorNoSystemATP
-onlineATPVersion atp = sysVersion atp
+onlineATPVersion atp         = sysVersion atp
 
 checkOnlineATPOutput ∷ SystemATP → String → Bool
 checkOnlineATPOutput NoSystemATP _ = False
-checkOnlineATPOutput atp output = onlineATPOk atp `isInfixOf` output
+checkOnlineATPOutput atp output    = onlineATPOk atp `isInfixOf` output
 
 printListOnlineATPs ∷ [SystemATP] → IO ()
 printListOnlineATPs atps = putStrLn $ intercalate "\n\n" $ map show atps

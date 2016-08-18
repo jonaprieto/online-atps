@@ -5,8 +5,8 @@ module OnlineATPs.Defaults
   , defaultSystemOnTPTP
   ) where
 
-import           OnlineATPs.SystemATP    (SystemATP(..))
-import           OnlineATPs.SystemOnTPTP (SystemOnTPTP(..))
+import           OnlineATPs.SystemATP    (SystemATP (..))
+import           OnlineATPs.SystemOnTPTP (SystemOnTPTP (..))
 
 defaultOnlineATP ∷ SystemATP
 defaultOnlineATP = SystemATP

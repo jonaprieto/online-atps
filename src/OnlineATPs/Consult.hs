@@ -126,7 +126,7 @@ buildSystemATP [tSys, tTime, tTrans, tFormat, tCmd, tApp] = newATP
       , sysCommand = getVal tCmd
       , sysApplication = fromTagText tApp
       }
-buildSystemATP _  = error "ATP data has not the appropriate shape."
+buildSystemATP _  = NoSystemATP
 
 getOnlineATPs ∷ IO [SystemATP]
 getOnlineATPs = do
