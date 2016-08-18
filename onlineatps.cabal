@@ -45,3 +45,9 @@ executable onlineatps
     OnlineATPs.SystemOnTPTP
     OnlineATPs.Urls
     Paths_onlineatps
+
+  ghc-options: -Wall
+               -fwarn-unused-binds
+               -fwarn-unused-do-bind
+               -fwarn-unused-imports
+               -fwarn-unused-matches
