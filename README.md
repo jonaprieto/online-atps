@@ -13,12 +13,36 @@ which would avoid the user needs to install the ATPs used in your proofs.]
 
 #### Goals:
 
-  - [x] Parsing GET request to [SystemOnTPTP](http://www.cs.miami.edu/~tptp/cgi-bin/SystemOnTPTP)
+  - [x] Parsing GET request of [SystemOnTPTP](http://www.cs.miami.edu/~tptp/cgi-bin/SystemOnTPTP)
   - [x] Get the list of all online ATPs available on SystemOnTPTP
   - [x] Filter the list of online ATPs: gather only ones that focus on FOF
   - [x] Provide a full data type for the form on SystemOnTPTP
-  - [x] Send POST resquest to [SystemOnTPTP](http://www.cs.miami.edu/~tptp/cgi-bin/SystemOnTPTP)
+  - [x] Send POST resquest to the TPTP World.
   - [x] Check the result of a response. Issue [#4](https://github.com/jonaprieto/OnlineATPs/issues/4)
-  - [ ] Test all atps against a problem
+  - [x] Test all atps against a problem
   - [ ] Get the first *positive* result if exists fromt the test all atps with a problem
-  - [ ] Use SystemOnTPTP with file uploads. Issue [#5](https://github.com/jonaprieto/OnlineATPs/issues/5)
+  - [x] Test a fileproblem in TPTP formal. Issue [#5](https://github.com/jonaprieto/OnlineATPs/issues/5)
+  - [x] Make a first version of the excutable version. Issue [#7](https://github.com/jonaprieto/OnlineATPs/issues/5)
+
+
+#### Instalation
+
+As a normal haskell package, we use `cabal` to install OnlineATPs.
+
+```bash
+  $ git clone https://github.com/jonaprieto/onlineatps.git
+  $ cd onlineatps
+  $ cabal install
+```
+
+#### Usage
+
+A basic example of usage should be like:
+
+```bash
+  $ cd onlineatps/examples
+  $ onlineatps basic.tptp --atp=vampire
+  Theorem
+```
+Please check the help command `onlineatps --help`.
+
