@@ -12,11 +12,12 @@ module OnlineATPs.Options
   , Options
     ( Options --Improve Haddock information.
     , optATP
+    , optATPList
     , optHelp
     , optInputFile
-    , optATPList
     , optTime
     , optVersion
+    , optVersionATP
     )
   , printUsage
   , processOptions
@@ -46,24 +47,26 @@ import           System.Environment           (getProgName)
 
 -- -- | Program command-line options.
 data Options = Options
-  { optATP        ∷ [String]
-  , optHelp       ∷ Bool
-  , optInputFile  ∷ Maybe FilePath
-  , optATPList    ∷ Bool
-  , optTime       ∷ Int
-  , optVersion    ∷ Bool
+  { optATP            ∷ [String]
+  , optATPList        ∷ Bool
+  , optHelp           ∷ Bool
+  , optInputFile      ∷ Maybe FilePath
+  , optTime           ∷ Int
+  , optVersion        ∷ Bool
+  , optVersionATP     ∷ String
   }
   deriving Show
 
 
 defaultOptions ∷ Options
 defaultOptions = Options
-  { optATP        =  []
-  , optHelp       =  False
-  , optInputFile  =  Nothing
-  , optATPList    =  False
-  , optTime       =  240
-  , optVersion    =  False
+  { optATP            =  []
+  , optATPList        =  False
+  , optHelp           =  False
+  , optInputFile      =  Nothing
+  , optTime           =  240
+  , optVersion        =  False
+  , optVersionATP     =  ""
   }
 
 
@@ -99,6 +102,11 @@ timeOpt secs opts =
 versionOpt ∷ MOptions
 versionOpt opts = Right opts { optVersion = True }
 
+versionATPOpt ∷ String → MOptions
+versionATPOpt [] _ = Left $
+  pretty "option " <> squotes "--version-atp" <> pretty " requires an argument NAME"
+versionATPOpt name opts = Right opts { optVersionATP = name }
+
 -- -- | Description of the command-line 'Options'.
 options ∷ [OptDescr MOptions]
 options =
@@ -106,12 +114,14 @@ options =
                "Set the ATP (online-e, online-vampire, online-z3, ...)\n"
   , Option []  ["help"] (NoArg helpOpt)
                "Show this help"
-  , Option []  ["time"] (ReqArg timeOpt "NUM")
-               "Set timeout for the ATPs in seconds (default: 240)"
   , Option []  ["list-atps"] (NoArg atpListOpt)
                "Consult all FOF ATPs available in TPTP World"
+  , Option []  ["time"] (ReqArg timeOpt "NUM")
+               "Set timeout for the ATPs in seconds (default: 240)"
   , Option []  ["version"] (NoArg versionOpt)
                "Show version number"
+  , Option []  ["version-atp"] (ReqArg versionATPOpt "NAME")
+               "Show version of the atp NAME"
   ]
 
 usageHeader ∷ String → String

@@ -15,26 +15,29 @@ import OnlineATPs.Consult
   ( getOnlineATPs
   , getResponseSystemOnTPTP
   , getSystemATPWith
+  , getSystemATP
   )
 
 import OnlineATPs.Defaults    ( getDefaults )
 import OnlineATPs.Options
   ( Options
     ( optATP
-    , optHelp
     , optATPList
+    , optHelp
     , optTime
-    , optVersion
     , optInputFile
+    , optVersion
+    , optVersionATP
     )
-  , processOptions
   , printUsage
+  , processOptions
   )
 
 import OnlineATPs.SystemATP
-  ( SystemATP ( sysTimeLimit )
+  ( SystemATP ( NoSystemATP, sysTimeLimit )
   , checkOnlineATPOutput
   , printListOnlineATPs
+  , getNameVersion
   )
 import OnlineATPs.SystemOnTPTP
   ( SystemOnTPTP
@@ -64,6 +67,13 @@ main = do
       | optATPList opts → do
         atps ← getOnlineATPs
         printListOnlineATPs atps  >> exitSuccess
+
+      | not (null $ optVersionATP opts) → do
+          atps ← getOnlineATPs
+          atp ∷ SystemATP  ← getSystemATP $ optVersionATP opts
+          case atp of
+            NoSystemATP → putStrLn "Unknown ATP name. Check --list-atps" >> exitFailure
+            _           → putStrLn ( getNameVersion atp ) >> exitSuccess
 
       | otherwise → do
 

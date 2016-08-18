@@ -15,6 +15,7 @@ module OnlineATPs.SystemATP
     )
   , checkOnlineATPOutput
   , getDataSystemATP
+  , getNameVersion
   , isFOFATP
   , onlineATPOk
   , onlineATPVersion
@@ -45,6 +46,9 @@ instance Show SystemATP where
     ++ "\n version: " ++ sysVersion atp
     ++ "\n application: " ++ sysApplication atp
 
+getNameVersion ∷ SystemATP → String
+getNameVersion atp = sysName atp ++ "---" ++ sysVersion atp
+
 getDataSystemATP ∷ SystemATP → [(String, String)]
 getDataSystemATP NoSystemATP = []
 getDataSystemATP atp = [
@@ -56,7 +60,7 @@ getDataSystemATP atp = [
   ]
   where
     label ∷ String
-    label = sysName atp ++ "---" ++ sysVersion atp
+    label = getNameVersion atp
 
 isFOFATP ∷ SystemATP → Bool
 isFOFATP NoSystemATP = False
