@@ -1,0 +1,47 @@
+name:          OnlineATPs
+version:       1.0.0
+build-type:    Simple
+cabal-version: >= 1.8
+author:        Jonathan Prieto-Cubides
+license:       MIT
+license-file:  LICENSE
+maintainer:    Jonathan Prieto-Cubides <jprieto9@eafit.edu.co>
+category:      Dependent types
+homepage:      https://github.com/jonaprieto/onlineatps
+bug-reports:   https://github.com/jonaprieto/onlineatps/issues/
+synopsis:      A web interface for the ATPs
+tested-with:   GHC == 8.0.1
+description:
+  This package provides an interface to use the  first-order
+  automatic theorem provers (ATPs) of TPTP World.
+
+source-repository head
+  type:     git
+  location: git://github.com/jonaprieto/onlineatps.git
+
+executable onlineatps
+  main-is:        Main.hs
+  hs-source-dirs: src
+  include-dirs:   src/OnlineATPs
+  build-depends:  base >= 4.6.0.1 && < 4.10
+                , bytestring >= 0.10.0.2 && < 0.11
+                , containers >= 0.5.0.0 && < 0.6
+                , directory >= 1.2.0.1 && < 1.3
+                , filepath >= 1.3.0.1 && < 1.5
+                , HTTP >= 4000 && < 5000
+                , http-client >= 0.5.1 && < 1.0
+                , network >= 2.6.0 && < 3.0
+                , pretty >= 1.1.1.0 && < 1.1.1.2 || >= 1.1.2 && < 1.2
+                , safe >= 0.3.5 && < 0.4
+                , split >= 0.2 && < 1.0
+                , tagsoup >= 0.14 && < 1.0
+                , text >= 0.11.3.1 && < 1.3
+                , unordered-containers >= 0.2  && < 0.3
+
+  other-modules:
+    OnlineATPs.Consult
+    OnlineATPs.Defaults
+    OnlineATPs.SystemATP
+    OnlineATPs.SystemOnTPTP
+    OnlineATPs.Urls
+    Paths_onlineatps

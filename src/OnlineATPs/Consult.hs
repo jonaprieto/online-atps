@@ -5,6 +5,7 @@ module OnlineATPs.Consult
   ( getOnlineATPs
   , getResponseSystemOnTPTP
   , getSystemATP
+  , getSystemATPWith
   ) where
 
 import           Control.Arrow            ((***))
@@ -25,6 +26,7 @@ import           OnlineATPs.SystemOnTPTP  (SystemOnTPTP, getDataSystemOnTPTP)
 import           OnlineATPs.Urls          (urlSystemOnTPTP,
                                            urlSystemOnTPTPReply)
 import           Text.HTML.TagSoup
+
 
 getNameTag ∷ Tag String → String
 getNameTag = fromAttrib "name"
@@ -140,30 +142,48 @@ getOnlineATPs = do
 
   return fofSystems
 
+
+getSystemATPWith ∷ [SystemATP] → String → SystemATP
+getSystemATPWith _ "" = NoSystemATP
+getSystemATPWith atps name =
+  if not $ "online-" `isPrefixOf` name then
+    getSystemATPWith atps $ "online-" ++ name
+    else
+      case lookup name (zip (map sysKey atps) atps) of
+        Just atp → atp
+        _        → NoSystemATP
+
+
 getSystemATP ∷ String → IO SystemATP
 getSystemATP "" = return NoSystemATP
-getSystemATP name = do
-  if not $ "online-" `isPrefixOf` name
-  then getSystemATP $ "online-" ++ name
-  else do
+getSystemATP name =
+  if not $ "online-" `isPrefixOf` name then
+    getSystemATP $ "online-" ++ name
+    else do
 
-    atps ∷ [SystemATP] ← getOnlineATPs
+      atps ∷ [SystemATP] ← getOnlineATPs
 
-    let namesATPs ∷ [String]
-        namesATPs = map sysKey atps
+      let namesATPs ∷ [String]
+          namesATPs = map sysKey atps
 
-    let mapATP = HashMap.fromList $ zip namesATPs atps
-    -- Future:
-    -- The idea is when the name is not valid, we'll try to find
-    -- the most similar ATP. We can do this using Levenstein
-    -- The HashMap is not  necesary yet. Anyway, I'll use it.
+      let mapATP = HashMap.fromList $ zip namesATPs atps
+      -- Future:
+      -- The idea is when the name is not valid, we'll try to find
+      -- the most similar ATP. We can do this using Levenstein
+      -- The HashMap is not  necesary yet. Anyway, I'll use it.
 
-    return $ HashMap.lookupDefault NoSystemATP name mapATP
+      return $ HashMap.lookupDefault NoSystemATP name mapATP
 
 getResponseSystemOnTPTP ∷ SystemOnTPTP → IO String
 getResponseSystemOnTPTP spec = withSocketsDo $ do
   initReq ← parseRequest urlSystemOnTPTPReply
-  let form = map (packChars *** packChars) $ getDataSystemOnTPTP spec
+
+  let dataForm ∷ [(String, String)]
+      dataForm = getDataSystemOnTPTP spec
+
+  -- putStrLn $ show dataForm
+
+  let form = map (packChars *** packChars) dataForm
   let request = urlEncodedBody form initReq
   manager ← newManager defaultManagerSettings
   res ← httpLbs request manager

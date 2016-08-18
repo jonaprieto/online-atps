@@ -56,7 +56,7 @@ getDataSystemATP atp = [
   ]
   where
     label ∷ String
-    label = sysName atp
+    label = sysName atp ++ "---" ++ sysVersion atp
 
 isFOFATP ∷ SystemATP → Bool
 isFOFATP NoSystemATP = False

@@ -3,6 +3,7 @@
 module OnlineATPs.Defaults
   ( defaultOnlineATP
   , defaultSystemOnTPTP
+  , getDefaults
   ) where
 
 import           OnlineATPs.SystemATP    (SystemATP (..))
@@ -33,16 +34,19 @@ defaultSystemOnTPTP = SystemOnTPTP
   , optFormulaURL            = ""
   , optIDV                   = False
   , optNoHTML                = "1"
-  , optProblemSource         = "TPTP"
-  , optQuietFlag             = "-q02" --q2
+  , optProblemSource         = "FORMULAE" --"TPTP"
+  , optQuietFlag             = "-q01" --q2
   , optReportFlag            = "-q0"
   , optSoundness             = False
   , optSubmitButton          = "RunSelectedSystems"
   , optSystemInfo            = False
   , optSystemOnTSTP          = False
   , optSystems               = [ defaultOnlineATP ]
-  , optTPTPProblem           = "AGT001+1"
+  , optTPTPProblem           = "" --AGT001+1"
   , optTSTPData              = False
   , optUPLOADProblem         = ""
   , optX2TPTP                = False
 }
+
+getDefaults ∷ IO SystemOnTPTP
+getDefaults = return defaultSystemOnTPTP

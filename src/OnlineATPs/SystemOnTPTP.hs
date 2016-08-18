@@ -27,6 +27,8 @@ module OnlineATPs.SystemOnTPTP
     , optUPLOADProblem
     , optX2TPTP
     )
+  , setFORMULAEProblem
+  , setSystems
   , getDataSystemOnTPTP
   ) where
 
@@ -233,3 +235,9 @@ getters = [
 
 getDataSystemOnTPTP ∷ SystemOnTPTP → [(String, String)]
 getDataSystemOnTPTP spec = concatMap ($ spec) getters
+
+setFORMULAEProblem ∷ SystemOnTPTP → String → SystemOnTPTP
+setFORMULAEProblem spec content = spec { optFORMULAEProblem = content }
+
+setSystems ∷ SystemOnTPTP → [SystemATP] → SystemOnTPTP
+setSystems spec atps = spec { optSystems = atps }
