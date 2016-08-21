@@ -1,5 +1,6 @@
 
--- -- | Utilities related to representation of versions.
+-- | Utilities related to representation of versions.
+
 {-# LANGUAGE CPP           #-}
 {-# LANGUAGE UnicodeSyntax #-}
 
@@ -10,7 +11,6 @@ import           Data.Char          (toUpper)
 import           Data.Version       (showVersion)
 import           Paths_onlineatps   (version)
 import           System.Environment (getProgName)
-
 
 
 toUpperFirst ∷ String → String

@@ -2,10 +2,11 @@
 -- | OnlineATPs: A program for proving first-order theorems written in the
 -- TPTP format using SystemOnTPTP
 
-{-# LANGUAGE ScopedTypeVariables #-}
+{-# LANGUAGE MultiWayIf          #-}
 {-# LANGUAGE OverloadedStrings   #-}
+{-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE UnicodeSyntax       #-}
-{-# LANGUAGE MultiWayIf #-}
+
 
 module Main
   ( main  -- Required by Haddock.

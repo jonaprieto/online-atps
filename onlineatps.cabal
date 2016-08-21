@@ -1,5 +1,5 @@
-name:          OnlineATPs
-version:       1.0.0
+name:          onlineatps
+version:       0.1.0
 build-type:    Simple
 cabal-version: >= 1.8
 author:        Jonathan Prieto-Cubides
@@ -45,3 +45,5 @@ executable onlineatps
     OnlineATPs.SystemOnTPTP
     OnlineATPs.Urls
     Paths_onlineatps
+
+  ghc-options: -Wall
