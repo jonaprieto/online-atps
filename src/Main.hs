@@ -19,7 +19,8 @@ import OnlineATPs.Consult
   , getSystemATP
   )
 
-import OnlineATPs.Defaults    ( getDefaults )
+import OnlineATPs.Defaults    (getDefaults)
+import OnlineATPs.CheckOutput (checkTheoremSync)
 import OnlineATPs.Options
   ( Options
     ( optATP
@@ -27,6 +28,7 @@ import OnlineATPs.Options
     , optHelp
     , optTime
     , optInputFile
+    , optOnlyCheck
     , optVersion
     , optVersionATP
     )
@@ -35,8 +37,7 @@ import OnlineATPs.Options
   )
 
 import OnlineATPs.SystemATP
-  ( SystemATP ( NoSystemATP, sysTimeLimit )
-  , checkOnlineATPOutput
+  ( SystemATP (NoSystemATP, sysTimeLimit)
   , printListOnlineATPs
   , getNameVersion
   )
@@ -51,6 +52,9 @@ import           OnlineATPs.Utils.Version (progNameVersion)
 import           System.Environment       (getArgs)
 import           System.Exit              (exitFailure, exitSuccess)
 import           System.IO                (readFile)
+import qualified Data.ByteString.Lazy as L
+import qualified Data.ByteString.Lazy.Char8 as C
+-- import qualified  Data.Text as T
 
 main ∷ IO ()
 main = do
@@ -106,13 +110,14 @@ main = do
           let formData ∷ SystemOnTPTP
               formData  = setFORMULAEProblem (setSystems defaults setATPs) contentFile
 
-          -- putStrLn "Waiting for TPTP World ..."
-          response ∷ String  ← getResponseSystemOnTPTP formData
+          -- putStrLn "Syncronized"
 
-          -- putStrLn response
+          response ∷ L.ByteString ← getResponseSystemOnTPTP formData
 
-          if any (`checkOnlineATPOutput` response) listATPs
-            then putStrLn "Theorem" >> exitSuccess
-            else putStrLn "No theorem" >> exitSuccess
-
+          if optOnlyCheck opts
+            then do
+              let answer ∷ String
+                  answer = checkTheoremSync response listATPs
+              putStrLn answer >> exitSuccess
+            else C.putStrLn response >> exitSuccess
           return ()

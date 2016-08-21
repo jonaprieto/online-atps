@@ -9,7 +9,7 @@ module OnlineATPs.Utils.Version ( progNameVersion ) where
 
 import           Data.Char          (toUpper)
 import           Data.Version       (showVersion)
-import           Paths_OnlineATPs   (version)
+import           Paths_onlineatps   (version)
 import           System.Environment (getProgName)
 
 
@@ -17,7 +17,8 @@ toUpperFirst ∷ String → String
 toUpperFirst []       = []
 toUpperFirst (x : xs) =  toUpper x : xs
 
--- -- ghcid
+-- Uncomment this in order to use ghcid with Main.hs
+
 -- progNameVersion ∷ IO String
 -- progNameVersion = return "1.0.0"
 

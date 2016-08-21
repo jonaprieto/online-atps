@@ -177,7 +177,7 @@ getSystemATP name =
 
       return $ HashMap.lookupDefault NoSystemATP name mapATP
 
-getResponseSystemOnTPTP ∷ SystemOnTPTP → IO String
+-- getResponseSystemOnTPTP ∷ SystemOnTPTP → IO String
 getResponseSystemOnTPTP spec = withSocketsDo $ do
   initReq ← parseRequest urlSystemOnTPTPReply
 
@@ -192,4 +192,4 @@ getResponseSystemOnTPTP spec = withSocketsDo $ do
   res ← httpLbs request manager
   liftIO $ do
     let response = responseBody res
-    return $ show  response
+    return response

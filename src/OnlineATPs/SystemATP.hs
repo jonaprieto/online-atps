@@ -16,13 +16,12 @@ module OnlineATPs.SystemATP
     , sysTransform
     , sysVersion
     )
-  , checkOnlineATPOutput
   , getDataSystemATP
   , getNameVersion
   , isFOFATP
-  , onlineATPOk
   , onlineATPVersion
   , printListOnlineATPs
+  , msgErrorNoSystemATP
   ) where
 
 import           Data.List (intercalate, isInfixOf)
@@ -69,17 +68,9 @@ isFOFATP ∷ SystemATP → Bool
 isFOFATP NoSystemATP = False
 isFOFATP atp         = isInfixOf "FOF" $ sysApplication atp
 
-onlineATPOk ∷ SystemATP → String
-onlineATPOk NoSystemATP = error msgErrorNoSystemATP
-onlineATPOk atp = getNameVersion atp ++ " says Theorem"
-
 onlineATPVersion ∷ SystemATP → String
 onlineATPVersion NoSystemATP = error msgErrorNoSystemATP
 onlineATPVersion atp         = sysVersion atp
-
-checkOnlineATPOutput ∷ SystemATP → String → Bool
-checkOnlineATPOutput NoSystemATP _ = False
-checkOnlineATPOutput atp output    = onlineATPOk atp `isInfixOf` output
 
 printListOnlineATPs ∷ [SystemATP] → IO ()
 printListOnlineATPs atps = putStrLn $ intercalate "\n\n" $ map show atps

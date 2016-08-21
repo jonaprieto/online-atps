@@ -15,6 +15,7 @@ module OnlineATPs.Options
     , optATPList
     , optHelp
     , optInputFile
+    , optOnlyCheck
     , optTime
     , optVersion
     , optVersionATP
@@ -51,6 +52,7 @@ data Options = Options
   , optATPList        ∷ Bool
   , optHelp           ∷ Bool
   , optInputFile      ∷ Maybe FilePath
+  , optOnlyCheck      ∷ Bool
   , optTime           ∷ Int
   , optVersion        ∷ Bool
   , optVersionATP     ∷ String
@@ -64,6 +66,7 @@ defaultOptions = Options
   , optATPList        =  False
   , optHelp           =  False
   , optInputFile      =  Nothing
+  , optOnlyCheck      =  False
   , optTime           =  240
   , optVersion        =  False
   , optVersionATP     =  ""
@@ -78,6 +81,9 @@ atpOpt [] _ = Left $
   pretty "option " <> squotes "--atp" <> pretty " requires an argument NAME"
 atpOpt name opts = Right opts { optATP = nub $ optATP opts ++ [name] }
 
+atpListOpt ∷ MOptions
+atpListOpt opts = Right opts { optATPList = True }
+
 helpOpt ∷ MOptions
 helpOpt opts = Right opts { optHelp = True }
 
@@ -87,8 +93,9 @@ inputFileOpt file opts =
     Nothing → Right opts { optInputFile = Just file }
     Just _  → Left $ pretty "only one input file allowed"
 
-atpListOpt ∷ MOptions
-atpListOpt opts = Right opts { optATPList = True }
+
+onlyCheckOpt ∷ MOptions
+onlyCheckOpt opts = Right opts { optOnlyCheck = True }
 
 timeOpt ∷ String → MOptions
 timeOpt [] _ = Left $
@@ -116,6 +123,8 @@ options =
                "Show this help"
   , Option []  ["list-atps"] (NoArg atpListOpt)
                "Consult all FOF ATPs available in TPTP World"
+  , Option []  ["only-check"] (NoArg onlyCheckOpt)
+               "Only checks the output looking for a theorem."
   , Option []  ["time"] (ReqArg timeOpt "NUM")
                "Set timeout for the ATPs in seconds (default: 240)"
   , Option []  ["version"] (NoArg versionOpt)
