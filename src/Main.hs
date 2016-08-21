@@ -47,14 +47,16 @@ import OnlineATPs.SystemOnTPTP
   , setSystems
   )
 
-import           OnlineATPs.Utils.Monad   (die)
-import           OnlineATPs.Utils.Version (progNameVersion)
-import           System.Environment       (getArgs)
-import           System.Exit              (exitFailure, exitSuccess)
-import           System.IO                (readFile)
-import qualified Data.ByteString.Lazy as L
+import           Control.Monad              (unless)
+import qualified Data.ByteString.Lazy       as L
 import qualified Data.ByteString.Lazy.Char8 as C
--- import qualified  Data.Text as T
+import           OnlineATPs.Utils.Monad     (die)
+import           OnlineATPs.Utils.Version   (progNameVersion)
+import           System.Directory           (doesFileExist)
+import           System.Environment         (getArgs)
+import           System.Exit                (exitFailure, exitSuccess)
+import           System.IO                  (readFile)
+
 
 main ∷ IO ()
 main = do
@@ -83,11 +85,16 @@ main = do
       | otherwise → do
 
           file ← case optInputFile opts of
-            Nothing → putStrLn "missing input file (try --help)" >> exitFailure
+            Nothing → putStrLn "Missing input file (try --help)" >> exitFailure
             Just f  → return f
 
+          isFile ← doesFileExist file
+          unless isFile $ do
+            putStrLn "The file doesn't exist" >> exitFailure
+
+
           requiredATPs ← case optATP opts of
-            [] → putStrLn "missing --atp=NAME (try --help)" >> exitFailure
+            [] → putStrLn "Missing --atp=NAME (try --help)" >> exitFailure
             o  → return o
 
           atps ← getOnlineATPs
