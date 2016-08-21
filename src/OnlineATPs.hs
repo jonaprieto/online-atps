@@ -1,3 +1,6 @@
+
+-- | This module exports the main functions
+
 {-# LANGUAGE UnicodeSyntax #-}
 
 module OnlineATPs
@@ -8,7 +11,6 @@ module OnlineATPs
   , getResponseSystemOnTPTP
   ) where
 
-----------------------------------------------------------------------
 
 import  OnlineATPs.Consult
   ( getOnlineATPs

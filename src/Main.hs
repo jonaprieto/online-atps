@@ -1,6 +1,6 @@
 
 -- | OnlineATPs: A program for proving first-order theorems written in the
--- TPTP format using SystemOnTPTP
+-- | TPTP format using SystemOnTPTP
 
 {-# LANGUAGE MultiWayIf          #-}
 {-# LANGUAGE OverloadedStrings   #-}

@@ -1,8 +1,12 @@
+
+-- | SystemOnATP data type
+
 {-# LANGUAGE UnicodeSyntax #-}
 
 module OnlineATPs.SystemATP
   ( SystemATP
     ( SystemATP
+    , NoSystemATP
     , sysApplication
     , sysCommand
     , sysFormat
@@ -11,7 +15,6 @@ module OnlineATPs.SystemATP
     , sysTimeLimit
     , sysTransform
     , sysVersion
-    , NoSystemATP
     )
   , checkOnlineATPOutput
   , getDataSystemATP
@@ -68,7 +71,7 @@ isFOFATP atp         = isInfixOf "FOF" $ sysApplication atp
 
 onlineATPOk ∷ SystemATP → String
 onlineATPOk NoSystemATP = error msgErrorNoSystemATP
-onlineATPOk atp = sysName atp ++ "---" ++ sysVersion atp ++ " says Theorem"
+onlineATPOk atp = getNameVersion atp ++ " says Theorem"
 
 onlineATPVersion ∷ SystemATP → String
 onlineATPVersion NoSystemATP = error msgErrorNoSystemATP

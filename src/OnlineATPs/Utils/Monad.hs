@@ -1,6 +1,6 @@
 
--- -- | Monads utilities.
--- -- Adapted from @Apia.Utils.Monad@
+-- | Monads utilities.
+-- Adapted from @Apia.Utils.Monad@
 
 {-# LANGUAGE UnicodeSyntax #-}
 

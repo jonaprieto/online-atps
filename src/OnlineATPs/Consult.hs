@@ -1,3 +1,6 @@
+
+-- | Consult TPTP World web services
+
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE UnicodeSyntax       #-}
 

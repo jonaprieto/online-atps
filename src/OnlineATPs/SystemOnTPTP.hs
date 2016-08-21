@@ -1,4 +1,6 @@
 
+-- | SystemOnTPTP data type
+
 {-# LANGUAGE UnicodeSyntax #-}
 
 module OnlineATPs.SystemOnTPTP
@@ -27,9 +29,9 @@ module OnlineATPs.SystemOnTPTP
     , optUPLOADProblem
     , optX2TPTP
     )
+  , getDataSystemOnTPTP
   , setFORMULAEProblem
   , setSystems
-  , getDataSystemOnTPTP
   ) where
 
 

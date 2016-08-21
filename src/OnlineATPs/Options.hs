@@ -1,5 +1,5 @@
 
--- -- | Process the command-line arguments.
+-- | Process the command-line arguments.
 -- Adapted from @Apia.Options
 
 {-# LANGUAGE CPP           #-}

@@ -25,7 +25,7 @@ which would avoid the user needs to install the ATPs used in your proofs.]
   - [x] Make a first version of the excutable version. Issue [#7](https://github.com/jonaprieto/OnlineATPs/issues/5)
 
 
-#### Instalation
+#### Installation
 
 As a normal haskell package, we use `cabal` to install OnlineATPs.
 

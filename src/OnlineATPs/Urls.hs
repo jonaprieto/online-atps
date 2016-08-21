@@ -1,4 +1,7 @@
+
+-- | Provide the urls addreses for TPTP World
 {-# LANGUAGE UnicodeSyntax #-}
+
 module OnlineATPs.Urls
   ( urlSystemOnTPTP
   , urlSystemOnTPTPReply
