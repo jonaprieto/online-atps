@@ -2,6 +2,7 @@
 -- | Check the output looking for a theorem
 
 {-# LANGUAGE UnicodeSyntax #-}
+{-# LANGUAGE ScopedTypeVariables #-}
 
 module OnlineATPs.CheckOutput
   ( checkOnlineATPOutput
@@ -11,17 +12,14 @@ module OnlineATPs.CheckOutput
   where
 
 
-import Data.List (isInfixOf)
-import OnlineATPs.SystemATP
-  ( SystemATP
-    ( NoSystemATP
-    ,  SystemATP
-    )
-  , getNameVersion
-  , msgErrorNoSystemATP
-  )
+import           Data.List               (isInfixOf)
+import           OnlineATPs.Consult      (getResponseSystemOnTPTP)
 
-import qualified Data.ByteString.Lazy as L
+import           OnlineATPs.SystemATP    (SystemATP (..), getNameVersion,
+                                          msgErrorNoSystemATP)
+
+import qualified Data.ByteString.Lazy    as L
+import           OnlineATPs.SystemOnTPTP (SystemOnTPTP (..))
 
 
 onlineATPOk ∷ SystemATP → String
@@ -32,8 +30,15 @@ checkOnlineATPOutput ∷ SystemATP → String → Bool
 checkOnlineATPOutput NoSystemATP _ = False
 checkOnlineATPOutput atp output    = onlineATPOk atp `isInfixOf` output
 
-checkTheoremSync ∷ L.ByteString → [SystemATP] → String
-checkTheoremSync response listATPs =
-    if any (`checkOnlineATPOutput` show response) listATPs
-      then "Theorem"
-      else "No theorem"
+
+checkTheoremSync ∷ SystemOnTPTP → IO String
+checkTheoremSync spec  = do
+
+    let atps ∷ [SystemATP]
+        atps = optSystems spec
+
+    response ∷ L.ByteString ← getResponseSystemOnTPTP spec
+
+    if any (`checkOnlineATPOutput` show response) atps
+      then return "Theorem"
+      else return "No theorem"

@@ -9,11 +9,14 @@ module OnlineATPs.Consult
   , getResponseSystemOnTPTP
   , getSystemATP
   , getSystemATPWith
+  , getSystemOnTPTP
+  , Msg
   ) where
 
 import           Control.Arrow            ((***))
 import           Control.Monad.IO.Class   (liftIO)
 import           Data.ByteString.Internal (packChars)
+import qualified Data.ByteString.Lazy     as L
 import           Data.Char                (toLower)
 import qualified Data.HashMap.Strict      as HashMap
 import           Data.List                (isPrefixOf)
@@ -24,12 +27,24 @@ import           Network.HTTP             (getRequest, getResponseBody,
 import           Network.HTTP.Client      (defaultManagerSettings, httpLbs,
                                            newManager, parseRequest,
                                            responseBody, urlEncodedBody)
+import           OnlineATPs.Defaults      (getDefaults)
+import           OnlineATPs.Options       (Options (..))
 import           OnlineATPs.SystemATP     (SystemATP (..), isFOFATP)
-import           OnlineATPs.SystemOnTPTP  (SystemOnTPTP, getDataSystemOnTPTP)
+import           OnlineATPs.SystemOnTPTP  (SystemOnTPTP (..),
+                                           getDataSystemOnTPTP,
+                                           setFORMULAEProblem, setSystems)
+
+import           Control.Monad            (unless)
+import           Data.Maybe               (fromJust, isNothing)
 import           OnlineATPs.Urls          (urlSystemOnTPTP,
                                            urlSystemOnTPTPReply)
+import           System.IO                (readFile)
 import           Text.HTML.TagSoup
 
+
+
+
+type Msg = String
 
 getNameTag ∷ Tag String → String
 getNameTag = fromAttrib "name"
@@ -91,18 +106,16 @@ getInfoATP tags = getTags tags False
     getTags (t:ts) True = t : getTags ts False
 
 
-
 openURL ∷ String → IO String
 openURL x = getResponseBody =<< simpleHTTP (getRequest x)
 
+chucksOfSix ∷ [Tag String] → [[Tag String]]
+chucksOfSix [] = []
+chucksOfSix xs = take 6 xs : chucksOfSix (drop 6 xs)
 
-groupEachSix ∷ [Tag String] → [[Tag String]]
-groupEachSix [] = []
-groupEachSix xs = take 6 xs : groupEachSix (drop 6 xs)
-
-checkNameVersion ∷ [SystemATP] → [SystemATP]
-checkNameVersion [] = []
-checkNameVersion atps = putVer atps 2
+renameATP ∷ [SystemATP] → [SystemATP]
+renameATP [] = []
+renameATP atps = putVer atps 2
   where
     putVer ∷ [SystemATP] → Int → [SystemATP]
     putVer [] _ = []
@@ -114,8 +127,8 @@ checkNameVersion atps = putVer atps 2
 getVal ∷ Tag String → String
 getVal = fromAttrib "value"
 
-buildSystemATP ∷ [Tag String] → SystemATP
-buildSystemATP [tSys, tTime, tTrans, tFormat, tCmd, tApp] = newATP
+tagsToSystemATP ∷ [Tag String] → SystemATP
+tagsToSystemATP [tSys, tTime, tTrans, tFormat, tCmd, tApp] = newATP
   where
     name, version ∷ String
     [name, version] = splitOn "---" $ getVal tSys
@@ -131,17 +144,18 @@ buildSystemATP [tSys, tTime, tTrans, tFormat, tCmd, tApp] = newATP
       , sysCommand = getVal tCmd
       , sysApplication = fromTagText tApp
       }
-buildSystemATP _  = NoSystemATP
+tagsToSystemATP _  = NoSystemATP
+
 
 getOnlineATPs ∷ IO [SystemATP]
 getOnlineATPs = do
   tags ← canonicalizeTags . parseTags <$> openURL urlSystemOnTPTP
 
   let systems ∷ [SystemATP]
-      systems = map buildSystemATP $ groupEachSix $ getInfoATP tags
+      systems = map tagsToSystemATP $ chucksOfSix $ getInfoATP tags
 
   let fofSystems ∷ [SystemATP]
-      fofSystems = checkNameVersion $ filter isFOFATP systems
+      fofSystems = renameATP $ filter isFOFATP systems
 
   return fofSystems
 
@@ -177,14 +191,12 @@ getSystemATP name =
 
       return $ HashMap.lookupDefault NoSystemATP name mapATP
 
--- getResponseSystemOnTPTP ∷ SystemOnTPTP → IO String
+getResponseSystemOnTPTP ∷ SystemOnTPTP → IO L.ByteString
 getResponseSystemOnTPTP spec = withSocketsDo $ do
   initReq ← parseRequest urlSystemOnTPTPReply
 
   let dataForm ∷ [(String, String)]
       dataForm = getDataSystemOnTPTP spec
-
-  -- putStrLn $ show dataForm
 
   let form = map (packChars *** packChars) dataForm
   let request = urlEncodedBody form initReq
@@ -193,3 +205,34 @@ getResponseSystemOnTPTP spec = withSocketsDo $ do
   liftIO $ do
     let response = responseBody res
     return response
+
+
+getSystemOnTPTP ∷ Options → IO (Either Msg SystemOnTPTP)
+getSystemOnTPTP opts = do
+
+  atps ∷ [SystemATP]  ← getOnlineATPs
+
+  let listATPs ∷ [SystemATP]
+      listATPs = map (getSystemATPWith atps) (optATP opts)
+
+  let time ∷ String
+      time = show $ optTime opts
+
+  let setATPs ∷ [SystemATP]
+      setATPs = map (\p → p { sysTimeLimit = time }) listATPs
+
+  defaults ∷ SystemOnTPTP ← getDefaults
+
+  let file ∷ Maybe FilePath
+      file = optInputFile opts
+
+  if isNothing file
+    then return $ Left "Missing input file"
+    else do
+
+      contentFile ∷ String ← readFile $ fromJust file
+
+      let form ∷ SystemOnTPTP
+          form  = setFORMULAEProblem (setSystems defaults setATPs) contentFile
+
+      return $ Right form

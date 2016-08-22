@@ -15,11 +15,12 @@ module Main
 import OnlineATPs.Consult
   ( getOnlineATPs
   , getResponseSystemOnTPTP
-  , getSystemATPWith
   , getSystemATP
+  , getSystemATPWith
+  , getSystemOnTPTP
+  , Msg
   )
 
-import OnlineATPs.Defaults    (getDefaults)
 import OnlineATPs.CheckOutput (checkTheoremSync)
 import OnlineATPs.Options
   ( Options
@@ -41,11 +42,9 @@ import OnlineATPs.SystemATP
   , printListOnlineATPs
   , getNameVersion
   )
-import OnlineATPs.SystemOnTPTP
-  ( SystemOnTPTP
-  , setFORMULAEProblem
-  , setSystems
-  )
+
+
+import           OnlineATPs.SystemOnTPTP    (SystemOnTPTP)
 
 import           Control.Monad              (unless)
 import qualified Data.ByteString.Lazy       as L
@@ -55,8 +54,6 @@ import           OnlineATPs.Utils.Version   (progNameVersion)
 import           System.Directory           (doesFileExist)
 import           System.Environment         (getArgs)
 import           System.Exit                (exitFailure, exitSuccess)
-import           System.IO                  (readFile)
-
 
 main ∷ IO ()
 main = do
@@ -92,39 +89,23 @@ main = do
           unless isFile $ do
             putStrLn "The file doesn't exist" >> exitFailure
 
-
-          requiredATPs ← case optATP opts of
+          case optATP opts of
             [] → putStrLn "Missing --atp=NAME (try --help)" >> exitFailure
             o  → return o
 
-          atps ← getOnlineATPs
+          form ∷ Either Msg SystemOnTPTP ← getSystemOnTPTP opts
 
-          let listATPs ∷ [SystemATP]
-              listATPs = map (getSystemATPWith atps) requiredATPs
+          case form of
+            Left msg    → putStrLn msg >> exitFailure
 
-          let time ∷ String
-              time = show $ optTime opts
+            Right spec →
+              if optOnlyCheck opts
+                then do
 
-          let setATPs ∷ [SystemATP]
-              setATPs = map (\p → p { sysTimeLimit = time }) listATPs
+                  answer ∷ String ← checkTheoremSync spec
+                  putStrLn answer >> exitSuccess
 
-          defaults ∷ SystemOnTPTP ← getDefaults
+                else do
 
-          contentFile ∷ String ← readFile file
-
-          -- putStrLn contentFile
-
-          let formData ∷ SystemOnTPTP
-              formData  = setFORMULAEProblem (setSystems defaults setATPs) contentFile
-
-          -- putStrLn "Syncronized"
-
-          response ∷ L.ByteString ← getResponseSystemOnTPTP formData
-
-          if optOnlyCheck opts
-            then do
-              let answer ∷ String
-                  answer = checkTheoremSync response listATPs
-              putStrLn answer >> exitSuccess
-            else C.putStrLn response >> exitSuccess
-          return ()
+                  response ∷ L.ByteString ← getResponseSystemOnTPTP spec
+                  C.putStrLn response >> exitSuccess

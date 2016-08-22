@@ -51,5 +51,8 @@ defaultSystemOnTPTP = SystemOnTPTP
   , optX2TPTP                = False
 }
 
+-- FIXME
+-- Future: get defaults using YAML configuration
+
 getDefaults ∷ IO SystemOnTPTP
 getDefaults = return defaultSystemOnTPTP
