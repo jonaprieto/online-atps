@@ -24,7 +24,9 @@ module OnlineATPs.SystemATP
   , msgErrorNoSystemATP
   ) where
 
-import           Data.List (intercalate, isInfixOf)
+import           Data.List             (intercalate, isInfixOf)
+import           OnlineATPs.Utils.Show (showListLn)
+import Control.Monad (mapM_)
 
 data SystemATP = SystemATP
   { sysApplication ∷ String
@@ -43,10 +45,13 @@ msgErrorNoSystemATP = "The system is not a valid ATP."
 
 instance Show SystemATP where
   show NoSystemATP = msgErrorNoSystemATP
-  show atp = sysKey atp ++ ": "
-    ++ "\n name: " ++ sysName atp
-    ++ "\n version: " ++ sysVersion atp
-    ++ "\n application: " ++ sysApplication atp
+  show atp = intercalate "\n" $
+    [ "[" ++ sysName atp ++ "]"
+    , "  application: " ++ sysApplication atp
+    , "  key: " ++ sysKey atp
+    , "  version: " ++ sysVersion atp
+    , "\n"
+    ]
 
 getNameVersion ∷ SystemATP → String
 getNameVersion atp = sysName atp ++ "---" ++ sysVersion atp
@@ -73,4 +78,6 @@ onlineATPVersion NoSystemATP = error msgErrorNoSystemATP
 onlineATPVersion atp         = sysVersion atp
 
 printListOnlineATPs ∷ [SystemATP] → IO ()
-printListOnlineATPs atps = putStrLn $ intercalate "\n\n" $ map show atps
+printListOnlineATPs atps = do
+  putStr $ showListLn atps
+  putStrLn $ "(" ++ show (length atps) ++ ") ATPs available"

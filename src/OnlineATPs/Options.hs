@@ -13,6 +13,7 @@ module OnlineATPs.Options
     ( Options --Improve Haddock information.
     , optATP
     , optATPList
+    , optFOF
     , optHelp
     , optInputFile
     , optOnlyCheck
@@ -50,6 +51,7 @@ import           System.Environment           (getProgName)
 data Options = Options
   { optATP            ∷ [String]
   , optATPList        ∷ Bool
+  , optFOF            ∷ Bool
   , optHelp           ∷ Bool
   , optInputFile      ∷ Maybe FilePath
   , optOnlyCheck      ∷ Bool
@@ -64,6 +66,7 @@ defaultOptions ∷ Options
 defaultOptions = Options
   { optATP            =  []
   , optATPList        =  False
+  , optFOF            =  False
   , optHelp           =  False
   , optInputFile      =  Nothing
   , optOnlyCheck      =  False
@@ -83,6 +86,9 @@ atpOpt name opts = Right opts { optATP = nub $ optATP opts ++ [name] }
 
 atpListOpt ∷ MOptions
 atpListOpt opts = Right opts { optATPList = True }
+
+fofOpt ∷ MOptions
+fofOpt opts = Right opts { optFOF = True }
 
 helpOpt ∷ MOptions
 helpOpt opts = Right opts { optHelp = True }
@@ -119,6 +125,8 @@ options ∷ [OptDescr MOptions]
 options =
   [ Option []  ["atp"] (ReqArg atpOpt "NAME")
                "Set the ATP (online-e, online-vampire, online-z3, ...)\n"
+  , Option []  ["fof"] (NoArg fofOpt)
+               "Only use ATP for FOF"
   , Option []  ["help"] (NoArg helpOpt)
                "Show this help"
   , Option []  ["list-atps"] (NoArg atpListOpt)

@@ -69,12 +69,12 @@ main = do
         putStrLn v  >> exitSuccess
 
       | optATPList opts → do
-        atps ← getOnlineATPs
+        atps ← getOnlineATPs opts
         printListOnlineATPs atps  >> exitSuccess
 
       | not (null $ optVersionATP opts) → do
-          atps ← getOnlineATPs
-          atp ∷ SystemATP  ← getSystemATP $ optVersionATP opts
+          atps ← getOnlineATPs opts
+          atp ∷ SystemATP  ← getSystemATP opts
           case atp of
             NoSystemATP → putStrLn "Unknown ATP name. Check --list-atps" >> exitFailure
             _           → putStrLn ( getNameVersion atp ) >> exitSuccess
@@ -86,8 +86,7 @@ main = do
             Just f  → return f
 
           isFile ← doesFileExist file
-          unless isFile $ do
-            putStrLn "The file doesn't exist" >> exitFailure
+          unless isFile $ putStrLn "The file doesn't exist" >> exitFailure
 
           case optATP opts of
             [] → putStrLn "Missing --atp=NAME (try --help)" >> exitFailure
@@ -96,7 +95,7 @@ main = do
           form ∷ Either Msg SystemOnTPTP ← getSystemOnTPTP opts
 
           case form of
-            Left msg    → putStrLn msg >> exitFailure
+            Left msg   → putStrLn msg >> exitFailure
 
             Right spec →
               if optOnlyCheck opts

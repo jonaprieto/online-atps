@@ -1,6 +1,7 @@
 
 -- | Consult TPTP World web services
 
+{-# LANGUAGE MultiWayIf          #-}
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE UnicodeSyntax       #-}
 
@@ -12,6 +13,7 @@ module OnlineATPs.Consult
   , getSystemOnTPTP
   , Msg
   ) where
+
 
 import           Control.Arrow            ((***))
 import           Control.Monad.IO.Class   (liftIO)
@@ -40,8 +42,6 @@ import           OnlineATPs.Urls          (urlSystemOnTPTP,
                                            urlSystemOnTPTPReply)
 import           System.IO                (readFile)
 import           Text.HTML.TagSoup
-
-
 
 
 type Msg = String
@@ -113,9 +113,9 @@ chucksOfSix ∷ [Tag String] → [[Tag String]]
 chucksOfSix [] = []
 chucksOfSix xs = take 6 xs : chucksOfSix (drop 6 xs)
 
-renameATP ∷ [SystemATP] → [SystemATP]
-renameATP [] = []
-renameATP atps = putVer atps 2
+renameATPs ∷ [SystemATP] → [SystemATP]
+renameATPs [] = []
+renameATPs atps = putVer atps 2
   where
     putVer ∷ [SystemATP] → Int → [SystemATP]
     putVer [] _ = []
@@ -147,17 +147,16 @@ tagsToSystemATP [tSys, tTime, tTrans, tFormat, tCmd, tApp] = newATP
 tagsToSystemATP _  = NoSystemATP
 
 
-getOnlineATPs ∷ IO [SystemATP]
-getOnlineATPs = do
+getOnlineATPs ∷ Options → IO [SystemATP]
+getOnlineATPs opts = do
   tags ← canonicalizeTags . parseTags <$> openURL urlSystemOnTPTP
 
   let systems ∷ [SystemATP]
-      systems = map tagsToSystemATP $ chucksOfSix $ getInfoATP tags
+      systems = renameATPs $ map tagsToSystemATP $ chucksOfSix $ getInfoATP tags
 
-  let fofSystems ∷ [SystemATP]
-      fofSystems = renameATP $ filter isFOFATP systems
-
-  return fofSystems
+  if optFOF opts
+    then return $ filter isFOFATP systems
+    else return systems
 
 
 getSystemATPWith ∷ [SystemATP] → String → SystemATP
@@ -171,25 +170,29 @@ getSystemATPWith atps name =
         _        → NoSystemATP
 
 
-getSystemATP ∷ String → IO SystemATP
-getSystemATP "" = return NoSystemATP
-getSystemATP name =
-  if not $ "online-" `isPrefixOf` name then
-    getSystemATP $ "online-" ++ name
-    else do
+getSystemATP ∷ Options → IO SystemATP
+getSystemATP opts =
+  let name = optVersionATP opts in
+    if | null name → return NoSystemATP
 
-      atps ∷ [SystemATP] ← getOnlineATPs
+       | not $ "online-" `isPrefixOf` name →
 
-      let namesATPs ∷ [String]
-          namesATPs = map sysKey atps
+          getSystemATP $ opts { optVersionATP = "online-" ++ name }
 
-      let mapATP = HashMap.fromList $ zip namesATPs atps
-      -- Future:
-      -- The idea is when the name is not valid, we'll try to find
-      -- the most similar ATP. We can do this using Levenstein
-      -- The HashMap is not  necesary yet. Anyway, I'll use it.
+       | otherwise → do
 
-      return $ HashMap.lookupDefault NoSystemATP name mapATP
+          atps ∷ [SystemATP] ← getOnlineATPs opts
+
+          let namesATPs ∷ [String]
+              namesATPs = map sysKey atps
+
+          let mapATP = HashMap.fromList $ zip namesATPs atps
+          -- Future:
+          -- The idea is when the name is not valid, we'll try to find
+          -- the most similar ATP. We can do this using Levenstein
+          -- The HashMap is not  necesary yet. Anyway, I'll use it.
+
+          return $ HashMap.lookupDefault NoSystemATP name mapATP
 
 getResponseSystemOnTPTP ∷ SystemOnTPTP → IO L.ByteString
 getResponseSystemOnTPTP spec = withSocketsDo $ do
@@ -210,7 +213,7 @@ getResponseSystemOnTPTP spec = withSocketsDo $ do
 getSystemOnTPTP ∷ Options → IO (Either Msg SystemOnTPTP)
 getSystemOnTPTP opts = do
 
-  atps ∷ [SystemATP]  ← getOnlineATPs
+  atps ∷ [SystemATP]  ← getOnlineATPs opts
 
   let listATPs ∷ [SystemATP]
       listATPs = map (getSystemATPWith atps) (optATP opts)
