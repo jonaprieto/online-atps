@@ -23,7 +23,7 @@ which would avoid the user needs to install the ATPs used in your proofs.]
   - [ ] Get the first *positive* result if exists fromt the test all atps with a problem
   - [x] Test a fileproblem in TPTP formal. Issue [#5](https://github.com/jonaprieto/OnlineATPs/issues/5)
   - [x] Make a first version of the excutable version. Issue [#7](https://github.com/jonaprieto/OnlineATPs/issues/5)
-
+  - [x] A configuration file to send all parameters of the form to tptp world.
 
 #### Installation
 
@@ -46,3 +46,7 @@ A basic example of usage should be like:
 ```
 Please check the help command `onlineatps --help`.
 
+#### YAML Configuration
+
+For use yaml file configurations, use the name `.onlineatps`.
+Check the first example in `src/data/onlineatps.yml`.
