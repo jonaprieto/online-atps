@@ -1,0 +1,497 @@
+# -----------------------------------------------------------------------------
+# Use this .onlineatps.yml to guide you
+# -----------------------------------------------------------------------------
+
+# AutoMode: -cE
+# AutoModeSystemsLimit: 3
+# AutoModeTimeLimit: 300
+# Completeness: false
+# Correctness: false
+# IDV: false
+# ProblemSource: TPTPProblem
+# QuietFlag: -q01 # -q3 result "-q2", #progress "-q01", #checked! system "-q0"#everything
+# ReportFlag: -q0
+# Soundness: false
+# SubmitButton: RunSelectedSystems # RecommendSystems  RunParallel, ReportSelectedSystems, ListSystems
+# SystemInfo: false
+# SystemOnTSTP: false
+# TPTPProblem: AGT001+1
+# TSTPData: false
+# X2TPTP: false
+
+# Systems:
+#   - System: agsyHOL---1.0
+#     TimiLimit: "60"
+#     Transform: none
+#     Format: tptp:raw
+#     Command: agsyHOL --proof --time-out %d --include-dir /home/tptp/TPTP/ %s
+#     Application: Prover, for TH0
+
+  # - System: Alt-Ergo---0.95.2
+  #   TimiLimit: "60"
+  #   Transform: none
+  #   Format: tptp:raw
+  #   Command: run_alt_ergo %d %s
+  #   Application: Prover, for TF1 TF0 FOF CNF
+
+  # - System: Beagle---0.9.47
+  #   TimiLimit: "60"
+  #   Transform: none
+  #   Format: tptp:raw
+  #   Command: run_beagle %d %s
+  #   Application: Prover, for TF0 FOF CNF
+
+  # - System: Beagle---SAT-0.9.47
+  #   TimiLimit: "60"
+  #   Transform: none
+  #   Format: tptp:raw
+  #   Command: run_beagle_SAT %d %s
+  #   Application: Model finder, for TF0 FOF CNF
+
+  # - System: Bliksem---1.12
+  #   TimiLimit: "60"
+  #   Transform: none
+  #   Format: tptp:raw
+  #   Command: run_bliksem %s
+  #   Application: Prover, for FOF CNF
+
+  # - System: CiME---2.01
+  #   TimiLimit: "60"
+  #   Transform: none
+  #   Format: tptp:raw
+  #   Command: tptp2X_and_run_cime %s
+  #   Application: Prover and model finder, for CNF_UEQ
+
+  # - System: cocATP---0.2.0
+  #   TimiLimit: "60"
+  #   Transform: none
+  #   Format: tptp:raw
+  #   Command: bin/CASC.py %s
+  #   Application: Prover, for TH0
+
+  # - System: CVC4---FNT-1.5.1
+  #   TimiLimit: "60"
+  #   Transform: none
+  #   Format: tptp:raw
+  #   Command: do_FNT %s
+  #   Application: Prover and model finder, for FOF  CNF
+
+  # - System: CVC4---FOF-1.5.1
+  #   TimiLimit: "60"
+  #   Transform: none
+  #   Format: tptp:raw
+  #   Command: do_FOF %s
+  #   Application: Prover and model finder, for FOF CNF
+
+  # - System: CVC4---TFF-1.5.1
+  #   TimiLimit: "60"
+  #   Transform: none
+  #   Format: tptp:raw
+  #   Command: do_TFF %s
+  #   Application: Prover and model finder, for TF0
+
+  # - System: CVC4---TFN-1.5.1
+  #   TimiLimit: "60"
+  #   Transform: none
+  #   Format: tptp:raw
+  #   Command: do_TFN %s
+  #   Application: Prover and model finder, for TF0
+
+  # - System: Darwin---1.4.5
+  #   TimiLimit: "60"
+  #   Transform: none
+  #   Format: tptp:raw
+  #   Command: darwin -pl 0 -pmc true -to %d %s
+  #   Application: Prover and model finder, for FOF CNF
+
+  # - System: DarwinFM---1.4.5
+  #   TimiLimit: "60"
+  #   Transform: none
+  #   Format: tptp:raw
+  #   Command: darwin -fd true -ppp true -pl 0 -to %d -pmtptp true %s
+  #   Application: Finite model finder, for FOF  CNF
+
+  # - System: E---2.0
+  #   TimiLimit: "60"
+  #   Transform: none
+  #   Format: tptp:raw
+  #   Command: eprover --definitional-cnf=24 -s --cpu-limit=%d %s
+  #   Application: Prover and model finder, for FOF CNF
+
+  # - System: E-Darwin---1.5
+  #   TimiLimit: "60"
+  #   Transform: none
+  #   Format: tptp:raw
+  #   Command: e-darwin -pev &quot;TPTP&quot; -pmd true -if tptp -pl 2 -pc false -ps false %s
+  #   Application: Prover and model finder, for FOF CNF
+
+  # - System: E-MaLeS---1.2
+  #   TimiLimit: "60"
+  #   Transform: none
+  #   Format: tptp:raw
+  #   Command: Source/MaLeS/males.py -t %d -p %s
+  #   Application: Prover, for FOF CNF
+
+  # - System: EQP---0.9e
+  #   TimiLimit: "60"
+  #   Transform: none
+  #   Format: tptp:raw
+  #   Command: tptp2X_and_run_eqp %s
+  #   Application: Prover, for CNF_UEQ
+
+  # - System: Fampire---1.3
+  #   TimiLimit: "60"
+  #   Transform: none
+  #   Format: tptp
+  #   Command: FlotterOnTPTP.pl -f oldtptp -s vampire -t %d %s
+  #   Application: Prover and model finder, for FO
+
+  # - System: Fiesta---2
+  #   TimiLimit: "60"
+  #   Transform: none
+  #   Format: dedam
+  #   Command: fiesta-wrapper %s
+  #   Application: Prover, for CNF_UEQ
+
+  # - System: FIMO---0.3
+  #   TimiLimit: "60"
+  #   Transform: none
+  #   Format: tptp:raw
+  #   Command: bin/fimo -nosplit -iclingo-opts &quot;--heuristic=Vsids --iheuristic=keep&quot; %s
+  #   Application: Finite model finder, for FOF  CNF
+
+  # - System: Geo-III---2016C
+  #   TimiLimit: "60"
+  #   Transform: none
+  #   Format: tptp:raw
+  #   Command: geo -tptp_input -nonempty -include /home/tptp/TPTP -inputfile %s
+  #   Application: Prover and model finder, for FOF CNF
+
+  # - System: GrAnDe---1.1
+  #   TimiLimit: "60"
+  #   Transform: none
+  #   Format: tptp:raw
+  #   Command: And %s %d
+  #   Application: Prover and model finder, for FOF_EPR CNF_EPR CNF_PRP
+
+  # - System: Imogen---2.0
+  #   TimiLimit: "60"
+  #   Transform: stdfof+add_equality
+  #   Format: tptp
+  #   Command: imogen fol prove -c -f FileName -s Tptp -pt %s
+  #   Application: Prover and model finder, for FO
+
+  # - System: Infinox---1.0
+  #   TimiLimit: "60"
+  #   Transform: none
+  #   Format: tptp:raw
+  #   Command: run_infinox %s
+  #   Application: Finite prover and model finder, for FOF CNF
+
+  # - System: iProver---2.5
+  #   TimiLimit: "60"
+  #   Transform: none
+  #   Format: tptp:raw
+  #   Command: iproveropt_run.sh %d %s
+  #   Application: Prover and model finder, for FOF CNF
+
+  # - System: iProver---SAT-2.5
+  #   TimiLimit: "60"
+  #   Transform: none
+  #   Format: tptp:raw
+  #   Command: iproveropt_run_sat.sh %d %s
+  #   Application: Model finder, for FOF  CNF
+
+  # - System: iProver-Eq---0.85
+  #   TimiLimit: "60"
+  #   Transform: none
+  #   Format: tptp:raw
+  #   Command: iprover-cvc4-eq-nc --time_out_virtual %d %s
+  #   Application: Prover and model finder, for FOF CNF
+
+  # - System: iProverMo---0.7-0.3
+  #   TimiLimit: "60"
+  #   Transform: none
+  #   Format: tptp:raw
+  #   Command: bin/iprover_modulo_launcher.sh %s %d
+  #   Application: Prover, for FOF CNF
+
+  # - System: Isabelle---2015
+  #   TimiLimit: "60"
+  #   Transform: none
+  #   Format: tptp:raw
+  #   Command: Source/bin/isabelle tptp_isabelle %d %s
+  #   Application: Prover, for TH0 TF0_NAR FOF CNF
+
+  # - System: Isabelle-HOT---2015
+  #   TimiLimit: "60"
+  #   Transform: none
+  #   Format: tptp:raw
+  #   Command: Source/bin/isabelle tptp_isabelle_hot %d %s
+  #   Application: Prover, for TH0 TF0_NAR FOF CN
+
+  # - System: JGRM3---0.1
+  #   TimiLimit: "60"
+  #   Transform: none
+  #   Format: tptp:raw
+  #   Command: jgrm3 %s %d
+  #   Application: Prover and model finder, for RM3
+
+  # - System: leanCoP---2.2
+  #   TimiLimit: "60"
+  #   Transform: none
+  #   Format: tptp:raw
+  #   Command: leancop.sh %s %d
+  #   Application: Prover and model finder, for FOF
+
+  # - System: leanCoP-Omega---0.1
+  #   TimiLimit: "60"
+  #   Transform: none
+  #   Format: tptp:raw
+  #   Command: leancop_omega.sh %s %d
+  #   Application: Prover, for TF0_ARI
+
+  # - System: LEO-II---1.7.0
+  #   TimiLimit: "60"
+  #   Transform: none
+  #   Format: tptp:raw
+  #   Command: leo --timeout %d --proofoutput 1 --foatp e --atp e=/home/tptp/Systems/LEO-II---1.7.0/eprover %s
+  #   Application: Prover and model finder, for TH0 FOF CNF
+
+  # - System: Leo-III---1.0
+  #   TimiLimit: "60"
+  #   Transform: none
+  #   Format: tptp:raw
+  #   Command: run_leo %d %s
+  #   Application: Prover and model finder, for TH0
+
+  # - System: Mace2---2.2
+  #   TimiLimit: "60"
+  #   Transform: none
+  #   Format: tptp:raw
+  #   Command: tptp2X_and_run_mace2 %d %s
+  #   Application: Model finder, for FOF  CNF
+
+  # - System: Mace4---1109a
+  #   TimiLimit: "60"
+  #   Transform: none
+  #   Format: tptp:raw
+  #   Command: tptp2X_and_run_mace4 %d %s
+  #   Application: Model finder, for FOF  CNF
+
+  # - System: Matita---1.0
+  #   TimiLimit: "60"
+  #   Transform: none
+  #   Format: tptp:raw
+  #   Command: matitaprover --timeout %d --tptppath /home/tptp/TPTP %s
+  #   Application: Prover and model finder, for CNF_UEQ
+
+  # - System: Metis---2.3
+  #   TimiLimit: "60"
+  #   Transform: none
+  #   Format: tptp:raw
+  #   Command: metis --show proof --show saturation %s
+  #   Application: Prover and model finder, for FOF CNF
+
+  # - System: MetiTarski---1.9
+  #   TimiLimit: "60"
+  #   Transform: none
+  #   Format: tptp:raw
+  #   Command: run-metitarski %s
+  #   Application: Prover, for TF0_ARI
+
+  # - System: Muscadet---4.5
+  #   TimiLimit: "60"
+  #   Transform: none
+  #   Format: tptp:raw
+  #   Command: muscadet %s
+  #   Application: Prover, for FOF
+
+  # - System: Nitpick---2015
+  #   TimiLimit: "60"
+  #   Transform: none
+  #   Format: tptp:raw
+  #   Command: Source/bin/isabelle tptp_nitpick %d %s
+  #   Application: Model finder, for TH0_NAR TH0_NAR_NAR TF0_NAR TF0_NAR_NAR FOF  CNF
+
+  # - System: omkbTT---1.0
+  #   TimiLimit: "60"
+  #   Transform: none
+  #   Format: tptp:raw
+  #   Command: omkbtt -t %d %s -p
+  #   Application: Prover and model finder, for CNF_UEQ
+
+  # - System: Otter---3.3
+  #   TimiLimit: "60"
+  #   Transform: none
+  #   Format: tptp:raw
+  #   Command: otter-tptp-script %s
+  #   Application: Prover, for FOF CNF
+
+  # - System: Paradox---3.0
+  #   TimiLimit: "60"
+  #   Transform: none
+  #   Format: tptp:short
+  #   Command: paradox --no-progress --time %d --tstp --model %s
+  #   Application: Finite model finder, for FOF  CN
+
+  # - System: PKRHyper---0805
+  #   TimiLimit: "60"
+  #   Transform: add_equality
+  #   Format: protein
+  #   Command: /bin/java -Xmx256m -jar /home/tptp/Systems/PKRHyper---0805/PocketKRHyper.jar %s
+  #   Application: Prover, for CNF_NEQ
+
+  # - System: Princess---160606
+  #   TimiLimit: "60"
+  #   Transform: none
+  #   Format: tptp
+  #   Command: princess-casc +printProof -timeout=%d %s
+  #   Application: Prover and model finder, for TF0 FOF
+
+  # - System: Prover9---1109a
+  #   TimiLimit: "60"
+  #   Transform: none
+  #   Format: tptp:raw
+  #   Command: tptp2X_and_run_prover9 %d %s
+  #   Application: Prover, for FOF CNF
+
+  # - System: Refute---2015
+  #   TimiLimit: "60"
+  #   Transform: none
+  #   Format: tptp:raw
+  #   Command: Source/bin/isabelle tptp_refute %d %s
+  #   Application: Model finder, for TH0_NAR TH0_NAR_NAR TF0 _NAR FOF  CNF
+
+  # - System: SaKo---4.5-0.6.1
+  #   TimiLimit: "60"
+  #   Transform: none
+  #   Format: tptp:raw
+  #   Command: run_konclude %s
+  #   Application: Prover, for CNF_EPR
+
+  # - System: Satallax---3.0
+  #   TimiLimit: "60"
+  #   Transform: none
+  #   Format: tptp:raw
+  #   Command: run_satallax %d %s
+  #   Application: Prover and model finder, for TH0
+
+  # - System: SNARK---20120808r022
+  #   TimiLimit: "60"
+  #   Transform: none
+  #   Format: tptp:raw
+  #   Command: run-snark %s %d
+  #   Application: Prover, for TF0 FOF CNF
+
+  # - System: SOS---2.0
+  #   TimiLimit: "60"
+  #   Transform: none
+  #   Format: tptp:raw
+  #   Command: sos-script %s
+  #   Application: Prover, for FOF CNF
+
+  # - System: SPASS+T---2.2.22
+  #   TimiLimit: "60"
+  #   Transform: none
+  #   Format: tptp:raw
+  #   Command: spasst-tptp-script %s %d
+  #   Application: Prover, for TF0
+
+  # - System: SPASS---3.7
+  #   TimiLimit: "60"
+  #   Transform: none
+  #   Format: tptp
+  #   Command: run_spass %d %s
+  #   Application: Prover and model finder, for FOF CNF
+
+  # - System: SPASS-XDB---0.8
+  #   TimiLimit: "60"
+  #   Transform: none
+  #   Format: tptp:raw
+  #   Command: run-spass-xdb %s -EPrint=2
+  #   Application: Prover, for TF0_ARI
+
+  # - System: SPASS-XDB---0.8FOF
+  #   TimiLimit: "60"
+  #   Transform: none
+  #   Format: tptp:raw
+  #   Command: run-spass-xdb %s -EPrint=2
+  #   Application: Prover, for FOF
+
+  # - System: SRASS---0.1
+  #   TimiLimit: "60"
+  #   Transform: none
+  #   Format: tptp
+  #   Command: SRASS -q2 -a 0 10 10 10 -i3 -n60 %s
+  #   Application: Prover, for FOF
+
+  # - System: ToFoF---0.1
+  #   TimiLimit: "60"
+  #   Transform: none
+  #   Format: tptp:raw
+  #   Command: tofof %d %s
+  #   Application: Prover and model finder, for TF0_NAR
+
+  # - System: ToFoF-SAT---0.1
+  #   TimiLimit: "60"
+  #   Transform: none
+  #   Format: tptp:raw
+  #   Command: tofof %d %s --model
+  #   Application: Model finder, for TF0_NAR
+
+  # - System: TPS---3.120601S1b
+  #   TimiLimit: "60"
+  #   Transform: none
+  #   Format: tptp:raw
+  #   Command: run-tps-S1b %s %d
+  #   Application: Prover, for TH
+
+  # - System: tWEE---1.0
+  #   TimiLimit: "60"
+  #   Transform: none
+  #   Format: tptp:raw
+  #   Command: twee-static --no-tracing %s
+  #   Application: Prover, for CNF_UEQ
+
+  # - System: Vampire---4.1
+  #   TimiLimit: "60"
+  #   Transform: none
+  #   Format: tptp:raw
+  #   Command: vampire --mode casc -m 90000 -t %d %s
+  #   Application: For TF0 FOF CNF
+
+  # - System: Vampire---SAT-4.1
+  #   TimiLimit: "60"
+  #   Transform: none
+  #   Format: tptp:raw
+  #   Command: vampire --mode casc_sat -m 90000 -t %d %s
+  #   Application: For TF0_CSA TF0_SAT FOF_CSA FOF_SAT CNF_SAT
+
+  # - System: Waldmeister---710
+  #   TimiLimit: "60"
+  #   Transform: none
+  #   Format: tptp:raw
+  #   Command: woody %s
+  #   Application: Prover, for CNF_UEQ
+
+  # - System: Z3---4.4.1
+  #   TimiLimit: "60"
+  #   Transform: none
+  #   Format: tptp
+  #   Command: run_z3_tptp -proof -model -t:%d -file:%s
+  #   Application: Prover and model finder, for TF0 FOF CNF
+
+  # - System: Zenon---0.7.1
+  #   TimiLimit: "60"
+  #   Transform: none
+  #   Format: tptp:raw
+  #   Command: run_zenon %s %d
+  #   Application: Prover, for FOF
+
+  # - System: ZenonModulo---0.4.1
+  #   TimiLimit: "60"
+  #   Transform: none
+  #   Format: tptp:raw
+  #   Command: run_zenon_modulo %d %s
+  #   Application: Prover, for TF1 TF0 FOF CNF
