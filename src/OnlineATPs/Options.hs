@@ -133,7 +133,7 @@ options =
   , Option []  ["only-check"] (NoArg onlyCheckOpt)
                "Only checks the output looking for a theorem."
   , Option []  ["time"] (ReqArg timeOpt "NUM")
-               "Set timeout for the ATPs in seconds (default: 240)"
+               "Set timeout for the ATPs in seconds (default: 300)"
   , Option []  ["version"] (NoArg versionOpt)
                "Show version number"
   , Option []  ["version-atp"] (ReqArg versionATPOpt "NAME")
