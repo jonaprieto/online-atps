@@ -2,7 +2,7 @@
 # File: .onlineatps
 # --------------------------------------------------------------------
 
-AutoMode: "-cE"
+AutoMode: -cE
 AutoModeSystemsLimit: "3"
 AutoModeTimeLimit: "300"
 Completeness: false
@@ -12,22 +12,15 @@ FORMULAEProblem: ""
 FormulaURL: ""
 IDV: false
 NoHTML: "1"
-ProblemSource: "FORMULAE" #"TPTP"
-QuietFlag: "-q01" #q2
-ReportFlag: "-q0"
+ProblemSource: FORMULAE
+QuietFlag: -q0
+ReportFlag: -q0
 Soundness: false
-SubmitButton: "RunSelectedSystems"
+SubmitButton: RunSelectedSystems
 SystemInfo: false
 SystemOnTSTP: false
 Systems: []
-TPTPProblem: "" #AGT001+1"
+TPTPProblem: ""
 TSTPData: false
 UPLOADProblem: ""
 X2TPTP: false
-
-# Systems:
-#   - ATP: "online-e"
-#     TimiLimit: "60"
-#     Transform: "none"
-#     Format: "tptp:raw"
-#     Command: eprover --definitional-cnf=24 -s --cpu-limit=%d %s

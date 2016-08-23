@@ -46,7 +46,7 @@ import           System.Environment           (getProgName)
 -- #include "undefined.h"
 
 
--- -- | Program command-line options.
+-- | Program command-line options.
 data Options = Options
   { optATP            ∷ [String]
   , optATPList        ∷ Bool
@@ -129,7 +129,7 @@ options =
   , Option []  ["help"] (NoArg helpOpt)
                "Show this help"
   , Option []  ["list-atps"] (NoArg atpListOpt)
-               "Consult all FOF ATPs available in TPTP World"
+               "Consult all ATPs available in TPTP World"
   , Option []  ["only-check"] (NoArg onlyCheckOpt)
                "Only checks the output looking for a theorem."
   , Option []  ["time"] (ReqArg timeOpt "NUM")

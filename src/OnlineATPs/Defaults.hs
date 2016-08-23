@@ -1,9 +1,10 @@
 
 -- | Set the defaults fot the package
 
-{-# LANGUAGE OverloadedStrings #-}
-{-# LANGUAGE RecordWildCards   #-}
-{-# LANGUAGE UnicodeSyntax     #-}
+{-# LANGUAGE OverloadedStrings   #-}
+{-# LANGUAGE RecordWildCards     #-}
+{-# LANGUAGE ScopedTypeVariables #-}
+{-# LANGUAGE UnicodeSyntax       #-}
 
 module OnlineATPs.Defaults
   ( defaultSystemATP
@@ -17,9 +18,10 @@ import           Control.Monad           (filterM)
 import           Data.Aeson              (withObject)
 import           Data.Aeson.Types
 import qualified Data.HashMap.Strict     as HashMap
-import           Data.Maybe              (fromJust, fromMaybe, maybe)
+import           Data.Maybe              (catMaybes, fromJust, fromMaybe, maybe)
 import qualified Data.Text               as T
-import           Data.Yaml               (FromJSON (parseJSON), Object, decode,
+import           Data.Yaml               (FromJSON (parseJSON), Object,
+                                          decodeFile, decodeFileEither,
                                           parseMaybe, (.!=), (.:), (.:?))
 import qualified Data.Yaml.Include       as YamlInclude
 import           OnlineATPs.SystemATP    (SystemATP (..))
@@ -32,7 +34,7 @@ import           System.FilePath.Posix   ((</>))
 
 
 underscore ∷ T.Text → T.Text
-underscore field =T.pack $ camelTo2 '_' $ T.unpack field
+underscore field = T.pack $ camelTo2 '_' $ T.unpack field
 
 hypen ∷ T.Text → T.Text
 hypen field = T.pack $ camelTo2 '-' $T.unpack field
@@ -117,10 +119,14 @@ defaultSystemOnTPTP = SystemOnTPTP
   , optX2TPTP                = False
 }
 
-loadYAML ∷ FilePath → IO Object
-loadYAML dotOnlineatps = do
-  decoded ← YamlInclude.decodeFile dotOnlineatps
-  return $ fromMaybe HashMap.empty decoded
+loadYAML ∷ FilePath → IO (Maybe Object)
+loadYAML path = do
+  decoded ← YamlInclude.decodeFileEither path
+  case decoded of
+    Right o   → return $ Just o
+    Left msg  → do
+      print msg
+      return Nothing
 
 onlineatpsNameFile ∷ FilePath
 onlineatpsNameFile = ".onlineatps"
@@ -128,7 +134,7 @@ onlineatpsNameFile = ".onlineatps"
 onlineatpsTemplate ∷ FilePath
 onlineatpsTemplate = "onlineatps.yml"
 
--- Uncomment this to use ghcid
+-- -- Uncomment this to use ghcid
 -- getDataFileName ∷ FilePath → IO FilePath
 -- getDataFileName path = return $ "./data" </> path
 
@@ -168,9 +174,13 @@ getDefaults = do
   let allFiles ∷ [FilePath]
       allFiles = userFiles ++ [defaultConfig]
 
-  loaded ← mapM loadYAML allFiles
+  loaded ∷ [Maybe Object] ← mapM loadYAML allFiles
 
-  let combined ∷ Maybe SystemOnTPTP
-      combined = parseMaybe combineConfigs loaded
+  let combined ∷ Either String SystemOnTPTP
+      combined = parseEither combineConfigs $ catMaybes loaded
 
-  return $ fromMaybe defaultSystemOnTPTP combined
+  case combined of
+    Left  msg → do
+      putStrLn $ "Error: " ++ msg
+      return defaultSystemOnTPTP
+    Right o   → return o
