@@ -1,0 +1,20 @@
+# --------------------------------------------------------------------
+# File: .onlineatps
+# Check TPTP World looking for the apart of SystemOnTPTP to see
+# all meaning and usages of these parameters.
+# --------------------------------------------------------------------
+
+AutoMode: -cE
+AutoModeSystemsLimit: 3
+AutoModeTimeLimit: 300
+ProblemSource: "FORMULAE"
+QuietFlag: -q01
+ReportFlag: -q0
+SubmitButton: RunSelectedSystems
+
+Systems:
+  - ATP: "online-e"
+    TimiLimit: "60"
+    Transform: "none"
+    Format: "tptp:raw"
+    Command: eprover --definitional-cnf=24 -s --cpu-limit=%d %s

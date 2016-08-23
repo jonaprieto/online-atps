@@ -28,7 +28,6 @@ module OnlineATPs.Options
 import           Data.Char                    (isDigit)
 import           Data.List                    (foldl', nub)
 import qualified Data.Text                    as T (pack)
-import           OnlineATPs.SystemOnTPTP      (SystemOnTPTP)
 import           OnlineATPs.Utils.PrettyPrint (Doc, Pretty (pretty), squotes,
                                                (<>))
 -- import Safe ( initDef )

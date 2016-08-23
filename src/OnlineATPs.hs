@@ -17,7 +17,7 @@ import  OnlineATPs.Consult
   , getSystemATP
   , getResponseSystemOnTPTP
   )
-import  OnlineATPs.Defaults  (defaultOnlineATP)
+import  OnlineATPs.Defaults  (defaultSystemATP)
 import  OnlineATPs.SystemATP
   ( onlineATPOk
   , printListOnlineATPs
