@@ -1,8 +1,7 @@
 # OnlineATPs
 
-#### A web interface for the ATPs.
-
-A client to connect to [SystemOnTPTP](http://www.cs.miami.edu/~tptp/cgi-bin/SystemOnTPTP).
+OnlineATPs connects to [SystemOnTPTP](http://www.cs.miami.edu/~tptp/cgi-bin/SystemOnTPTP)
+and allows us to take advantage of using ATPs without install any of them.
 
 #### Installation
 
@@ -16,9 +15,9 @@ Use `cabal` to install OnlineATPs.
 
 #### Usage
 
-We should start for check the help information:
+We should start checking the help:
 
-```bash
+```
 $  onlineatps --help
 Usage: onlineatps [OPTIONS] FILE
 
@@ -32,13 +31,22 @@ Usage: onlineatps [OPTIONS] FILE
     --version-atp=NAME  Show version of the atp NAME
 ```
 
-A basic example of usage should be like:
+Then, we can prove something like:
+
+```
+$ cat basic.tptp
+fof(a1,axiom,a).
+fof(a2,axiom,b).
+fof(a3,axiom, (a & b) => z).
+fof(a4,conjecture,z).
+```
+with an ATP like [Vampire](http://www.vprover.org):
 
 ```bash
-  $ cd onlineatps/examples
   $ onlineatps basic.tptp --atp=vampire
   Theorem
 ```
+
 Note that we can specify the ATP with both names, "vampire" or just "online-vampire".
 
 #### YAML Configuration
