@@ -31,6 +31,40 @@ import           System.Directory        (doesFileExist, getCurrentDirectory,
 import           System.FilePath.Posix   ((</>))
 
 
+underscore ∷ T.Text → T.Text
+underscore field =T.pack $ camelTo2 '_' $ T.unpack field
+
+hypen ∷ T.Text → T.Text
+hypen field = T.pack $ camelTo2 '-' $T.unpack field
+
+lower ∷ T.Text → T.Text
+lower = T.toLower
+
+upper ∷ T.Text → T.Text
+upper = T.toUpper
+
+(.?.) :: FromJSON a => Object  → T.Text → Parser (Maybe a)
+x .?. field = x .:? field
+  <|> x .:? underscore field
+  <|> x .:? hypen field
+  <|> x .:? lower field
+  <|> x .:? upper field
+
+(.:.) :: FromJSON a => Object  → T.Text → Parser a
+x .:. field = x .: field
+  <|> x .: underscore field
+  <|> x .: hypen field
+  <|> x .: lower field
+  <|> x .: upper field
+
+
+(.@.) ∷ FromJSON a ⇒ [Object] → T.Text → Parser a
+[]  .@. field = fail  "failed. Expected at least one key-value"
+[x] .@. field = x .:. field
+(x:xs) .@. field = do
+  value ← x .?. field
+  maybe (xs .@. field) return value
+
 defaultSystemATP ∷ SystemATP
 defaultSystemATP = SystemATP
   { sysApplication = "Prover and model finder, for FOF CNF"
@@ -45,14 +79,14 @@ defaultSystemATP = SystemATP
 
 instance FromJSON SystemATP where
   parseJSON = withObject "atp" $ \o → do
-    sysApplication ← o .:? "Application" .!= ""
-    sysCommand     ← o .:? "Command" .!= "default"
-    sysFormat      ← o .:? "Format" .!= "tptp:raw"
-    sysKey         ← o .: "Key" <|> o .: "key" <|> o .: "ATP"
-    sysName        ← o .:? "Name" .!= "default"
-    sysTimeLimit   ← o .:? "TimeLimit" .!= "60"
-    sysTransform   ← o .:? "Transform" .!= "none"
-    sysVersion     ← o .:? "Version" .!= "default"
+    sysApplication ← o .?. "Application" .!= ""
+    sysCommand     ← o .?. "Command" .!= "default"
+    sysFormat      ← o .?. "Format" .!= "tptp:raw"
+    sysKey         ← o .:. "Key" <|> o .:. "ATP"
+    sysName        ← o .?. "Name" .!= "default"
+    sysTimeLimit   ← o .?. "TimeLimit" .!= "60"
+    sysTransform   ← o .?. "Transform" .!= "none"
+    sysVersion     ← o .?. "Version" .!= "default"
     return SystemATP{..}
 
 
@@ -98,33 +132,6 @@ onlineatpsTemplate = "onlineatps.yml"
 -- getDataFileName ∷ FilePath → IO FilePath
 -- getDataFileName path = return $ "./data" </> path
 
-underscore ∷ T.Text → T.Text
-underscore field =T.pack $ camelTo2 '_' $ T.unpack field
-
-hypen ∷ T.Text → T.Text
-hypen field = T.pack $ camelTo2 '-' $T.unpack field
-
-lower ∷ T.Text → T.Text
-lower = T.toLower
-
-upper ∷ T.Text → T.Text
-upper = T.toUpper
-
-(.@.) ∷ FromJSON a ⇒ [Object] → T.Text → Parser a
-[]  .@. field = fail  "failed. Expected at least one key-value"
-[x] .@. field = x .: field
-  <|> x .: underscore field
-  <|> x .: hypen field
-  <|> x .: lower field
-  <|> x .: upper field
-(x:xs) .@. field = do
-  value ← x .:? field
-    <|>  x .:? underscore field
-    <|> x .:? hypen field
-    <|> x .:? lower field
-    <|> x .:? upper field
-  maybe (xs .@. field) return value
-
 combineConfigs ∷ [Object] → Parser SystemOnTPTP
 combineConfigs configs  =  do
   optAutoMode               ← configs .@. "AutoMode"
@@ -162,8 +169,7 @@ getDefaults = do
       allFiles = userFiles ++ [defaultConfig]
 
   loaded ← mapM loadYAML allFiles
-  print loaded
-  print (length loaded)
+
   let combined ∷ Maybe SystemOnTPTP
       combined = parseMaybe combineConfigs loaded
 
