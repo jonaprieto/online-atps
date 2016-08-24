@@ -42,7 +42,7 @@ fof(a4,conjecture,z).
 ```
 with an ATP like [Vampire](http://www.vprover.org):
 
-```bash
+```
 $ onlineatps examples/basic.tptp --atp=vampire
 % SZS start RequiredInformation
 % Congratulations - you have become a registered power user of SystemOnTPTP, at IP address 138.121.12.14.
