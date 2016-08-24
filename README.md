@@ -43,8 +43,36 @@ fof(a4,conjecture,z).
 with an ATP like [Vampire](http://www.vprover.org):
 
 ```bash
-  $ onlineatps basic.tptp --atp=vampire
-  Theorem
+$ onlineatps examples/basic.tptp --atp=vampire
+% SZS start RequiredInformation
+% Congratulations - you have become a registered power user of SystemOnTPTP, at IP address 138.121.12.14.
+% Please consider donating to the TPTP project - see www.tptp.org for details.
+% When you donate this message will disappear.
+% If you do not donate a random delay might be added to your processing time.
+% SZS end RequiredInformation
+Vampire---4.1   system information being retrieved
+Vampire---4.1's non-default parameters being retrieved
+    -t none
+    -f tptp:raw
+    -x vampire --mode casc -m 90000 -t %d %s
+Vampire---4.1   being checked for execution
+Vampire---4.1   checking time limit 240
+Vampire---4.1   checking problem name /tmp/SystemOnTPTPFormReply38743/SOT_Xry401
+...
+% ------------------------------
+% Version: Vampire 4.1 for CASC J8 Entry
+% Termination reason: Refutation
+
+% Memory used [KB]: 511
+% Time elapsed: 0.043 s
+% ------------------------------
+% ------------------------------
+% Success in time 0.045 s
+
+% END OF SYSTEM OUTPUT
+RESULT: SOT_Xry401 - Vampire---4.1 says Theorem - CPU = 0.00 WC = 0.04
+OUTPUT: SOT_Xry401 - Vampire---4.1 says Refutation - CPU = 0.00 WC = 0.04
+
 ```
 
 Note that we can specify the ATP with both names, "vampire" or just "online-vampire".
