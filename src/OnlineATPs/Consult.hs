@@ -1,6 +1,6 @@
 
--- | Consult TPTP World web services
-
+-- | Consult the TPTP World web services
+{-# OPTIONS_GHC -fno-warn-incomplete-record-updates #-}
 {-# LANGUAGE MultiWayIf          #-}
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE UnicodeSyntax       #-}
@@ -31,12 +31,12 @@ import           Network.HTTP.Client      (defaultManagerSettings, httpLbs,
                                            responseBody, urlEncodedBody)
 import           OnlineATPs.Defaults      (getDefaults)
 import           OnlineATPs.Options       (Options (..))
-import           OnlineATPs.SystemATP     (SystemATP (..), isFOFATP)
+import           OnlineATPs.SystemATP     (SystemATP (..), isFOFATP,
+                                           setTimeLimit)
 import           OnlineATPs.SystemOnTPTP  (SystemOnTPTP (..),
                                            getDataSystemOnTPTP,
                                            setFORMULAEProblem, setSystems)
 
-import           Control.Monad            (unless)
 import           Data.Maybe               (fromJust, isNothing)
 import           OnlineATPs.Urls          (urlSystemOnTPTP,
                                            urlSystemOnTPTPReply)
@@ -130,8 +130,12 @@ getVal = fromAttrib "value"
 tagsToSystemATP ∷ [Tag String] → SystemATP
 tagsToSystemATP [tSys, tTime, tTrans, tFormat, tCmd, tApp] = newATP
   where
+    info ∷ [String]
+    info  = splitOn "---" $ getVal tSys
+
     name, version ∷ String
-    [name, version] = splitOn "---" $ getVal tSys
+    name = head info
+    version = last info
 
     newATP ∷ SystemATP
     newATP = SystemATP
@@ -222,7 +226,7 @@ getSystemOnTPTP opts = do
       time = show $ optTime opts
 
   let setATPs ∷ [SystemATP]
-      setATPs = map (\p → p { sysTimeLimit = time }) listATPs
+      setATPs = map (\p → setTimeLimit p time) listATPs
 
   defaults ∷ SystemOnTPTP ← getDefaults
 

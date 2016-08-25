@@ -16,7 +16,6 @@ import OnlineATPs.Consult
   ( getOnlineATPs
   , getResponseSystemOnTPTP
   , getSystemATP
-  , getSystemATPWith
   , getSystemOnTPTP
   , Msg
   )
@@ -27,7 +26,6 @@ import OnlineATPs.Options
     ( optATP
     , optATPList
     , optHelp
-    , optTime
     , optInputFile
     , optOnlyCheck
     , optVersion
@@ -38,8 +36,8 @@ import OnlineATPs.Options
   )
 
 import OnlineATPs.SystemATP
-  ( SystemATP (NoSystemATP, sysTimeLimit)
-  , printListOnlineATPs
+  ( SystemATP(..)
+  ,  printListOnlineATPs
   , getNameVersion
   )
 
@@ -73,7 +71,6 @@ main = do
         printListOnlineATPs atps  >> exitSuccess
 
       | not (null $ optVersionATP opts) → do
-          atps ← getOnlineATPs opts
           atp ∷ SystemATP  ← getSystemATP opts
           case atp of
             NoSystemATP → putStrLn "Unknown ATP name. Check --list-atps" >> exitFailure
@@ -88,7 +85,7 @@ main = do
           isFile ← doesFileExist file
           unless isFile $ putStrLn "The file doesn't exist" >> exitFailure
 
-          case optATP opts of
+          _ ← case optATP opts of
             [] → putStrLn "Missing --atp=NAME (try --help)" >> exitFailure
             o  → return o
 

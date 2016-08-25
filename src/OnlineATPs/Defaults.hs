@@ -1,6 +1,5 @@
 
 -- | Set the defaults fot the package
-
 {-# LANGUAGE OverloadedStrings   #-}
 {-# LANGUAGE RecordWildCards     #-}
 {-# LANGUAGE ScopedTypeVariables #-}
@@ -13,59 +12,17 @@ module OnlineATPs.Defaults
   )
   where
 
-import           Control.Applicative     ((<|>))
 import           Control.Monad           (filterM)
-import           Data.Aeson              (withObject)
-import           Data.Aeson.Types
-import qualified Data.HashMap.Strict     as HashMap
-import           Data.Maybe              (catMaybes, fromJust, fromMaybe, maybe)
-import qualified Data.Text               as T
-import           Data.Yaml               (FromJSON (parseJSON), Object,
-                                          decodeFile, decodeFileEither,
-                                          parseMaybe, (.!=), (.:), (.:?))
-import qualified Data.Yaml.Include       as YamlInclude
+import           Data.Maybe
 import           OnlineATPs.SystemATP    (SystemATP (..))
 import           OnlineATPs.SystemOnTPTP (SystemOnTPTP (..))
+import           OnlineATPs.Utils.Yaml
 import           Paths_onlineatps        (getDataFileName)
 import           Prelude                 hiding (lookup)
 import           System.Directory        (doesFileExist, getCurrentDirectory,
                                           getHomeDirectory)
 import           System.FilePath.Posix   ((</>))
 
-
-underscore ∷ T.Text → T.Text
-underscore field = T.pack $ camelTo2 '_' $ T.unpack field
-
-hypen ∷ T.Text → T.Text
-hypen field = T.pack $ camelTo2 '-' $T.unpack field
-
-lower ∷ T.Text → T.Text
-lower = T.toLower
-
-upper ∷ T.Text → T.Text
-upper = T.toUpper
-
-(.?.) :: FromJSON a => Object  → T.Text → Parser (Maybe a)
-x .?. field = x .:? field
-  <|> x .:? underscore field
-  <|> x .:? hypen field
-  <|> x .:? lower field
-  <|> x .:? upper field
-
-(.:.) :: FromJSON a => Object  → T.Text → Parser a
-x .:. field = x .: field
-  <|> x .: underscore field
-  <|> x .: hypen field
-  <|> x .: lower field
-  <|> x .: upper field
-
-
-(.@.) ∷ FromJSON a ⇒ [Object] → T.Text → Parser a
-[]  .@. field = fail  "failed. Expected at least one key-value"
-[x] .@. field = x .:. field
-(x:xs) .@. field = do
-  value ← x .?. field
-  maybe (xs .@. field) return value
 
 defaultSystemATP ∷ SystemATP
 defaultSystemATP = SystemATP
@@ -79,23 +36,9 @@ defaultSystemATP = SystemATP
   , sysVersion     = "2.0"
 }
 
-instance FromJSON SystemATP where
-  parseJSON = withObject "atp" $ \o → do
-    sysApplication ← o .?. "Application" .!= ""
-    sysCommand     ← o .?. "Command" .!= "default"
-    sysFormat      ← o .?. "Format" .!= "tptp:raw"
-    sysKey         ← o .:. "Key" <|> o .:. "ATP"
-    sysName        ← o .?. "Name" .!= "default"
-    sysTimeLimit   ← o .?. "TimeLimit" .!= "60"
-    sysTransform   ← o .?. "Transform" .!= "none"
-    sysVersion     ← o .?. "Version" .!= "default"
-    return SystemATP{..}
-
-
 defaultSystemOnTPTP ∷ SystemOnTPTP
 defaultSystemOnTPTP = SystemOnTPTP
-  {
-    optAutoMode              = "-cE"
+  { optAutoMode              = "-cE"
   , optAutoModeSystemsLimit  = "3"
   , optAutoModeTimeLimit     = "300"
   , optCompleteness          = False
@@ -119,14 +62,6 @@ defaultSystemOnTPTP = SystemOnTPTP
   , optX2TPTP                = False
 }
 
-loadYAML ∷ FilePath → IO (Maybe Object)
-loadYAML path = do
-  decoded ← YamlInclude.decodeFileEither path
-  case decoded of
-    Right o   → return $ Just o
-    Left msg  → do
-      print msg
-      return Nothing
 
 onlineatpsNameFile ∷ FilePath
 onlineatpsNameFile = ".onlineatps"
