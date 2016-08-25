@@ -28,7 +28,7 @@ Usage: onlineatps [OPTIONS] FILE
     --only-check        Only checks the output looking for a theorem.
     --time=NUM          Set timeout for the ATPs in seconds (default: 300)
     --version           Show version number
-    --version-atp=NAME  Show version of the atp NAME
+    --version-atp=NAME  Show version of the ATP with name equals NAME
 ```
 
 Then, we can prove something like:

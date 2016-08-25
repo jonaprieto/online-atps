@@ -37,7 +37,7 @@ checkTheoremSync spec  = do
     let atps ∷ [SystemATP]
         atps = optSystems spec
 
-    response ∷ L.ByteString ← getResponseSystemOnTPTP $ spec { optQuietFlag = "-q3" }
+    response ∷ L.ByteString ← getResponseSystemOnTPTP $ spec { optQuietFlag = "-q01" }
 
     if any (`checkOnlineATPOutput` show response) atps
       then return "Theorem"
