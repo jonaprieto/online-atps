@@ -22,7 +22,8 @@ import OnlineATPs.Consult
 
 import OnlineATPs.CheckOutput (checkTheoremSync)
 import OnlineATPs.Options
-  ( Options
+  ( getManageOpt
+  , Options
     ( optATP
     , optATPList
     , optHelp
@@ -84,7 +85,7 @@ main = do
           isFile ← doesFileExist file
           unless isFile $ die "the file doesn't exist"
 
-          _ ← case optATP opts of
+          _ ← case (getManageOpt (optATP opts)) of
             [] → die "missing --atp=NAME (try --help)"
             o  → return o
 

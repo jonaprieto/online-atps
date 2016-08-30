@@ -6,8 +6,8 @@
 {-# LANGUAGE UnicodeSyntax #-}
 
 module OnlineATPs.Options
-  (
-    options
+  ( getManageOpt
+  , options
   , MOptions  -- Required by Haddock.
   , Options
     ( Options --Improve Haddock information.
@@ -44,10 +44,16 @@ import           System.Environment           (getProgName)
 
 -- #include "undefined.h"
 
+data ManageOption a = DefaultOpt a | CommandOpt a
+
+getManageOpt ∷ ManageOption a → a
+getManageOpt (DefaultOpt val) = val
+getManageOpt (CommandOpt val) = val
+
 
 -- | Program command-line options.
 data Options = Options
-  { optATP            ∷ [String]
+  { optATP            ∷ ManageOption [String]
   , optATPList        ∷ Bool
   , optFOF            ∷ Bool
   , optHelp           ∷ Bool
@@ -62,7 +68,7 @@ data Options = Options
 
 defaultOptions ∷ Options
 defaultOptions = Options
-  { optATP            =  []
+  { optATP            =  DefaultOpt []
   , optATPList        =  False
   , optFOF            =  False
   , optHelp           =  False
@@ -80,7 +86,12 @@ type MOptions = Options → Either Doc Options
 atpOpt ∷ String → MOptions
 atpOpt [] _ = Left $
   pretty "option " <> squotes "--atp" <> pretty " requires an argument NAME"
-atpOpt name opts = Right opts { optATP = nub $ optATP opts ++ [name] }
+atpOpt name opts = Right opts { optATP = CommandOpt atps }
+  where
+    atps ∷ [String]
+    atps = case optATP opts of
+      CommandOpt old → nub $ old ++ [name]
+      DefaultOpt _   → [name]
 
 atpListOpt ∷ MOptions
 atpListOpt opts = Right opts { optATPList = True }

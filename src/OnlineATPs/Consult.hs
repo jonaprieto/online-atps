@@ -36,7 +36,7 @@ import           Network.HTTP.Client      (defaultManagerSettings, httpLbs,
                                            newManager, parseRequest,
                                            responseBody, urlEncodedBody)
 import           OnlineATPs.Defaults      (getDefaults)
-import           OnlineATPs.Options       (Options (..))
+import           OnlineATPs.Options       (getManageOpt, Options (..))
 import           OnlineATPs.SystemATP     (SystemATP (..), isFOFATP,
                                            setTimeLimit)
 import           OnlineATPs.SystemOnTPTP  (SystemOnTPTP (..),
@@ -225,7 +225,7 @@ getSystemOnTPTP opts = do
   atps ∷ [SystemATP]  ← getOnlineATPs opts
 
   let listATPs ∷ [SystemATP]
-      listATPs = map (getSystemATPWith atps) (optATP opts)
+      listATPs = map (getSystemATPWith atps) (getManageOpt (optATP opts))
 
   let time ∷ String
       time = show $ optTime opts
