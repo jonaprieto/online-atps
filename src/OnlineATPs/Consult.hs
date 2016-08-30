@@ -1,5 +1,6 @@
 
 -- | Consult the TPTP World web services
+{-# LANGUAGE CPP                 #-}
 {-# OPTIONS_GHC -fno-warn-incomplete-record-updates #-}
 {-# LANGUAGE MultiWayIf          #-}
 {-# LANGUAGE ScopedTypeVariables #-}
@@ -14,9 +15,14 @@ module OnlineATPs.Consult
   , Msg
   ) where
 
-
 import           Control.Arrow            ((***))
-import           Control.Monad.IO.Class   (liftIO)
+
+#if __GLASGOW_HASKELL__ <= 710
+import           Control.Monad.Reader     (MonadIO (liftIO))
+#else
+import           Control.Monad.IO.Class   (MonadIO (liftIO))
+#endif
+
 import           Data.ByteString.Internal (packChars)
 import qualified Data.ByteString.Lazy     as L
 import           Data.Char                (toLower)
@@ -226,7 +232,7 @@ getSystemOnTPTP opts = do
       time = show $ optTime opts
 
   let setATPs ∷ [SystemATP]
-      setATPs = map (\p → setTimeLimit p time) listATPs
+      setATPs = map (`setTimeLimit` time) listATPs
 
   defaults ∷ SystemOnTPTP ← getDefaults
 
