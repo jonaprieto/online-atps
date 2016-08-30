@@ -7,7 +7,7 @@
 module OnlineATPs.Utils.Version ( progNameVersion ) where
 
 
-import           Data.Char          (toUpper)
+-- import           Data.Char          (toUpper)
 -- import           Data.Version       (showVersion)
 -- import           Paths_onlineatps   (version)
 -- import           System.Environment (getProgName)

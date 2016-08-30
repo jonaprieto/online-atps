@@ -225,7 +225,10 @@ getSystemOnTPTP opts = do
   atps ∷ [SystemATP]  ← getOnlineATPs opts
 
   let listATPs ∷ [SystemATP]
-      listATPs = map (getSystemATPWith atps) (getManageOpt (optATP opts))
+      listATPs =
+        if optWithAll opts
+          then atps
+          else  map (getSystemATPWith atps) (getManageOpt (optATP opts))
 
   let time ∷ String
       time = show $ optTime opts

@@ -20,6 +20,7 @@ module OnlineATPs.Options
     , optTime
     , optVersion
     , optVersionATP
+    , optWithAll -- Test against all ATPs
     )
   , printUsage
   , processOptions
@@ -62,21 +63,22 @@ data Options = Options
   , optTime           ∷ Int
   , optVersion        ∷ Bool
   , optVersionATP     ∷ String
+  , optWithAll        ∷ Bool
   }
-  deriving Show
 
 
 defaultOptions ∷ Options
 defaultOptions = Options
-  { optATP            =  DefaultOpt []
-  , optATPList        =  False
-  , optFOF            =  False
-  , optHelp           =  False
-  , optInputFile      =  Nothing
-  , optOnlyCheck      =  False
-  , optTime           =  240
-  , optVersion        =  False
-  , optVersionATP     =  ""
+  { optATP            = DefaultOpt []
+  , optATPList        = False
+  , optFOF            = False
+  , optHelp           = False
+  , optInputFile      = Nothing
+  , optOnlyCheck      = False
+  , optTime           = 240
+  , optVersion        = False
+  , optVersionATP     = ""
+  , optWithAll        = False
   }
 
 
@@ -129,6 +131,9 @@ versionATPOpt [] _ = Left $
   pretty "option " <> squotes "--version-atp" <> pretty " requires an argument NAME"
 versionATPOpt name opts = Right opts { optVersionATP = name }
 
+withAllOpt ∷ MOptions
+withAllOpt opts = Right opts { optWithAll = True }
+
 -- -- | Description of the command-line 'Options'.
 options ∷ [OptDescr MOptions]
 options =
@@ -148,6 +153,8 @@ options =
                "Show version number"
   , Option []  ["version-atp"] (ReqArg versionATPOpt "NAME")
                "Show version of the atp NAME"
+  , Option []  ["with-all"] (NoArg withAllOpt)
+               "Use all ATPs available"
   ]
 
 usageHeader ∷ String → String

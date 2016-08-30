@@ -85,7 +85,10 @@ main = do
           isFile ← doesFileExist file
           unless isFile $ die "the file doesn't exist"
 
-          _ ← case (getManageOpt (optATP opts)) of
+          let atps ∷ [String]
+              atps =  getManageOpt $ optATP opts
+
+          _ ← case atps of
             [] → die "missing --atp=NAME (try --help)"
             o  → return o
 
