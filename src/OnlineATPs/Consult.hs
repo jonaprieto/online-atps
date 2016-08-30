@@ -46,7 +46,6 @@ import           OnlineATPs.SystemOnTPTP  (SystemOnTPTP (..),
 import           Data.Maybe               (fromJust, isNothing)
 import           OnlineATPs.Urls          (urlSystemOnTPTP,
                                            urlSystemOnTPTPReply)
-import           System.IO                (readFile)
 import           Text.HTML.TagSoup
 
 

@@ -17,8 +17,8 @@ module OnlineATPs.Utils.Yaml
 
 import           Control.Applicative ((<|>))
 import           Data.Aeson          as YAP (withObject)
-import           Data.Aeson.Types    as YAP
-import           Data.Text           as T
+import           Data.Aeson.Types    as YAP (camelTo2)
+import qualified Data.Text           as T
 import           Data.Yaml           as YAP
 import           Data.Yaml.Include   as YamlInclude
 
