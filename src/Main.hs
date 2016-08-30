@@ -73,20 +73,19 @@ main = do
       | not (null $ optVersionATP opts) → do
           atp ∷ SystemATP  ← getSystemATP opts
           case atp of
-            NoSystemATP → putStrLn "Unknown ATP name. Check --list-atps" >> exitFailure
-            _           → putStrLn ( getNameVersion atp ) >> exitSuccess
-
+            NoSystemATP → die "unknown ATP name. Check --list-atps"
+            _           → putStrLn (getNameVersion atp) >> exitSuccess
       | otherwise → do
 
           file ← case optInputFile opts of
-            Nothing → putStrLn "Missing input file (try --help)" >> exitFailure
+            Nothing → die "missing input file (try --help)"
             Just f  → return f
 
           isFile ← doesFileExist file
-          unless isFile $ putStrLn "The file doesn't exist" >> exitFailure
+          unless isFile $ die "the file doesn't exist"
 
           _ ← case optATP opts of
-            [] → putStrLn "Missing --atp=NAME (try --help)" >> exitFailure
+            [] → die "missing --atp=NAME (try --help)"
             o  → return o
 
           form ∷ Either Msg SystemOnTPTP ← getSystemOnTPTP opts

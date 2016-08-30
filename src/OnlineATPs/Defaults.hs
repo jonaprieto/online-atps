@@ -17,7 +17,7 @@ import           Data.Maybe
 import           OnlineATPs.SystemATP    (SystemATP (..))
 import           OnlineATPs.SystemOnTPTP (SystemOnTPTP (..))
 import           OnlineATPs.Utils.Yaml
-import           Paths_onlineatps        (getDataFileName)
+-- import           Paths_onlineatps        (getDataFileName)
 import           Prelude                 hiding (lookup)
 import           System.Directory        (doesFileExist, getCurrentDirectory,
                                           getHomeDirectory)
@@ -70,8 +70,8 @@ onlineatpsTemplate ∷ FilePath
 onlineatpsTemplate = "onlineatps.yml"
 
 -- -- Uncomment this to use ghcid
--- getDataFileName ∷ FilePath → IO FilePath
--- getDataFileName path = return $ "./data" </> path
+getDataFileName ∷ FilePath → IO FilePath
+getDataFileName path = return $ "./data" </> path
 
 combineConfigs ∷ [Object] → Parser SystemOnTPTP
 combineConfigs configs  =  do
