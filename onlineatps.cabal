@@ -102,7 +102,7 @@ executable onlineatps
 
   -- The following option generates warnings with GHC 7.10.1.
   if impl(ghc < 7.10)
-     ghc-options: -fwarn-auto-orphans
+     ghc-options: -fno-warn-auto-orphans
 
   if impl(ghc >= 7.10)
      ghc-options: -fwarn-deriving-typeable

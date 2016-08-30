@@ -1,7 +1,8 @@
 
 -- | Consult the TPTP World web services
-{-# LANGUAGE CPP                 #-}
 {-# OPTIONS_GHC -fno-warn-incomplete-record-updates #-}
+
+{-# LANGUAGE CPP                 #-}
 {-# LANGUAGE MultiWayIf          #-}
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE UnicodeSyntax       #-}
@@ -15,8 +16,8 @@ module OnlineATPs.Consult
   , Msg
   ) where
 
+import           Control.Applicative      ((<$>))
 import           Control.Arrow            ((***))
-
 #if __GLASGOW_HASKELL__ <= 710
 import           Control.Monad.Reader     (MonadIO (liftIO))
 #else
