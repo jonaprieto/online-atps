@@ -72,9 +72,6 @@ executable onlineatps
                   -fwarn-incomplete-record-updates
                   -fwarn-incomplete-uni-patterns
                   -fwarn-missing-fields
-                  -- 18 July 2014. We cannot enable this option
-                  -- because we are using the Paths_apia module.
-                  -- -fwarn-missing-import-lists
                   -fwarn-missing-methods
                   -fwarn-missing-signatures
                   -fwarn-monomorphism-restriction
@@ -131,11 +128,6 @@ executable onlineatps
                  -Wunrecognised-warning-flags
                  -Wunused-foralls
 
-  -- From Agda.cabal: If someone installs Agda with the setuid bit
-  -- set, then the presence of +RTS may be a security problem (see GHC
-  -- bug #3910). However, we sometimes recommend people to use +RTS
-  -- to control Agda's memory usage, so we want this functionality
-  -- enabled by default.
   ghc-options: -rtsopts
 
   ghc-prof-options: -fprof-auto
