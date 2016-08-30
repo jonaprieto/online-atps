@@ -6,8 +6,8 @@
 {-# LANGUAGE UnicodeSyntax #-}
 
 module OnlineATPs.Options
-  (
-    options
+  ( getManageOpt
+  , options
   , MOptions  -- Required by Haddock.
   , Options
     ( Options --Improve Haddock information.
@@ -20,6 +20,7 @@ module OnlineATPs.Options
     , optTime
     , optVersion
     , optVersionATP
+    , optWithAll -- Test against all ATPs
     )
   , printUsage
   , processOptions
@@ -44,10 +45,16 @@ import           System.Environment           (getProgName)
 
 -- #include "undefined.h"
 
+data ManageOption a = DefaultOpt a | CommandOpt a
+
+getManageOpt ∷ ManageOption a → a
+getManageOpt (DefaultOpt val) = val
+getManageOpt (CommandOpt val) = val
+
 
 -- | Program command-line options.
 data Options = Options
-  { optATP            ∷ [String]
+  { optATP            ∷ ManageOption [String]
   , optATPList        ∷ Bool
   , optFOF            ∷ Bool
   , optHelp           ∷ Bool
@@ -56,21 +63,22 @@ data Options = Options
   , optTime           ∷ Int
   , optVersion        ∷ Bool
   , optVersionATP     ∷ String
+  , optWithAll        ∷ Bool
   }
-  deriving Show
 
 
 defaultOptions ∷ Options
 defaultOptions = Options
-  { optATP            =  []
-  , optATPList        =  False
-  , optFOF            =  False
-  , optHelp           =  False
-  , optInputFile      =  Nothing
-  , optOnlyCheck      =  False
-  , optTime           =  240
-  , optVersion        =  False
-  , optVersionATP     =  ""
+  { optATP            = DefaultOpt []
+  , optATPList        = False
+  , optFOF            = False
+  , optHelp           = False
+  , optInputFile      = Nothing
+  , optOnlyCheck      = False
+  , optTime           = 240
+  , optVersion        = False
+  , optVersionATP     = ""
+  , optWithAll        = False
   }
 
 
@@ -80,7 +88,12 @@ type MOptions = Options → Either Doc Options
 atpOpt ∷ String → MOptions
 atpOpt [] _ = Left $
   pretty "option " <> squotes "--atp" <> pretty " requires an argument NAME"
-atpOpt name opts = Right opts { optATP = nub $ optATP opts ++ [name] }
+atpOpt name opts = Right opts { optATP = CommandOpt atps }
+  where
+    atps ∷ [String]
+    atps = case optATP opts of
+      CommandOpt old → nub $ old ++ [name]
+      DefaultOpt _   → [name]
 
 atpListOpt ∷ MOptions
 atpListOpt opts = Right opts { optATPList = True }
@@ -118,6 +131,9 @@ versionATPOpt [] _ = Left $
   pretty "option " <> squotes "--version-atp" <> pretty " requires an argument NAME"
 versionATPOpt name opts = Right opts { optVersionATP = name }
 
+withAllOpt ∷ MOptions
+withAllOpt opts = Right opts { optWithAll = True }
+
 -- -- | Description of the command-line 'Options'.
 options ∷ [OptDescr MOptions]
 options =
@@ -137,6 +153,8 @@ options =
                "Show version number"
   , Option []  ["version-atp"] (ReqArg versionATPOpt "NAME")
                "Show version of the atp NAME"
+  , Option []  ["with-all"] (NoArg withAllOpt)
+               "Use all ATPs available"
   ]
 
 usageHeader ∷ String → String
