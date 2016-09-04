@@ -31,7 +31,7 @@ executable onlineatps
                 , base >= 4.6.0.1 && < 4.10
                 , bytestring >= 0.10.0.2 && < 0.11
                 , containers >= 0.5.0.0 && < 0.6
-                , cpphs >=1.19 && < 2.0
+                --, cpphs >=1.18 && < 2.0
                 , deepseq >= 1.3.0 && < 1.5
                 , directory >= 1.2.0.1 && < 1.3
                 , filepath >= 1.3.0.1 && < 1.5
@@ -62,7 +62,7 @@ executable onlineatps
     OnlineATPs.Utils.Yaml
     Paths_onlineatps
 
-  build-tools: cpphs >= 1.19
+  -- build-tools: cpphs >= 1.19
 
   ghc-options: -w
                -Werror
@@ -137,6 +137,6 @@ executable onlineatps
                  -Wunrecognised-warning-flags
                  -Wunused-foralls
 
-  ghc-options: -rtsopts
+  -- ghc-options: -rtsopts
 
-  ghc-prof-options: -fprof-auto
+  -- ghc-prof-options: -fprof-auto
