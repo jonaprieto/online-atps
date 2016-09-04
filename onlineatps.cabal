@@ -56,6 +56,7 @@ executable onlineatps
     OnlineATPs.SystemOnTPTP
     OnlineATPs.Urls
     OnlineATPs.Utils.Monad
+    OnlineATPs.Utils.PrettyPrint
     OnlineATPs.Utils.Show
     OnlineATPs.Utils.Version
     OnlineATPs.Utils.Yaml
@@ -65,8 +66,6 @@ executable onlineatps
 
   ghc-options: -w
                -Werror
-               -- Using cpphs as the C preprocessor.
-               -pgmP cpphs -optP --cpp
 
   if impl(ghc >= 7.6)
      ghc-options: -fwarn-alternative-layout-rule-transitional
