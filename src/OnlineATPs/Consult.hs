@@ -16,7 +16,10 @@ module OnlineATPs.Consult
   , Msg
   ) where
 
+#if __GLASGOW_HASKELL__ == 708
 import           Control.Applicative      ((<$>))
+#endif
+
 import           Control.Arrow            ((***))
 #if __GLASGOW_HASKELL__ <= 710
 import           Control.Monad.Reader     (MonadIO (liftIO))
