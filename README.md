@@ -1,4 +1,4 @@
-# OnlineATPs
+# OnlineATPs [![Build Status](https://travis-ci.org/jonaprieto/OnlineATPs.svg?branch=new_travis)](https://travis-ci.org/jonaprieto/OnlineATPs)
 
   OnlineATPs connects to
   [SystemOnTPTP](http://www.cs.miami.edu/~tptp/cgi-bin/SystemOnTPTP)
@@ -88,3 +88,4 @@
   Check the first example in `examples/.onlineatps`. Nowadays, only the form
   data that the program sends to SystemOnTPTP can change using this file. It is
   missing the parameters of the command line.
+
