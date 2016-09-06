@@ -1,0 +1,28 @@
+\usetheme{sthlm}
+%\usecolortheme{sthlmv42}
+
+%-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+%        LOADING PACKAGES
+%-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+\usepackage[utf8]{inputenc}
+
+\usepackage{chronology}
+
+\renewcommand{\event}[3][e]{%
+  \pgfmathsetlength\xstop{(#2-\theyearstart)*\unit}%
+  \ifx #1e%
+    \draw[fill=black,draw=none,opacity=0.5]%
+      (\xstop, 0) circle (.2\unit)%
+      node[opacity=1,rotate=45,right=.2\unit] {#3};%
+  \else%
+    \pgfmathsetlength\xstart{(#1-\theyearstart)*\unit}%
+    \draw[fill=black,draw=none,opacity=0.5,rounded corners=.1\unit]%
+      (\xstart,-.1\unit) rectangle%
+      node[opacity=1,rotate=45,right=.2\unit] {#3} (\xstop,.1\unit);%
+  \fi}%
+
+%-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+%        BEAMER OPTIONS
+%-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+%\setbeameroption{show notes}
