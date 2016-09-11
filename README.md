@@ -1,4 +1,4 @@
-# OnlineATPs [![Build Status](https://travis-ci.org/jonaprieto/OnlineATPs.svg?branch=new_travis)](https://travis-ci.org/jonaprieto/OnlineATPs)
+# OnlineATPs [![Build Status](https://travis-ci.org/jonaprieto/onlineatps.svg?branch=master)](https://travis-ci.org/jonaprieto/onlineatps)
 
   OnlineATPs connects to
   [SystemOnTPTP](http://www.cs.miami.edu/~tptp/cgi-bin/SystemOnTPTP)
@@ -84,7 +84,7 @@
 
 #### YAML Configuration
 
-  For use a YAML file configuration, use the name `. onlineatps`.
+  For use a YAML file configuration, use the name `.onlineatps`.
   Check the first example in `examples/.onlineatps`. Nowadays, only the form
   data that the program sends to SystemOnTPTP can change using this file. It is
   missing the parameters of the command line.
