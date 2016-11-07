@@ -81,11 +81,4 @@
 
   Note that we can specify the ATP with both names, "vampire" or just
   "online-vampire".
-
-#### YAML Configuration
-
-  For use a YAML file configuration, use the name `.onlineatps`.
-  Check the first example in `examples/.onlineatps`. Nowadays, only the form
-  data that the program sends to SystemOnTPTP can change using this file. It is
-  missing the parameters of the command line.
-
+  
