@@ -7,7 +7,7 @@
 
 #### Requirement
 
-Install `cabal` to install effectively Online ATPs.
+Install the last version of `cabal` tool.
 
 ````bash
 $ cabal update
@@ -59,7 +59,7 @@ fof(a4,conjecture,z).
 
 using the ATP [Vampire](http://www.vprover.org):
 
-````bash
+````
 $ onlineatps examples/basic.tptp --atp=vampire
 % SZS start RequiredInformation
 % Congratulations - you have become a registered power user of SystemOnTPTP,
