@@ -17,7 +17,7 @@ import           Data.Maybe
 import           OnlineATPs.SystemATP    (SystemATP (..))
 import           OnlineATPs.SystemOnTPTP (SystemOnTPTP (..))
 import           OnlineATPs.Utils.Yaml
-import           Paths_onlineatps        (getDataFileName)
+import           Paths_online_atps        (getDataFileName)
 import           Prelude                 hiding (lookup)
 import           System.Directory        (doesFileExist, getCurrentDirectory,
                                           getHomeDirectory)
