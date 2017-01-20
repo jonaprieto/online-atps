@@ -26,7 +26,7 @@ matrix:
       compiler: ": #GHC 8.0.1"
       addons: {apt: {packages: [cabal-install-1.24,ghc-8.0.1], sources: [hvr-ghc]}}
     - env: CABALVER=1.24 GHCVER=8.0.2
-      compiler: ": #GHC 8.0.1"
+      compiler: ": #GHC 8.0.2"
       addons: {apt: {packages: [cabal-install-1.24,ghc-8.0.2], sources: [hvr-ghc]}}
 
 
@@ -37,6 +37,7 @@ before_install:
 install:
  - cabal --version
  - cabal update
+ - cabal install cabal-install
  - echo "$(ghc --version) [$(ghc --print-project-git-commit-id 2> /dev/null || echo '?')]"
  - if [ -f $HOME/.cabal/packages/hackage.haskell.org/00-index.tar.gz ];
    then

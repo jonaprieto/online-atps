@@ -1,8 +1,9 @@
 
 -- | Check the output looking for a theorem
 
-{-# LANGUAGE UnicodeSyntax #-}
 {-# LANGUAGE ScopedTypeVariables #-}
+{-# LANGUAGE UnicodeSyntax       #-}
+
 
 module OnlineATPs.CheckOutput
   ( checkOnlineATPOutput
