@@ -1,14 +1,14 @@
-name:          onlineatps
-version:       0.1.0
+name:          online-atps
+version:       0.1.1
 build-type:    Simple
-cabal-version: >= 1.8
+cabal-version: >= 1.10
 author:        Jonathan Prieto-Cubides
 license:       MIT
 license-file:  LICENSE
 maintainer:    Jonathan Prieto-Cubides <jprieto9@eafit.edu.co>
 category:      Dependent types
-homepage:      https://github.com/jonaprieto/onlineatps
-bug-reports:   https://github.com/jonaprieto/onlineatps/issues/
+homepage:      https://github.com/jonaprieto/online-atps
+bug-reports:   https://github.com/jonaprieto/online-atps/issues/
 synopsis:      A web interface for the ATPs
 tested-with:   GHC == 7.6.3, GHC == 7.8.4, GHC == 7.10.3, GHC == 8.0.1
 description:
@@ -17,13 +17,13 @@ description:
 
 extra-source-files: README.md
 data-dir:   src/data
-data-files: onlineatps.yml
+data-files: online-atps.yml
 
 source-repository head
   type:     git
-  location: git://github.com/jonaprieto/onlineatps.git
+  location: git://github.com/jonaprieto/online-atps.git
 
-executable onlineatps
+executable online-atps
   main-is:        Main.hs
   hs-source-dirs: src
   include-dirs:   src/OnlineATPs
@@ -60,7 +60,7 @@ executable onlineatps
     OnlineATPs.Utils.Show
     OnlineATPs.Utils.Version
     OnlineATPs.Utils.Yaml
-    Paths_onlineatps
+    Paths_online_atps
 
   -- build-tools: cpphs >= 1.19
 
