@@ -67,7 +67,10 @@ matrix:
 
 before_install:
  - unset CC
- - export PATH=/opt/ghc/$GHCVER/bin:/opt/cabal/$CABALVER/bin:$PATH
+ - export MY_HOME=${HOME}/build/jonaprieto
+ - mkdir ${MY_HOME}/bin
+ - export PATH=${MY_HOME}/bin:/opt/ghc/${GHC_VER}/bin:/opt/cabal/${CABAL_VER}/bin:/opt/alex/3.1.7/bin:/opt/happy/1.19.5/bin:${PATH}
+
 
 install:
  - cabal --version
