@@ -1,0 +1,81 @@
+# --help
+../../dist/build/online-atps/online-atps --help
+<<<
+>>>
+Usage: online-atps [OPTIONS] FILE
+
+    --atp=NAME          Set the ATP (online-e, online-vampire, online-z3, ...)
+    --fof               Only use ATP for FOF
+    --help              Show this help
+    --list-atps         Consult all ATPs available in TPTP World
+    --only-check        Only checks the output looking for a theorem.
+    --time=NUM          Set timeout for the ATPs in seconds (default: 300)
+    --version           Show version number
+    --version-atp=NAME  Show version of the atp NAME
+    --with-all          Use all ATPs available
+
+>>>2
+>>>= 0
+
+# version
+../../dist/build/online-atps/online-atps --version
+>>>
+Online-atps version 0.1.1
+>>>2
+>>>= 0
+
+# missing the argument atp
+../../dist/build/online-atps/online-atps basic.tptp
+<<<
+>>>
+>>>2
+online-atps: missing --atp=NAME (try --help)
+>>>= 1
+
+# proving a basic one
+../../dist/build/online-atps/online-atps basic.tptp --atp=e --only-check
+<<<
+>>>
+Theorem
+>>>2
+>>>= 0
+
+# saving the list of all atps
+../../dist/build/online-atps/online-atps basic.tptp --list-atps > atps.txt
+<<<
+>>>
+>>>2
+>>>= 0
+
+awk '/\([0-9]+\) ATPs available/{print substr($0, 6)}' atps.txt
+<<<
+>>>
+ATPs available
+>>>2
+>>>= 0
+
+# check E
+awk '/\[Z3\]/{print}' atps.txt
+<<<
+>>>
+[Z3]
+>>>2
+>>>= 0
+
+# check Z3
+awk '/\[CVC4\]/ || /\[E\]/ || /\[Metis\]/ || /\[SPASS\]/ || /\[Vampire\]/ || /\[Z3\]/ {print}' atps.txt
+<<<
+>>>
+[CVC4]
+[CVC4]
+[CVC4]
+[CVC4]
+[E]
+[Metis]
+[SPASS]
+[Vampire]
+[Vampire]
+[Z3]
+>>>2
+>>>= 0
+

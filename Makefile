@@ -2,7 +2,7 @@ SHELL := /bin/bash
 
 
 output_dir  = /tmp/online_atps
-errors_path = test/errors
+tests_path = test/basics
 
 
 OnlineATPs = dist/build/online-atps/online-atps
@@ -10,7 +10,7 @@ OnlineATPs = dist/build/online-atps/online-atps
 
 .PHONY : errors
 errors :
-	shelltest --color --execdir --precise  $(errors_path)/errors.test
+	shelltest --color --execdir --precise  $(tests_path)/basics.test
 	@echo "$@ succeeded!"
 
 
@@ -53,6 +53,7 @@ TODO :
 clean :
 	find . -type f -name '*.hi' -delete
 	find . -type f -name '*.o' -delete
+	find . -type f -name 'atps.txt' -delete
 	rm -f -r $(output_dir)
 
 .PHONY : tests
