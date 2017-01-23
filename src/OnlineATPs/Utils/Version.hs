@@ -1,5 +1,6 @@
 
 -- | Utilities related to representation of versions.
+-- Adapted from @Apia.Utils.Version
 
 {-# LANGUAGE CPP           #-}
 {-# LANGUAGE UnicodeSyntax #-}
@@ -7,10 +8,10 @@
 module OnlineATPs.Utils.Version ( progNameVersion ) where
 
 
-import           Data.Char          (toUpper)
-import           Data.Version       (showVersion)
-import           Paths_online_atps   (version)
-import           System.Environment (getProgName)
+import Data.Char          ( toUpper )
+import Data.Version       ( showVersion )
+import Paths_online_atps  ( version )
+import System.Environment ( getProgName )
 
 
 toUpperFirst ∷ String → String

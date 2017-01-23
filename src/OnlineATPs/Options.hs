@@ -1,6 +1,5 @@
 
 -- | Process the command-line arguments.
--- Adapted from @Apia.Options
 
 {-# LANGUAGE CPP           #-}
 {-# LANGUAGE UnicodeSyntax #-}
@@ -26,27 +25,30 @@ module OnlineATPs.Options
   , processOptions
   ) where
 
-import           Data.Char                    (isDigit)
-import           Data.List                    (foldl', nub)
-import           OnlineATPs.Utils.PrettyPrint (Doc, Pretty (pretty), squotes,
-                                               (<>))
--- import Safe ( initDef )
-import System.Console.GetOpt
-  (
-    ArgDescr(NoArg, ReqArg)
-  , ArgOrder(ReturnInOrder)
-  , getOpt
-  , OptDescr(Option)
-  , usageInfo
+import Data.Char ( isDigit )
+import Data.List ( foldl', nub )
+
+import OnlineATPs.Utils.PrettyPrint
+  ( Doc
+  , Pretty ( pretty )
+  , squotes
+  , (<>)
   )
 
-import           System.Environment           (getProgName)
+import System.Console.GetOpt
+  (
+    ArgDescr ( NoArg, ReqArg )
+  , ArgOrder ( ReturnInOrder )
+  , getOpt
+  , OptDescr ( Option )
+  , usageInfo
+  )
+import System.Environment ( getProgName )
 
-
--- #include "undefined.h"
 
 data ManageOption a = DefaultOpt a | CommandOpt a
 
+-- | TODO
 getManageOpt ∷ ManageOption a → a
 getManageOpt (DefaultOpt val) = val
 getManageOpt (CommandOpt val) = val
@@ -172,6 +174,6 @@ processOptionsHelper argv f defaults =
     (o, _, [])   → foldl' (>>=) (return defaults) o
     (_, _, errs) → Left $ pretty $ unlines errs
 
--- -- | Processing the command-line 'Options'.
+-- | Processing the command-line 'Options'.
 processOptions ∷ [String] → Either Doc Options
 processOptions argv = processOptionsHelper argv inputFileOpt defaultOptions

@@ -10,11 +10,12 @@ module OnlineATPs.Utils.Monad
   ) where
 
 
-import           OnlineATPs.Utils.PrettyPrint (Doc, prettyShow)
+import OnlineATPs.Utils.PrettyPrint ( Doc, prettyShow )
 
-import           System.Environment           (getProgName)
-import           System.Exit                  (exitFailure)
-import           System.IO                    (hPutStrLn, stderr)
+import System.Environment ( getProgName )
+import System.Exit        ( exitFailure )
+import System.IO          ( hPutStrLn, stderr )
+
 
 -- | Failure message.
 failureMsg ∷ Doc → IO ()

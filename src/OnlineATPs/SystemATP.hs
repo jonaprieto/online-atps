@@ -1,10 +1,11 @@
 
 -- | SystemOnATP data type
+
 {-# OPTIONS_GHC -fno-warn-incomplete-record-updates #-}
-{-# LANGUAGE OverloadedStrings   #-}
-{-# LANGUAGE RecordWildCards     #-}
-{-# LANGUAGE ScopedTypeVariables #-}
-{-# LANGUAGE UnicodeSyntax       #-}
+{-# LANGUAGE OverloadedStrings                      #-}
+{-# LANGUAGE RecordWildCards                        #-}
+{-# LANGUAGE ScopedTypeVariables                    #-}
+{-# LANGUAGE UnicodeSyntax                          #-}
 
 module OnlineATPs.SystemATP
   ( getDataSystemATP
@@ -28,11 +29,14 @@ module OnlineATPs.SystemATP
     )
   ) where
 
-import           Control.Applicative   ((<|>))
-import           Data.List             (intercalate, isInfixOf)
-import           OnlineATPs.Utils.Show (showListLn)
-import           OnlineATPs.Utils.Yaml
+import Control.Applicative   ( (<|>) )
+import Data.List             ( intercalate, isInfixOf )
 
+import OnlineATPs.Utils.Show ( showListLn )
+import OnlineATPs.Utils.Yaml
+
+
+-- | TODO
 data SystemATP = NoSystemATP | SystemATP
   { sysApplication ∷ String
   , sysCommand     ∷ String
@@ -58,6 +62,7 @@ instance FromJSON SystemATP where
     return SystemATP{..}
 
 
+-- | TODO
 msgErrorNoSystemATP ∷ String
 msgErrorNoSystemATP = "The system is not a valid ATP."
 
@@ -71,9 +76,13 @@ instance Show SystemATP where
     , "\n"
     ]
 
+
+-- | TODO
 getNameVersion ∷ SystemATP → String
 getNameVersion atp = sysName atp ++ "---" ++ sysVersion atp
 
+
+-- | TODO
 getDataSystemATP ∷ SystemATP → [(String, String)]
 getDataSystemATP NoSystemATP = []
 getDataSystemATP atp = [
@@ -87,20 +96,24 @@ getDataSystemATP atp = [
     label ∷ String
     label = getNameVersion atp
 
+-- | TODO
 isFOFATP ∷ SystemATP → Bool
 isFOFATP NoSystemATP = False
 isFOFATP atp         = isInfixOf "FOF" $ sysApplication atp
 
+-- | TODO
 onlineATPVersion ∷ SystemATP → String
 onlineATPVersion NoSystemATP = error msgErrorNoSystemATP
 onlineATPVersion atp         = sysVersion atp
 
+-- | TODO
 printListOnlineATPs ∷ [SystemATP] → IO ()
 printListOnlineATPs atps = do
   putStr $ showListLn atps
   putStrLn $ "(" ++ show (length atps) ++ ") ATPs available"
 
 
+-- | TODO
 setTimeLimit ∷ SystemATP → String → SystemATP
 setTimeLimit NoSystemATP _ = NoSystemATP
 setTimeLimit atp time = atp { sysTimeLimit = time }

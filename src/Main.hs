@@ -12,6 +12,12 @@ module Main
   ( main  -- Required by Haddock.
   ) where
 
+
+import Control.Monad              ( unless )
+
+import qualified Data.ByteString.Lazy       as L
+import qualified Data.ByteString.Lazy.Char8 as C
+
 import OnlineATPs.Consult
   ( getOnlineATPs
   , getResponseSystemOnTPTP
@@ -19,8 +25,7 @@ import OnlineATPs.Consult
   , getSystemOnTPTP
   , Msg
   )
-
-import OnlineATPs.CheckOutput (checkTheoremSync)
+import OnlineATPs.CheckOutput ( checkTheoremSync )
 import OnlineATPs.Options
   ( getManageOpt
   , Options
@@ -35,24 +40,19 @@ import OnlineATPs.Options
   , printUsage
   , processOptions
   )
-
 import OnlineATPs.SystemATP
-  ( SystemATP(..)
+  ( SystemATP (..)
   ,  printListOnlineATPs
   , getNameVersion
   )
+import OnlineATPs.SystemOnTPTP    ( SystemOnTPTP )
+import OnlineATPs.Utils.Monad     ( die )
+import OnlineATPs.Utils.Version   ( progNameVersion )
 
 
-import           OnlineATPs.SystemOnTPTP    (SystemOnTPTP)
-
-import           Control.Monad              (unless)
-import qualified Data.ByteString.Lazy       as L
-import qualified Data.ByteString.Lazy.Char8 as C
-import           OnlineATPs.Utils.Monad     (die)
-import           OnlineATPs.Utils.Version   (progNameVersion)
-import           System.Directory           (doesFileExist)
-import           System.Environment         (getArgs)
-import           System.Exit                (exitFailure, exitSuccess)
+import System.Directory           ( doesFileExist )
+import System.Environment         ( getArgs )
+import System.Exit                ( exitFailure, exitSuccess )
 
 main ∷ IO ()
 main = do

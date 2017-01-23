@@ -35,8 +35,10 @@ module OnlineATPs.SystemOnTPTP
   ) where
 
 
-import           OnlineATPs.SystemATP (SystemATP, getDataSystemATP)
+import OnlineATPs.SystemATP ( SystemATP, getDataSystemATP )
 
+
+-- | TODO
 data SystemOnTPTP = SystemOnTPTP
   { optAutoMode             ∷ String
   , optAutoModeSystemsLimit ∷ String
@@ -235,11 +237,16 @@ getters = [
   , getDataX2TPTP
   ]
 
+
+-- | TODO
 getDataSystemOnTPTP ∷ SystemOnTPTP → [(String, String)]
 getDataSystemOnTPTP spec = concatMap ($ spec) getters
 
+
+-- | TODO
 setFORMULAEProblem ∷ SystemOnTPTP → String → SystemOnTPTP
 setFORMULAEProblem spec content = spec { optFORMULAEProblem = content }
 
+-- | TODO
 setSystems ∷ SystemOnTPTP → [SystemATP] → SystemOnTPTP
 setSystems spec atps = spec { optSystems = atps }

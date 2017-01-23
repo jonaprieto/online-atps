@@ -12,13 +12,13 @@ module OnlineATPs
   ) where
 
 
-import  OnlineATPs.Consult
+import OnlineATPs.Consult
   ( getOnlineATPs
   , getSystemATP
   , getResponseSystemOnTPTP
   )
-import  OnlineATPs.Defaults  (defaultSystemATP)
-import  OnlineATPs.SystemATP
+import OnlineATPs.Defaults  ( defaultSystemATP )
+import OnlineATPs.SystemATP
   ( onlineATPOk
   , printListOnlineATPs
   )
