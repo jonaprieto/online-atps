@@ -1,6 +1,6 @@
 
 -- | Utilities related to representation of versions.
--- Adapted from @Apia.Utils.Version
+-- Adapted from @Apia.Utils.Version@
 
 {-# LANGUAGE CPP           #-}
 {-# LANGUAGE UnicodeSyntax #-}

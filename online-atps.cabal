@@ -13,7 +13,10 @@ category:      Dependent types
 homepage:      https://github.com/jonaprieto/online-atps
 bug-reports:   https://github.com/jonaprieto/online-atps/issues/
 synopsis:      A client for TPTP World and its ATPs
-tested-with:   GHC == 7.6.3, GHC == 7.8.4, GHC == 7.10.3, GHC == 8.0.2
+tested-with:   GHC == 7.6.3
+             , GHC == 7.8.4
+             , GHC == 7.10.3
+             , GHC == 8.0.2
 description:
   This package provides an interface to use the
   automatic theorem provers (ATPs) of TPTP World.

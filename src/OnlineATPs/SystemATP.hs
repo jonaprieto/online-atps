@@ -112,7 +112,6 @@ printListOnlineATPs atps = do
   putStr $ showListLn atps
   putStrLn $ "(" ++ show (length atps) ++ ") ATPs available"
 
-
 -- | TODO
 setTimeLimit ∷ SystemATP → String → SystemATP
 setTimeLimit NoSystemATP _ = NoSystemATP

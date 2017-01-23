@@ -242,7 +242,6 @@ getters = [
 getDataSystemOnTPTP ∷ SystemOnTPTP → [(String, String)]
 getDataSystemOnTPTP spec = concatMap ($ spec) getters
 
-
 -- | TODO
 setFORMULAEProblem ∷ SystemOnTPTP → String → SystemOnTPTP
 setFORMULAEProblem spec content = spec { optFORMULAEProblem = content }

@@ -30,19 +30,19 @@ import Data.Yaml.Include   as YamlInclude
 underscore ∷ T.Text → T.Text
 underscore field = T.pack $ camelTo2 '_' $ T.unpack field
 
--- | TODO 
+-- | TODO
 hypen ∷ T.Text → T.Text
 hypen field = T.pack $ camelTo2 '-' $T.unpack field
 
--- | TODO 
+-- | TODO
 lower ∷ T.Text → T.Text
 lower = T.toLower
 
--- | TODO 
+-- | TODO
 upper ∷ T.Text → T.Text
 upper = T.toUpper
 
--- | TODO 
+-- | TODO
 (.?.) :: FromJSON a => Object  → T.Text → Parser (Maybe a)
 x .?. field = x .:? field
   <|> x .:? underscore field
@@ -50,7 +50,7 @@ x .?. field = x .:? field
   <|> x .:? lower field
   <|> x .:? upper field
 
--- | TODO 
+-- | TODO
 (.:.) :: FromJSON a => Object  → T.Text → Parser a
 x .:. field = x .: field
   <|> x .: underscore field
@@ -58,7 +58,7 @@ x .:. field = x .: field
   <|> x .: lower field
   <|> x .: upper field
 
--- | TODO 
+-- | TODO
 (.@.) ∷ FromJSON a ⇒ [Object] → T.Text → Parser a
 []  .@. _ = fail  "failed. Expected at least one key-value"
 [x] .@. field = x .:. field
@@ -66,7 +66,7 @@ x .:. field = x .: field
   value ← x .?. field
   maybe (xs .@. field) return value
 
--- | TODO 
+-- | TODO
 loadYAML ∷ FilePath → IO (Maybe Object)
 loadYAML path = do
   decoded ← YamlInclude.decodeFileEither path

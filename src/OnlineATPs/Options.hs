@@ -136,7 +136,7 @@ versionATPOpt name opts = Right opts { optVersionATP = name }
 withAllOpt ∷ MOptions
 withAllOpt opts = Right opts { optWithAll = True }
 
--- -- | Description of the command-line 'Options'.
+-- | Description of the command-line 'Options'.
 options ∷ [OptDescr MOptions]
 options =
   [ Option []  ["atp"] (ReqArg atpOpt "NAME")

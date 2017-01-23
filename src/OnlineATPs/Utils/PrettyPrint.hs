@@ -1,6 +1,6 @@
 
 -- | Utilities for pretty printing.
--- Adapted from @Apia.Utils.PrettyPrint
+-- Adapted from @Apia.Utils.PrettyPrint@
 
 {-# LANGUAGE FlexibleInstances #-}
 {-# LANGUAGE UnicodeSyntax     #-}
