@@ -9,11 +9,13 @@ module OnlineATPs.Urls
   ) where
 
 
--- | TODO
+-- | This is the url address to send a form with the parameters
+-- and the problem to TPTP World.
 urlSystemOnTPTP ∷ String
 urlSystemOnTPTP = "http://www.cs.miami.edu/~tptp/cgi-bin/SystemOnTPTP"
 
 
--- | TODO
+-- | This is the url address that serves the response of a form sended
+-- before to the web form specified by the url address 'urlSystemOnTPTP'.
 urlSystemOnTPTPReply ∷ String
 urlSystemOnTPTPReply = "http://www.cs.miami.edu/~tptp/cgi-bin/SystemOnTPTPFormReply"

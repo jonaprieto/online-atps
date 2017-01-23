@@ -30,6 +30,11 @@ source-repository head
   type:     git
   location: git://github.com/jonaprieto/online-atps.git
 
+flag dev
+  description: when develop takes places.
+  default: False
+  manual: True
+
 executable online-atps
   main-is:        Main.hs
   hs-source-dirs: src
@@ -69,8 +74,6 @@ executable online-atps
     OnlineATPs.Utils.Yaml
     Paths_online_atps
 
-  ghc-options: -w
-               -Werror
 
   if impl(ghc >= 7.6)
      ghc-options: -fwarn-alternative-layout-rule-transitional
@@ -141,7 +144,6 @@ executable online-atps
                  -Wsemigroup
                  -Wunrecognised-warning-flags
                  -Wunused-foralls
-
-  -- ghc-options: -rtsopts
-
-  -- ghc-prof-options: -fprof-auto
+  if flag(dev)
+    ghc-options: -w
+                 -Werror

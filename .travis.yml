@@ -50,7 +50,6 @@ matrix:
           ]
           , sources: [hvr-ghc]}}
     - env: CABAL_VER=1.24 GHCVER=8.0.2
-      compiler: ": #GHC 8.0.2"
       addons: {apt:
         { packages : [
             alex-3.1.7

@@ -1,6 +1,6 @@
 # Online ATPs [![Build Status](https://travis-ci.org/jonaprieto/online-atps.svg?branch=master)](https://travis-ci.org/jonaprieto/online-atps)
 
-  Online ATPs is client for
+  Online ATPs is a client for
   [SystemOnTPTP](http://www.cs.miami.edu/~tptp/cgi-bin/SystemOnTPTP)
   that allows us to take advantage of using
   [ATPs](http://www.cs.miami.edu/~tptp/OverviewOfATP.html) without install any of them.
