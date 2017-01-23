@@ -10,7 +10,7 @@ OnlineATPs = dist/build/online-atps/online-atps
 
 .PHONY : errors
 errors :
-	:shelltest --color --execdir --precise  $(errors_path)/errors.test
+	shelltest --color --execdir --precise  $(errors_path)/errors.test
 	@echo "$@ succeeded!"
 
 
@@ -34,6 +34,15 @@ hlint :
 install-bin :
 	cabal install --disable-documentation
 
+.PHONY : install-fix-whitespace
+install-fix-whitespace :
+	cd src/fix-whitespace && cabal install
+
+
+.PHONY : check-whitespace
+check-whitespace :
+	fix-whitespace --check
+
 .PHONY : TODO
 TODO :
 	find . -type d \( -path './.git' -o -path './dist' \) -prune -o -print \
@@ -45,3 +54,11 @@ clean :
 	find . -type f -name '*.hi' -delete
 	find . -type f -name '*.o' -delete
 	rm -f -r $(output_dir)
+
+.PHONY : tests
+tests :
+	make errors
+	make hlint
+	make check-whitespace
+	make haddock
+	@echo "$@ succeeded!"
