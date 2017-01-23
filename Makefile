@@ -2,7 +2,7 @@ SHELL := /bin/bash
 
 
 output_dir  = /tmp/online_atps
-errors_path = test/fail/errors
+errors_path = test/errors
 
 
 OnlineATPs = dist/build/online-atps/online-atps
