@@ -2,7 +2,7 @@
 -- | online-atps.cabal
 
 name:          online-atps
-version:       0.1.1
+version:       0.1.1.3
 build-type:    Simple
 cabal-version: >= 1.18
 author:        Jonathan Prieto-Cubides
@@ -12,7 +12,7 @@ maintainer:    Jonathan Prieto-Cubides <jprieto9@eafit.edu.co>
 category:      Logic, Theorem Provers
 homepage:      https://github.com/jonaprieto/online-atps
 bug-reports:   https://github.com/jonaprieto/online-atps/issues/
-synopsis:      A client for TPTP World and its ATPs
+synopsis:      OnlineATPs is a command-line client for TPTP World and its ATPs.
 tested-with:   GHC == 7.6.3
              , GHC == 7.8.4
              , GHC == 7.10.3
