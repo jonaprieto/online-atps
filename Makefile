@@ -20,15 +20,8 @@ haddock :
 	cabal haddock --executables \
 	              --haddock-option=--use-unicode \
 	              --hyperlink-source \
+	              --for-hackage
 	@echo "$@ succeeded!"
-
-.PHONY : hlint
-hlint :
-	hlint --color=never Setup.hs
-	hlint --color=never \
-              --cpp-file=dist/build/autogen/cabal_macros.h \
-              --cpp-include=src/OnlineATPs/ \
-              src/
 
 .PHONY : install-bin
 install-bin :
