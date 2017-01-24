@@ -1,6 +1,6 @@
 
--- | OnlineATPs: A program for proving first-order theorems written in the
--- | TPTP format using SystemOnTPTP
+-- | OnlineATPs: A client to prove theorems written in the
+-- | TPTP format using the service SystemOnTPTP of TPTP World.
 
 {-# LANGUAGE MultiWayIf          #-}
 {-# LANGUAGE OverloadedStrings   #-}
@@ -54,6 +54,7 @@ import System.Directory           ( doesFileExist )
 import System.Environment         ( getArgs )
 import System.Exit                ( exitFailure, exitSuccess )
 
+-- | Main function.
 main ∷ IO ()
 main = do
   args ← getArgs

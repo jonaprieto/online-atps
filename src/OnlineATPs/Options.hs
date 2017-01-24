@@ -7,6 +7,7 @@
 module OnlineATPs.Options
   ( getManageOpt
   , options
+  , ManageOption
   , MOptions  -- Required by Haddock.
   , Options
     ( Options --Improve Haddock information.
@@ -45,10 +46,12 @@ import System.Console.GetOpt
   )
 import System.Environment ( getProgName )
 
-
+-- | 'ManageOption' handles the options from the defaults and the command
+-- line.
 data ManageOption a = DefaultOpt a | CommandOpt a
 
--- | TODO
+-- | The function 'getManageOpt' extracts the value from the
+-- 'Options.ManageOption' data type.
 getManageOpt ∷ ManageOption a → a
 getManageOpt (DefaultOpt val) = val
 getManageOpt (CommandOpt val) = val

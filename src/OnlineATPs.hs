@@ -1,5 +1,5 @@
 
--- | This module exports the main functions
+-- | This module exports the main functions of the package.
 
 {-# LANGUAGE UnicodeSyntax #-}
 

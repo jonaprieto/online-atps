@@ -1,5 +1,5 @@
 
--- | Check the output looking for a theorem
+-- | Check the output looking for a theorem.
 
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE UnicodeSyntax       #-}
@@ -25,12 +25,14 @@ import OnlineATPs.SystemOnTPTP ( SystemOnTPTP (..) )
 import qualified Data.ByteString.Lazy as L
 
 
--- | TODO
+-- | This function tries to find a string depending on the ATP and the
+-- second input, the output.
 checkOnlineATPOutput ∷ SystemATP → String → Bool
 checkOnlineATPOutput NoSystemATP _ = False
 checkOnlineATPOutput atp output    = onlineATPOk atp `isInfixOf` output
 
--- | TODO
+-- | Given a specification of the form for SystemOnTPTP, the function
+-- 'checkTheoremSync' performs the request and retrieves the answer.
 checkTheoremSync ∷ SystemOnTPTP → IO String
 checkTheoremSync spec  = do
 
@@ -43,7 +45,8 @@ checkTheoremSync spec  = do
       then return "Theorem"
       else return "No theorem"
 
--- | TODO
+-- | The function 'onlineATPOk' prints the name of the ATP who proved
+-- the theorem whenever ATP is different from 'NoSystemATP' value.
 onlineATPOk ∷ SystemATP → String
 onlineATPOk NoSystemATP = error msgErrorNoSystemATP
 onlineATPOk atp = getNameVersion atp ++ " says Theorem"

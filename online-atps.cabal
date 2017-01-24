@@ -33,7 +33,7 @@ source-repository head
 flag dev
   description: when develop takes places.
   default: False
-  manual: True
+  manual:  True
 
 executable online-atps
   main-is:        Main.hs

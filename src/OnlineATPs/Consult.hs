@@ -1,5 +1,5 @@
 
--- | Consult the TPTP World web services
+-- | Consult the TPTP World web services.
 
 {-# OPTIONS_GHC -fno-warn-incomplete-record-updates #-}
 {-# LANGUAGE CPP                                    #-}
@@ -62,7 +62,7 @@ import OnlineATPs.Urls          ( urlSystemOnTPTP, urlSystemOnTPTPReply )
 
 import Text.HTML.TagSoup
 
--- | TODO
+-- | Informative Message.
 type Msg = String
 
 getNameTag ∷ Tag String → String
@@ -169,7 +169,8 @@ tagsToSystemATP [tSys, tTime, tTrans, tFormat, tCmd, tApp] = newATP
       }
 tagsToSystemATP _  = NoSystemATP
 
--- | TODO
+-- | The function 'getOnlineATPs' returns a list of ATPs given some options
+-- using 'Options' type, and return the list using the 'SystemATP' type.
 getOnlineATPs ∷ Options → IO [SystemATP]
 getOnlineATPs opts = do
   tags ← canonicalizeTags . parseTags <$> openURL urlSystemOnTPTP
@@ -181,7 +182,9 @@ getOnlineATPs opts = do
     then return $ filter isFOFATP systems
     else return systems
 
--- | TODO
+-- | The function 'getSystemATPWith' choose from a list the ATP most accurate
+-- according to the name given in the second input. If there is not such a ATP,
+-- this method returns 'NoSystemATP'.
 getSystemATPWith ∷ [SystemATP] → String → SystemATP
 getSystemATPWith _ "" = NoSystemATP
 getSystemATPWith atps name =
@@ -192,7 +195,7 @@ getSystemATPWith atps name =
         Just atp → atp
         _        → NoSystemATP
 
--- | TODO
+-- | The function 'getSystemATP' tries to find an ATP given the specification -- from its input.
 getSystemATP ∷ Options → IO SystemATP
 getSystemATP opts =
   let name = optVersionATP opts in
@@ -213,11 +216,12 @@ getSystemATP opts =
           -- Future:
           -- The idea is when the name is not valid, we'll try to find
           -- the most similar ATP. We can do this using Levenstein
-          -- The HashMap is not  necesary yet. Anyway, I'll use it.
+          -- The HashMap is not  necessary yet. Anyway, I'll use it.
 
           return $ HashMap.lookupDefault NoSystemATP name mapATP
 
--- | TODO
+-- | The function 'getResponseSystemOnTPTP' performs a request to the TPTP
+-- World based on the form information of the input 'SystemOnTPTP'.
 getResponseSystemOnTPTP ∷ SystemOnTPTP → IO L.ByteString
 getResponseSystemOnTPTP spec = withSocketsDo $ do
   initReq ← parseRequest urlSystemOnTPTPReply
@@ -233,7 +237,7 @@ getResponseSystemOnTPTP spec = withSocketsDo $ do
     let response = responseBody res
     return response
 
--- | TODO
+-- | The function 'getSystemOnTPTP' reads some options including the problem file and it sends all this information to TPTP World.
 getSystemOnTPTP ∷ Options → IO (Either Msg SystemOnTPTP)
 getSystemOnTPTP opts = do
 

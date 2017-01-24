@@ -1,5 +1,5 @@
 
--- | Set the defaults fot the package
+-- | Default values for all options of the package.
 
 {-# LANGUAGE OverloadedStrings   #-}
 {-# LANGUAGE RecordWildCards     #-}
@@ -30,7 +30,8 @@ import System.Directory
   )
 import System.FilePath.Posix   ( (</>) )
 
--- | TODO
+-- | 'defaultSystemATP' provides the default settings for the ATP by
+-- default, Eprover 2.0.
 defaultSystemATP ∷ SystemATP
 defaultSystemATP = SystemATP
   { sysApplication = "Prover and model finder, for FOF CNF"
@@ -43,7 +44,7 @@ defaultSystemATP = SystemATP
   , sysVersion     = "2.0"
 }
 
--- | TODO
+-- | 'defaultSystemATP' stores the defaults options in the TPTP World.
 defaultSystemOnTPTP ∷ SystemOnTPTP
 defaultSystemOnTPTP = SystemOnTPTP
   { optAutoMode              = "-cE"

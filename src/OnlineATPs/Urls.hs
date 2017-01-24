@@ -1,5 +1,5 @@
 
--- | Provide the urls addreses for TPTP World
+-- | URL addresses of the TPTP website.
 
 {-# LANGUAGE UnicodeSyntax #-}
 

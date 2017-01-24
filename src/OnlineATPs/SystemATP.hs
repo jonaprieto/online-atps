@@ -1,5 +1,5 @@
 
--- | SystemOnATP data type
+-- | SystemOnATP data type.
 
 {-# OPTIONS_GHC -fno-warn-incomplete-record-updates #-}
 {-# LANGUAGE OverloadedStrings                      #-}
@@ -36,7 +36,7 @@ import OnlineATPs.Utils.Show ( showListLn )
 import OnlineATPs.Utils.Yaml
 
 
--- | TODO
+-- | The 'SystemATP' data type handle all information about one ATP.
 data SystemATP = NoSystemATP | SystemATP
   { sysApplication ∷ String
   , sysCommand     ∷ String
@@ -62,7 +62,7 @@ instance FromJSON SystemATP where
     return SystemATP{..}
 
 
--- | TODO
+-- | A error message when the ATP specified by the user is not correct.
 msgErrorNoSystemATP ∷ String
 msgErrorNoSystemATP = "The system is not a valid ATP."
 
@@ -77,12 +77,13 @@ instance Show SystemATP where
     ]
 
 
--- | TODO
+-- | Prints out the ATP jointly with its version in a standard format.
 getNameVersion ∷ SystemATP → String
 getNameVersion atp = sysName atp ++ "---" ++ sysVersion atp
 
 
--- | TODO
+-- | The function 'getDataSystemATP' returns a list of tuples providing
+-- the information need to send a request to TPTP World.
 getDataSystemATP ∷ SystemATP → [(String, String)]
 getDataSystemATP NoSystemATP = []
 getDataSystemATP atp = [
@@ -96,23 +97,25 @@ getDataSystemATP atp = [
     label ∷ String
     label = getNameVersion atp
 
--- | TODO
+-- | Check for ATP with First-Order Formulation capability.
 isFOFATP ∷ SystemATP → Bool
 isFOFATP NoSystemATP = False
 isFOFATP atp         = isInfixOf "FOF" $ sysApplication atp
 
--- | TODO
+-- | The method 'onlineATPVersion' outputs only the number or the string
+-- from the version of the ATP.
 onlineATPVersion ∷ SystemATP → String
 onlineATPVersion NoSystemATP = error msgErrorNoSystemATP
 onlineATPVersion atp         = sysVersion atp
 
--- | TODO
+-- | The function 'printListOnlineATPs' prints out a list with all ATPs
+-- available at the moment of the request.
 printListOnlineATPs ∷ [SystemATP] → IO ()
 printListOnlineATPs atps = do
   putStr $ showListLn atps
   putStrLn $ "(" ++ show (length atps) ++ ") ATPs available"
 
--- | TODO
+-- | Set up the time limit to get a response in the TPTP World.
 setTimeLimit ∷ SystemATP → String → SystemATP
 setTimeLimit NoSystemATP _ = NoSystemATP
 setTimeLimit atp time = atp { sysTimeLimit = time }

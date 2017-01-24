@@ -19,7 +19,8 @@ haddock :
 	cabal configure
 	cabal haddock --executables \
 	              --haddock-option=--use-unicode \
-	              --hyperlink-source
+	              --hyperlink-source \
+	              --for-hackage
 	@echo "$@ succeeded!"
 
 .PHONY : hlint

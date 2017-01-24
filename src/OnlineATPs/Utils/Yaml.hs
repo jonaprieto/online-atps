@@ -5,7 +5,7 @@
 {-# LANGUAGE UnicodeSyntax     #-}
 
 module OnlineATPs.Utils.Yaml
-  ( module YAP
+  ( module YAP -- #hide
   , (.:.)
   , (.?.)
   , (.@.)
