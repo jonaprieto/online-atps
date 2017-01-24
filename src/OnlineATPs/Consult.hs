@@ -1,11 +1,11 @@
 
--- | Consult the TPTP World web services
-{-# OPTIONS_GHC -fno-warn-incomplete-record-updates #-}
+-- | Consult the TPTP World web services.
 
-{-# LANGUAGE CPP                 #-}
-{-# LANGUAGE MultiWayIf          #-}
-{-# LANGUAGE ScopedTypeVariables #-}
-{-# LANGUAGE UnicodeSyntax       #-}
+{-# OPTIONS_GHC -fno-warn-incomplete-record-updates #-}
+{-# LANGUAGE CPP                                    #-}
+{-# LANGUAGE MultiWayIf                             #-}
+{-# LANGUAGE ScopedTypeVariables                    #-}
+{-# LANGUAGE UnicodeSyntax                          #-}
 
 module OnlineATPs.Consult
   ( getOnlineATPs
@@ -17,42 +17,52 @@ module OnlineATPs.Consult
   ) where
 
 #if __GLASGOW_HASKELL__ <= 708
-import           Control.Applicative      ((<$>))
+import Control.Applicative      ( (<$>) )
 #endif
 
-import           Control.Arrow            ((***))
+import Control.Arrow            ( (***) )
 #if __GLASGOW_HASKELL__ <= 710
-import           Control.Monad.Reader     (MonadIO (liftIO))
+import Control.Monad.Reader     ( MonadIO ( liftIO ) )
 #else
-import           Control.Monad.IO.Class   (MonadIO (liftIO))
+import Control.Monad.IO.Class   ( MonadIO ( liftIO ) )
 #endif
 
-import           Data.ByteString.Internal (packChars)
-import qualified Data.ByteString.Lazy     as L
-import           Data.Char                (toLower)
-import qualified Data.HashMap.Strict      as HashMap
-import           Data.List                (isPrefixOf)
-import           Data.List.Split          (splitOn)
-import           Network                  (withSocketsDo)
-import           Network.HTTP             (getRequest, getResponseBody,
-                                           simpleHTTP)
-import           Network.HTTP.Client      (defaultManagerSettings, httpLbs,
-                                           newManager, parseRequest,
-                                           responseBody, urlEncodedBody)
-import           OnlineATPs.Defaults      (getDefaults)
-import           OnlineATPs.Options       (getManageOpt, Options (..))
-import           OnlineATPs.SystemATP     (SystemATP (..), isFOFATP,
-                                           setTimeLimit)
-import           OnlineATPs.SystemOnTPTP  (SystemOnTPTP (..),
-                                           getDataSystemOnTPTP,
-                                           setFORMULAEProblem, setSystems)
-
-import           Data.Maybe               (fromJust, isNothing)
-import           OnlineATPs.Urls          (urlSystemOnTPTP,
-                                           urlSystemOnTPTPReply)
-import           Text.HTML.TagSoup
 
 
+import qualified Data.ByteString.Lazy as L
+import qualified Data.HashMap.Strict  as HashMap
+
+import Data.ByteString.Internal ( packChars )
+import Data.Char                ( toLower )
+import Data.List                ( isPrefixOf )
+import Data.List.Split          ( splitOn )
+import Data.Maybe               ( fromJust, isNothing )
+
+import Network             ( withSocketsDo )
+import Network.HTTP        ( getRequest, getResponseBody, simpleHTTP )
+import Network.HTTP.Client
+  ( defaultManagerSettings
+  , httpLbs
+  , newManager
+  , parseRequest
+  , responseBody
+  , urlEncodedBody
+  )
+
+import OnlineATPs.Defaults      ( getDefaults )
+import OnlineATPs.Options       ( getManageOpt, Options (..) )
+import OnlineATPs.SystemATP     ( SystemATP (..), isFOFATP, setTimeLimit )
+import OnlineATPs.SystemOnTPTP
+  ( SystemOnTPTP (..)
+  , getDataSystemOnTPTP
+  , setFORMULAEProblem
+  , setSystems
+  )
+import OnlineATPs.Urls          ( urlSystemOnTPTP, urlSystemOnTPTPReply )
+
+import Text.HTML.TagSoup
+
+-- | Informative Message.
 type Msg = String
 
 getNameTag ∷ Tag String → String
@@ -159,7 +169,8 @@ tagsToSystemATP [tSys, tTime, tTrans, tFormat, tCmd, tApp] = newATP
       }
 tagsToSystemATP _  = NoSystemATP
 
-
+-- | The function 'getOnlineATPs' returns a list of ATPs given some options
+-- using 'Options' type, and return the list using the 'SystemATP' type.
 getOnlineATPs ∷ Options → IO [SystemATP]
 getOnlineATPs opts = do
   tags ← canonicalizeTags . parseTags <$> openURL urlSystemOnTPTP
@@ -171,7 +182,9 @@ getOnlineATPs opts = do
     then return $ filter isFOFATP systems
     else return systems
 
-
+-- | The function 'getSystemATPWith' choose from a list the ATP most accurate
+-- according to the name given in the second input. If there is not such a ATP,
+-- this method returns 'NoSystemATP'.
 getSystemATPWith ∷ [SystemATP] → String → SystemATP
 getSystemATPWith _ "" = NoSystemATP
 getSystemATPWith atps name =
@@ -182,7 +195,7 @@ getSystemATPWith atps name =
         Just atp → atp
         _        → NoSystemATP
 
-
+-- | The function 'getSystemATP' tries to find an ATP given the specification -- from its input.
 getSystemATP ∷ Options → IO SystemATP
 getSystemATP opts =
   let name = optVersionATP opts in
@@ -203,10 +216,12 @@ getSystemATP opts =
           -- Future:
           -- The idea is when the name is not valid, we'll try to find
           -- the most similar ATP. We can do this using Levenstein
-          -- The HashMap is not  necesary yet. Anyway, I'll use it.
+          -- The HashMap is not  necessary yet. Anyway, I'll use it.
 
           return $ HashMap.lookupDefault NoSystemATP name mapATP
 
+-- | The function 'getResponseSystemOnTPTP' performs a request to the TPTP
+-- World based on the form information of the input 'SystemOnTPTP'.
 getResponseSystemOnTPTP ∷ SystemOnTPTP → IO L.ByteString
 getResponseSystemOnTPTP spec = withSocketsDo $ do
   initReq ← parseRequest urlSystemOnTPTPReply
@@ -222,7 +237,7 @@ getResponseSystemOnTPTP spec = withSocketsDo $ do
     let response = responseBody res
     return response
 
-
+-- | The function 'getSystemOnTPTP' reads some options including the problem file and it sends all this information to TPTP World.
 getSystemOnTPTP ∷ Options → IO (Either Msg SystemOnTPTP)
 getSystemOnTPTP opts = do
 

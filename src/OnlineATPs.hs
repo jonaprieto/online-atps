@@ -1,5 +1,5 @@
 
--- | This module exports the main functions
+-- | This module exports the main functions of the package.
 
 {-# LANGUAGE UnicodeSyntax #-}
 
@@ -12,13 +12,13 @@ module OnlineATPs
   ) where
 
 
-import  OnlineATPs.Consult
+import OnlineATPs.Consult
   ( getOnlineATPs
   , getSystemATP
   , getResponseSystemOnTPTP
   )
-import  OnlineATPs.Defaults  (defaultSystemATP)
-import  OnlineATPs.SystemATP
+import OnlineATPs.Defaults  ( defaultSystemATP )
+import OnlineATPs.SystemATP
   ( onlineATPOk
   , printListOnlineATPs
   )

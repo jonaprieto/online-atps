@@ -1,5 +1,6 @@
 
 -- | Utilities related to 'Show'.
+-- Adapted from @Apia.Utils.Show@
 
 {-# LANGUAGE UnicodeSyntax #-}
 

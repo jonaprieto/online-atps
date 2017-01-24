@@ -1,6 +1,6 @@
 
--- | OnlineATPs: A program for proving first-order theorems written in the
--- | TPTP format using SystemOnTPTP
+-- | OnlineATPs: A client to prove theorems written in the
+-- | TPTP format using the service SystemOnTPTP of TPTP World.
 
 {-# LANGUAGE MultiWayIf          #-}
 {-# LANGUAGE OverloadedStrings   #-}
@@ -12,6 +12,12 @@ module Main
   ( main  -- Required by Haddock.
   ) where
 
+
+import Control.Monad              ( unless )
+
+import qualified Data.ByteString.Lazy       as L
+import qualified Data.ByteString.Lazy.Char8 as C
+
 import OnlineATPs.Consult
   ( getOnlineATPs
   , getResponseSystemOnTPTP
@@ -19,8 +25,7 @@ import OnlineATPs.Consult
   , getSystemOnTPTP
   , Msg
   )
-
-import OnlineATPs.CheckOutput (checkTheoremSync)
+import OnlineATPs.CheckOutput ( checkTheoremSync )
 import OnlineATPs.Options
   ( getManageOpt
   , Options
@@ -35,25 +40,21 @@ import OnlineATPs.Options
   , printUsage
   , processOptions
   )
-
 import OnlineATPs.SystemATP
-  ( SystemATP(..)
+  ( SystemATP (..)
   ,  printListOnlineATPs
   , getNameVersion
   )
+import OnlineATPs.SystemOnTPTP    ( SystemOnTPTP )
+import OnlineATPs.Utils.Monad     ( die )
+import OnlineATPs.Utils.Version   ( progNameVersion )
 
 
-import           OnlineATPs.SystemOnTPTP    (SystemOnTPTP)
+import System.Directory           ( doesFileExist )
+import System.Environment         ( getArgs )
+import System.Exit                ( exitFailure, exitSuccess )
 
-import           Control.Monad              (unless)
-import qualified Data.ByteString.Lazy       as L
-import qualified Data.ByteString.Lazy.Char8 as C
-import           OnlineATPs.Utils.Monad     (die)
-import           OnlineATPs.Utils.Version   (progNameVersion)
-import           System.Directory           (doesFileExist)
-import           System.Environment         (getArgs)
-import           System.Exit                (exitFailure, exitSuccess)
-
+-- | Main function.
 main ∷ IO ()
 main = do
   args ← getArgs
@@ -96,7 +97,6 @@ main = do
 
           case form of
             Left msg   → putStrLn msg >> exitFailure
-
             Right spec →
               if optOnlyCheck opts
                 then do

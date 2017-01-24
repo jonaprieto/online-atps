@@ -1,6 +1,5 @@
 
 -- | Process the command-line arguments.
--- Adapted from @Apia.Options
 
 {-# LANGUAGE CPP           #-}
 {-# LANGUAGE UnicodeSyntax #-}
@@ -8,6 +7,7 @@
 module OnlineATPs.Options
   ( getManageOpt
   , options
+  , ManageOption
   , MOptions  -- Required by Haddock.
   , Options
     ( Options --Improve Haddock information.
@@ -26,27 +26,32 @@ module OnlineATPs.Options
   , processOptions
   ) where
 
-import           Data.Char                    (isDigit)
-import           Data.List                    (foldl', nub)
-import           OnlineATPs.Utils.PrettyPrint (Doc, Pretty (pretty), squotes,
-                                               (<>))
--- import Safe ( initDef )
-import System.Console.GetOpt
-  (
-    ArgDescr(NoArg, ReqArg)
-  , ArgOrder(ReturnInOrder)
-  , getOpt
-  , OptDescr(Option)
-  , usageInfo
+import Data.Char ( isDigit )
+import Data.List ( foldl', nub )
+
+import OnlineATPs.Utils.PrettyPrint
+  ( Doc
+  , Pretty ( pretty )
+  , squotes
+  , (<>)
   )
 
-import           System.Environment           (getProgName)
+import System.Console.GetOpt
+  (
+    ArgDescr ( NoArg, ReqArg )
+  , ArgOrder ( ReturnInOrder )
+  , getOpt
+  , OptDescr ( Option )
+  , usageInfo
+  )
+import System.Environment ( getProgName )
 
-
--- #include "undefined.h"
-
+-- | 'ManageOption' handles the options from the defaults and the command
+-- line.
 data ManageOption a = DefaultOpt a | CommandOpt a
 
+-- | The function 'getManageOpt' extracts the value from the
+-- 'Options.ManageOption' data type.
 getManageOpt ∷ ManageOption a → a
 getManageOpt (DefaultOpt val) = val
 getManageOpt (CommandOpt val) = val
@@ -134,7 +139,7 @@ versionATPOpt name opts = Right opts { optVersionATP = name }
 withAllOpt ∷ MOptions
 withAllOpt opts = Right opts { optWithAll = True }
 
--- -- | Description of the command-line 'Options'.
+-- | Description of the command-line 'Options'.
 options ∷ [OptDescr MOptions]
 options =
   [ Option []  ["atp"] (ReqArg atpOpt "NAME")
@@ -172,6 +177,6 @@ processOptionsHelper argv f defaults =
     (o, _, [])   → foldl' (>>=) (return defaults) o
     (_, _, errs) → Left $ pretty $ unlines errs
 
--- -- | Processing the command-line 'Options'.
+-- | Processing the command-line 'Options'.
 processOptions ∷ [String] → Either Doc Options
 processOptions argv = processOptionsHelper argv inputFileOpt defaultOptions

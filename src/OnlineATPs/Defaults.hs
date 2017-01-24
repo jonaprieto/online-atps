@@ -1,5 +1,6 @@
 
--- | Set the defaults fot the package
+-- | Default values for all options of the package.
+
 {-# LANGUAGE OverloadedStrings   #-}
 {-# LANGUAGE RecordWildCards     #-}
 {-# LANGUAGE ScopedTypeVariables #-}
@@ -12,18 +13,25 @@ module OnlineATPs.Defaults
   )
   where
 
-import           Control.Monad           (filterM)
-import           Data.Maybe
-import           OnlineATPs.SystemATP    (SystemATP (..))
-import           OnlineATPs.SystemOnTPTP (SystemOnTPTP (..))
-import           OnlineATPs.Utils.Yaml
-import           Paths_onlineatps        (getDataFileName)
-import           Prelude                 hiding (lookup)
-import           System.Directory        (doesFileExist, getCurrentDirectory,
-                                          getHomeDirectory)
-import           System.FilePath.Posix   ((</>))
+import Control.Monad           ( filterM )
+import Data.Maybe
 
+import OnlineATPs.SystemATP    ( SystemATP (..) )
+import OnlineATPs.SystemOnTPTP ( SystemOnTPTP (..) )
+import OnlineATPs.Utils.Yaml
 
+import Paths_online_atps        ( getDataFileName )
+import Prelude hiding ( lookup )
+
+import System.Directory
+  ( doesFileExist
+  , getCurrentDirectory
+  , getHomeDirectory
+  )
+import System.FilePath.Posix   ( (</>) )
+
+-- | 'defaultSystemATP' provides the default settings for the ATP by
+-- default, Eprover 2.0.
 defaultSystemATP ∷ SystemATP
 defaultSystemATP = SystemATP
   { sysApplication = "Prover and model finder, for FOF CNF"
@@ -36,6 +44,7 @@ defaultSystemATP = SystemATP
   , sysVersion     = "2.0"
 }
 
+-- | 'defaultSystemATP' stores the defaults options in the TPTP World.
 defaultSystemOnTPTP ∷ SystemOnTPTP
 defaultSystemOnTPTP = SystemOnTPTP
   { optAutoMode              = "-cE"
@@ -63,48 +72,44 @@ defaultSystemOnTPTP = SystemOnTPTP
 }
 
 
-onlineatpsNameFile ∷ FilePath
-onlineatpsNameFile = ".onlineatps"
+configFileName ∷ FilePath
+configFileName = ".online-atps"
 
-onlineatpsTemplate ∷ FilePath
-onlineatpsTemplate = "onlineatps.yml"
-
--- -- Uncomment this to use ghcid
---getDataFileName ∷ FilePath → IO FilePath
---getDataFileName path = return $ "./data" </> path
+configTemplate ∷ FilePath
+configTemplate = "online-atps.yml"
 
 combineConfigs ∷ [Object] → Parser SystemOnTPTP
 combineConfigs configs  =  do
-  optAutoMode               ← configs .@. "AutoMode"
-  optAutoModeSystemsLimit   ← configs .@. "AutoModeSystemsLimit"
-  optAutoModeTimeLimit      ← configs .@. "AutoModeTimeLimit"
-  optCompleteness           ← configs .@. "Completeness"
-  optCorrectness            ← configs .@. "Correctness"
-  optCPUPassword            ← configs .@. "CPUPassword"
-  optFORMULAEProblem        ← configs .@. "FORMULAEProblem"
-  optFormulaURL             ← configs .@. "FormulaURL"
-  optIDV                    ← configs .@. "IDV"
-  optNoHTML                 ← configs .@. "NoHTML"
-  optProblemSource          ← configs .@. "ProblemSource"
-  optQuietFlag              ← configs .@. "QuietFlag"
-  optReportFlag             ← configs .@. "ReportFlag"
-  optSoundness              ← configs .@. "Soundness"
-  optSubmitButton           ← configs .@. "SubmitButton"
-  optSystemInfo             ← configs .@. "SystemInfo"
-  optSystemOnTSTP           ← configs .@. "SystemOnTSTP"
-  optSystems                ← configs .@. "Systems"
-  optTPTPProblem            ← configs .@. "TPTPProblem"
-  optTSTPData               ← configs .@. "TSTPData"
-  optUPLOADProblem          ← configs .@. "UPLOADProblem"
-  optX2TPTP                 ← configs .@. "X2TPTP"
+  optAutoMode             ← configs .@. "AutoMode"
+  optAutoModeSystemsLimit ← configs .@. "AutoModeSystemsLimit"
+  optAutoModeTimeLimit    ← configs .@. "AutoModeTimeLimit"
+  optCompleteness         ← configs .@. "Completeness"
+  optCorrectness          ← configs .@. "Correctness"
+  optCPUPassword          ← configs .@. "CPUPassword"
+  optFORMULAEProblem      ← configs .@. "FORMULAEProblem"
+  optFormulaURL           ← configs .@. "FormulaURL"
+  optIDV                  ← configs .@. "IDV"
+  optNoHTML               ← configs .@. "NoHTML"
+  optProblemSource        ← configs .@. "ProblemSource"
+  optQuietFlag            ← configs .@. "QuietFlag"
+  optReportFlag           ← configs .@. "ReportFlag"
+  optSoundness            ← configs .@. "Soundness"
+  optSubmitButton         ← configs .@. "SubmitButton"
+  optSystemInfo           ← configs .@. "SystemInfo"
+  optSystemOnTSTP         ← configs .@. "SystemOnTSTP"
+  optSystems              ← configs .@. "Systems"
+  optTPTPProblem          ← configs .@. "TPTPProblem"
+  optTSTPData             ← configs .@. "TSTPData"
+  optUPLOADProblem        ← configs .@. "UPLOADProblem"
+  optX2TPTP               ← configs .@. "X2TPTP"
   return SystemOnTPTP{..}
 
 -- | Get the default values for the command-line 'SystemOnTPTP'.
 getDefaults ∷ IO SystemOnTPTP
 getDefaults = do
   paths ← sequence [getCurrentDirectory, getHomeDirectory]
-  userFiles ← filterM doesFileExist $ map (</>onlineatpsNameFile) paths
-  defaultConfig ← getDataFileName onlineatpsTemplate
+  userFiles ← filterM doesFileExist $ map (</>configFileName) paths
+  defaultConfig ← getDataFileName configTemplate
 
   let allFiles ∷ [FilePath]
       allFiles = userFiles ++ [defaultConfig]

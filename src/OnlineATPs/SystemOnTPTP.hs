@@ -1,5 +1,5 @@
 
--- | SystemOnTPTP data type
+-- | SystemOnTPTP data type.
 
 {-# LANGUAGE UnicodeSyntax #-}
 
@@ -35,8 +35,11 @@ module OnlineATPs.SystemOnTPTP
   ) where
 
 
-import           OnlineATPs.SystemATP (SystemATP, getDataSystemATP)
+import OnlineATPs.SystemATP ( SystemATP, getDataSystemATP )
 
+
+-- | The 'SystemOnTPTP' data type handles the option that a request can
+-- have to get a response in the TPTP World.
 data SystemOnTPTP = SystemOnTPTP
   { optAutoMode             ∷ String
   , optAutoModeSystemsLimit ∷ String
@@ -235,11 +238,15 @@ getters = [
   , getDataX2TPTP
   ]
 
+-- | The function 'getDataSystemOnTPTP' returns a list of tuples
+-- about (field, value).
 getDataSystemOnTPTP ∷ SystemOnTPTP → [(String, String)]
 getDataSystemOnTPTP spec = concatMap ($ spec) getters
 
+-- | The function 'setFORMULAEProblem' sets the problem in the format TSTP.
 setFORMULAEProblem ∷ SystemOnTPTP → String → SystemOnTPTP
-setFORMULAEProblem spec content = spec { optFORMULAEProblem = content }
+setFORMULAEProblem spec problemText = spec { optFORMULAEProblem = problemText }
 
+-- | The function 'setSystems' sets a list of ATPs to try against the problem.
 setSystems ∷ SystemOnTPTP → [SystemATP] → SystemOnTPTP
 setSystems spec atps = spec { optSystems = atps }
