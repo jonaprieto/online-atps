@@ -31,8 +31,7 @@ haddock :
 	cabal configure
 	cabal haddock --executables \
 	              --haddock-option=--use-unicode \
-	              --hyperlink-source \
-	              --for-hackage
+	              --hyperlink-source
 	@echo "$@ succeeded!"
 
 .PHONY : install-bin

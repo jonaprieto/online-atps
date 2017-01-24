@@ -33,8 +33,8 @@ $ online-atps --list-atps
 * Check the `help` command to see all options of `online-atps`:
 
 ````bash
-$ onlineatps --help
-Usage: onlineatps [OPTIONS] FILE
+$ online-atps --help
+Usage: online-atps [OPTIONS] FILE
 
     --atp=NAME          Set the ATP (online-e, online-vampire, online-z3, ...)
     --fof               Only use ATP for FOF
@@ -43,8 +43,8 @@ Usage: onlineatps [OPTIONS] FILE
     --only-check        Only checks the output looking for a theorem.
     --time=NUM          Set timeout for the ATPs in seconds (default: 300)
     --version           Show version number
-    --version-atp=NAME  Show version of the ATP with name equals NAME
-
+    --version-atp=NAME  Show version of the atp NAME
+    --
 ````
 
 * Prove a small conjecture (in TSTP format) like this:
@@ -55,12 +55,14 @@ fof(a1,axiom,a).
 fof(a2,axiom,b).
 fof(a3,axiom, (a & b) => z).
 fof(a4,conjecture,z).
+
 ````
 
-using the ATP [Vampire](http://www.vprover.org):
+
+Using the ATP [Vampire](http://www.vprover.org):
 
 ```
-$ onlineatps examples/basic.tptp --atp=vampire
+$ online-atps basic.tptp --atp=vampire
 % SZS start RequiredInformation
 % Congratulations - you have become a registered power user of SystemOnTPTP,
 at IP address 138.121.12.14.
