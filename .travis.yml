@@ -116,7 +116,7 @@ script:
  - cabal test
  - cabal --version
  - cat online-atps.cabal
- - cabal check
+ # - cabal check
  - cabal sdist   # tests that a source-distribution can be generated
 
 # Check that the resulting source distribution can be built & installed.

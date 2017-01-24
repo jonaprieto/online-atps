@@ -9,7 +9,7 @@ author:        Jonathan Prieto-Cubides
 license:       MIT
 license-file:  LICENSE
 maintainer:    Jonathan Prieto-Cubides <jprieto9@eafit.edu.co>
-category:      Dependent types
+category:      Logic, Theorem Provers
 homepage:      https://github.com/jonaprieto/online-atps
 bug-reports:   https://github.com/jonaprieto/online-atps/issues/
 synopsis:      A client for TPTP World and its ATPs

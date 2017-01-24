@@ -47,7 +47,7 @@ Usage: onlineatps [OPTIONS] FILE
 
 ````
 
-* Prove a small conjecture like this:
+* Prove a small conjecture (in TSTP format) like this:
 
 ````bash
 $ cat basic.tptp
@@ -55,11 +55,11 @@ fof(a1,axiom,a).
 fof(a2,axiom,b).
 fof(a3,axiom, (a & b) => z).
 fof(a4,conjecture,z).
-```
+````
 
 using the ATP [Vampire](http://www.vprover.org):
 
-````
+```
 $ onlineatps examples/basic.tptp --atp=vampire
 % SZS start RequiredInformation
 % Congratulations - you have become a registered power user of SystemOnTPTP,
@@ -93,7 +93,7 @@ SOT_Xry401
 RESULT: SOT_Xry401 - Vampire---4.1 says Theorem - CPU = 0.00 WC = 0.04
 OUTPUT: SOT_Xry401 - Vampire---4.1 says Refutation - CPU = 0.00 WC = 0.04
 
-````
+```
 
 * Online ATPs accepts a name for a ATP using the prefix "online-" or not (e.g "vampire" or "online-vampire").
 
