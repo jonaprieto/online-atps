@@ -13,6 +13,18 @@ errors :
 	shelltest --color --execdir --precise  $(tests_path)/basics.test
 	@echo "$@ succeeded!"
 
+# Hlint test
+
+# Requires HLint >= 1.9.36 and run `cabal build` or `cabal install`
+# before.
+.PHONY : hlint
+hlint :
+	hlint --color=never Setup.hs
+	hlint --color=never \
+              --cpp-file=dist/build/autogen/cabal_macros.h \
+              --cpp-include=src/OnlineATPs/ \
+              src/
+	@echo "$@ succeeded!"
 
 .PHONY : haddock
 haddock :

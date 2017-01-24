@@ -97,7 +97,6 @@ main = do
 
           case form of
             Left msg   → putStrLn msg >> exitFailure
-
             Right spec →
               if optOnlyCheck opts
                 then do
