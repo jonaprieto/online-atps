@@ -243,6 +243,7 @@ getters = [
 getDataSystemOnTPTP ∷ SystemOnTPTP → [(String, String)]
 getDataSystemOnTPTP spec = concatMap ($ spec) getters
 
+
 -- | The function 'setFORMULAEProblem' sets the problem in the format TSTP.
 setFORMULAEProblem ∷ SystemOnTPTP → String → SystemOnTPTP
 setFORMULAEProblem spec problemText = spec { optFORMULAEProblem = problemText }

@@ -13,9 +13,11 @@ module OnlineATPs.Options
     ( Options --Improve Haddock information.
     , optATP
     , optATPList
+    , optDebug
     , optFOF
     , optHelp
     , optInputFile
+    , optSystemOnTPTP
     , optOnlyCheck
     , optTime
     , optVersion
@@ -29,6 +31,33 @@ module OnlineATPs.Options
 import Data.Char ( isDigit )
 import Data.List ( foldl', nub )
 
+import OnlineATPs.Defaults ( defaultSystemOnTPTP )
+import OnlineATPs.SystemOnTPTP
+  ( SystemOnTPTP
+    ( optAutoMode
+    , optAutoModeSystemsLimit
+    , optAutoModeTimeLimit
+    , optCompleteness
+    , optCorrectness
+    , optCPUPassword
+    , optFORMULAEProblem
+    , optFormulaURL
+    , optIDV
+    , optNoHTML
+    , optProblemSource
+    , optQuietFlag
+    , optReportFlag
+    , optSoundness
+    , optSubmitButton
+    , optSystemInfo
+    , optSystemOnTSTP
+    , optSystems
+    , optTPTPProblem
+    , optTSTPData
+    , optUPLOADProblem
+    , optX2TPTP
+    )
+  )
 import OnlineATPs.Utils.PrettyPrint
   ( Doc
   , Pretty ( pretty )
@@ -49,6 +78,7 @@ import System.Environment ( getProgName )
 -- | 'ManageOption' handles the options from the defaults and the command
 -- line.
 data ManageOption a = DefaultOpt a | CommandOpt a
+                    deriving Show
 
 -- | The function 'getManageOpt' extracts the value from the
 -- 'Options.ManageOption' data type.
@@ -61,24 +91,29 @@ getManageOpt (CommandOpt val) = val
 data Options = Options
   { optATP            ∷ ManageOption [String]
   , optATPList        ∷ Bool
+  , optDebug          ∷ Bool
   , optFOF            ∷ Bool
   , optHelp           ∷ Bool
   , optInputFile      ∷ Maybe FilePath
+  , optSystemOnTPTP   ∷ SystemOnTPTP
   , optOnlyCheck      ∷ Bool
   , optTime           ∷ Int
   , optVersion        ∷ Bool
   , optVersionATP     ∷ String
   , optWithAll        ∷ Bool
   }
+  deriving Show
 
 
 defaultOptions ∷ Options
 defaultOptions = Options
   { optATP            = DefaultOpt []
   , optATPList        = False
+  , optDebug          = False
   , optFOF            = False
   , optHelp           = False
   , optInputFile      = Nothing
+  , optSystemOnTPTP   = defaultSystemOnTPTP
   , optOnlyCheck      = False
   , optTime           = 240
   , optVersion        = False
@@ -103,6 +138,20 @@ atpOpt name opts = Right opts { optATP = CommandOpt atps }
 atpListOpt ∷ MOptions
 atpListOpt opts = Right opts { optATPList = True }
 
+cpuPasswordOpt ∷ String → MOptions
+cpuPasswordOpt [] _ = Left $
+  pretty "option " <> squotes "--cpu-password" <> pretty " requires an argument KEY"
+cpuPasswordOpt pass opts = Right opts { optSystemOnTPTP = newTPTP }
+  where
+    sTPTP ∷ SystemOnTPTP
+    sTPTP = optSystemOnTPTP opts
+
+    newTPTP ∷ SystemOnTPTP
+    newTPTP = sTPTP { optCPUPassword = pass }
+
+debugOpt ∷ MOptions
+debugOpt opts = Right opts { optDebug = True }
+
 fofOpt ∷ MOptions
 fofOpt opts = Right opts { optFOF = True }
 
@@ -114,7 +163,6 @@ inputFileOpt file opts =
   case optInputFile opts of
     Nothing → Right opts { optInputFile = Just file }
     Just _  → Left $ pretty "only one input file allowed"
-
 
 onlyCheckOpt ∷ MOptions
 onlyCheckOpt opts = Right opts { optOnlyCheck = True }
@@ -144,6 +192,10 @@ options ∷ [OptDescr MOptions]
 options =
   [ Option []  ["atp"] (ReqArg atpOpt "NAME")
                "Set the ATP (online-e, online-vampire, online-z3, ...)\n"
+  , Option []  ["cpu-password"] (ReqArg cpuPasswordOpt "KEY")
+                "Set the CPU Password on SystemOnTPTP\n"
+  , Option []  ["debug"] (NoArg debugOpt)
+                "Prints out debug information to check the form for SystemOnTPTP"
   , Option []  ["fof"] (NoArg fofOpt)
                "Only use ATP for FOF"
   , Option []  ["help"] (NoArg helpOpt)
