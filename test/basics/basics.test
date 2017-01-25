@@ -5,6 +5,8 @@
 Usage: online-atps [OPTIONS] FILE
 
     --atp=NAME          Set the ATP (online-e, online-vampire, online-z3, ...)
+    --cpu-password=KEY  Set the CPU Password on SystemOnTPTP
+    --debug             Prints out debug information to check the form for SystemOnTPTP
     --fof               Only use ATP for FOF
     --help              Show this help
     --list-atps         Consult all ATPs available in TPTP World
