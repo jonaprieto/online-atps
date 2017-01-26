@@ -53,7 +53,30 @@ import OnlineATPs.Defaults      ( getDefaults )
 import OnlineATPs.Options       ( getManageOpt, Options (..) )
 import OnlineATPs.SystemATP     ( SystemATP (..), isFOFATP, setTimeLimit )
 import OnlineATPs.SystemOnTPTP
-  ( SystemOnTPTP (..)
+  ( SystemOnTPTP
+    ( optAutoMode
+    , optAutoModeSystemsLimit
+    , optAutoModeTimeLimit
+    , optCompleteness
+    , optCorrectness
+    , optCPUPassword
+    , optFORMULAEProblem
+    , optFormulaURL
+    , optIDV
+    , optNoHTML
+    , optProblemSource
+    , optQuietFlag
+    , optReportFlag
+    , optSoundness
+    , optSubmitButton
+    , optSystemInfo
+    , optSystemOnTSTP
+    , optSystems
+    , optTPTPProblem
+    , optTSTPData
+    , optUPLOADProblem
+    , optX2TPTP
+    )
   , getDataSystemOnTPTP
   , setFORMULAEProblem
   , setSystems
@@ -195,7 +218,8 @@ getSystemATPWith atps name =
         Just atp → atp
         _        → NoSystemATP
 
--- | The function 'getSystemATP' tries to find an ATP given the specification -- from its input.
+-- | The function 'getSystemATP' tries to find an ATP given the specification
+-- from its input.
 getSystemATP ∷ Options → IO SystemATP
 getSystemATP opts =
   let name = optVersionATP opts in
@@ -237,7 +261,8 @@ getResponseSystemOnTPTP spec = withSocketsDo $ do
     let response = responseBody res
     return response
 
--- | The function 'getSystemOnTPTP' reads some options including the problem file and it sends all this information to TPTP World.
+-- | The function 'getSystemOnTPTP' reads some options including the problem
+-- file and it sends all this information to TPTP World.
 getSystemOnTPTP ∷ Options → IO (Either Msg SystemOnTPTP)
 getSystemOnTPTP opts = do
 
@@ -257,6 +282,19 @@ getSystemOnTPTP opts = do
 
   defaults ∷ SystemOnTPTP ← getDefaults
 
+  -- ---------------------------------------------------------------------------
+  -- Update defaults info for SystemOnTPTP based on arguments
+  -- given on the command-line.
+
+  let finals ∷ SystemOnTPTP
+      finals = defaults {
+          optCPUPassword = case optCPUPassword (optSystemOnTPTP opts) of
+            []   → optCPUPassword defaults
+            pass → pass
+    }
+
+  -- ---------------------------------------------------------------------------
+
   let file ∷ Maybe FilePath
       file = optInputFile opts
 
@@ -267,6 +305,6 @@ getSystemOnTPTP opts = do
       contentFile ∷ String ← readFile $ fromJust file
 
       let form ∷ SystemOnTPTP
-          form  = setFORMULAEProblem (setSystems defaults setATPs) contentFile
+          form  = setFORMULAEProblem (setSystems finals setATPs) contentFile
 
       return $ Right form

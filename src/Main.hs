@@ -31,6 +31,7 @@ import OnlineATPs.Options
   , Options
     ( optATP
     , optATPList
+    , optDebug
     , optHelp
     , optInputFile
     , optOnlyCheck
@@ -53,6 +54,8 @@ import OnlineATPs.Utils.Version   ( progNameVersion )
 import System.Directory           ( doesFileExist )
 import System.Environment         ( getArgs )
 import System.Exit                ( exitFailure, exitSuccess )
+
+import qualified Text.Show.Pretty as Pr
 
 -- | Main function.
 main ∷ IO ()
@@ -95,16 +98,19 @@ main = do
 
           form ∷ Either Msg SystemOnTPTP ← getSystemOnTPTP opts
 
-          case form of
-            Left msg   → putStrLn msg >> exitFailure
-            Right spec →
-              if optOnlyCheck opts
-                then do
+          if optDebug opts then
+            putStrLn $ Pr.ppShow opts
+          else
+            case form of
+              Left msg   → putStrLn msg >> exitFailure
+              Right spec →
+                if optOnlyCheck opts
+                  then do
 
-                  answer ∷ String ← checkTheoremSync spec
-                  putStrLn answer >> exitSuccess
+                    answer ∷ String ← checkTheoremSync spec
+                    putStrLn answer >> exitSuccess
 
-                else do
+                  else do
 
-                  response ∷ L.ByteString ← getResponseSystemOnTPTP spec
-                  C.putStrLn response >> exitSuccess
+                    response ∷ L.ByteString ← getResponseSystemOnTPTP spec
+                    C.putStrLn response >> exitSuccess
