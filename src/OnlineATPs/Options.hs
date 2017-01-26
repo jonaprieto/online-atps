@@ -266,9 +266,9 @@ options =
   [ Option []  ["atp"] (ReqArg atpOpt "NAME")
                "Set the ATP (online-e, online-vampire, online-z3, ...)\n"
   , Option []  ["completeness"] (NoArg completenessOpt)
-                ""
+                "Turn on the option completess"
   , Option []  ["correcteness"] (NoArg correctenessOpt)
-                ""
+                "Turn on the option correctness"
   , Option []  ["cpu-password"] (ReqArg cpuPasswordOpt "KEY")
                 "Set the CPU Password on SystemOnTPTP\n"
   , Option []  ["debug"] (NoArg debugOpt)
@@ -278,21 +278,21 @@ options =
   , Option []  ["help"] (NoArg helpOpt)
                "Show this help"
   , Option []  ["idv"] (NoArg idvOpt)
-               ""
+               "Turn on the option IDV"
   , Option []  ["list-atps"] (NoArg atpListOpt)
                "Consult all ATPs available in TPTP World"
   , Option []  ["only-check"] (NoArg onlyCheckOpt)
                "Only checks the output looking for a theorem."
   , Option []  ["soudness"] (NoArg soudnessOpt)
-               ""
+               "Turn on the option Soudness"
   , Option []  ["system-info"] (NoArg systemInfoOpt)
-               ""
+               "Turn on the option System Information"
   , Option []  ["system-on-tstp"] (NoArg systemOnTSTPOpt)
-               ""
+               "Turn on the option SystemOnTSTP"
   , Option []  ["time"] (ReqArg timeOpt "NUM")
                "Set timeout for the ATPs in seconds (default: 300)"
   , Option []  ["tstp-data"] (NoArg tstpDataOpt)
-               ""
+               "Turn on the option TSTP Data"
   , Option []  ["version"] (NoArg versionOpt)
                "Show version number"
   , Option []  ["version-atp"] (ReqArg versionATPOpt "NAME")
@@ -300,7 +300,7 @@ options =
   , Option []  ["with-all"] (NoArg withAllOpt)
                "Use all ATPs available"
   , Option []  ["x2tptp"] (NoArg x2tptpOpt)
-               ""
+               "Turn on the option X2TPTP"
   ]
 
 usageHeader ∷ String → String
