@@ -139,33 +139,18 @@ atpListOpt ∷ MOptions
 atpListOpt opts = Right opts { optATPList = True }
 
 completenessOpt ∷ MOptions
-completenessOpt opts = Right opts { optSystemOnTPTP = newTPTP }
-  where
-    sTPTP ∷ SystemOnTPTP
-    sTPTP = optSystemOnTPTP opts
-
-    newTPTP ∷ SystemOnTPTP
-    newTPTP = sTPTP { optCompleteness = True }
+completenessOpt opts = let system = optSystemOnTPTP opts in
+  Right opts { optSystemOnTPTP = system { optCompleteness = True } }
 
 correctenessOpt ∷ MOptions
-correctenessOpt opts = Right opts { optSystemOnTPTP = newTPTP }
-  where
-    sTPTP ∷ SystemOnTPTP
-    sTPTP = optSystemOnTPTP opts
-
-    newTPTP ∷ SystemOnTPTP
-    newTPTP = sTPTP { optCorrectness = True }
+correctenessOpt opts = let system = optSystemOnTPTP opts in
+  Right opts { optSystemOnTPTP = system { optCorrectness = True } }
 
 cpuPasswordOpt ∷ String → MOptions
 cpuPasswordOpt [] _ = Left $
   pretty "option " <> squotes "--cpu-password" <> pretty " requires an argument KEY"
-cpuPasswordOpt pass opts = Right opts { optSystemOnTPTP = newTPTP }
-  where
-    sTPTP ∷ SystemOnTPTP
-    sTPTP = optSystemOnTPTP opts
-
-    newTPTP ∷ SystemOnTPTP
-    newTPTP = sTPTP { optCPUPassword = pass }
+cpuPasswordOpt pass opts = let system = optSystemOnTPTP opts in
+  Right opts { optSystemOnTPTP = system { optCPUPassword = pass } }
 
 debugOpt ∷ MOptions
 debugOpt opts = Right opts { optDebug = True }
@@ -177,13 +162,8 @@ helpOpt ∷ MOptions
 helpOpt opts = Right opts { optHelp = True }
 
 idvOpt ∷ MOptions
-idvOpt opts = Right opts { optSystemOnTPTP = newTPTP }
-  where
-    sTPTP ∷ SystemOnTPTP
-    sTPTP = optSystemOnTPTP opts
-
-    newTPTP ∷ SystemOnTPTP
-    newTPTP = sTPTP { optIDV = True }
+idvOpt opts = let system = optSystemOnTPTP opts in
+  Right opts { optSystemOnTPTP = system { optIDV = True } }
 
 inputFileOpt ∷ FilePath → MOptions
 inputFileOpt file opts =
@@ -194,33 +174,17 @@ inputFileOpt file opts =
 onlyCheckOpt ∷ MOptions
 onlyCheckOpt opts = Right opts { optOnlyCheck = True }
 
-
 systemInfoOpt ∷ MOptions
-systemInfoOpt opts = Right opts { optSystemOnTPTP = newTPTP }
-  where
-    sTPTP ∷ SystemOnTPTP
-    sTPTP = optSystemOnTPTP opts
-
-    newTPTP ∷ SystemOnTPTP
-    newTPTP = sTPTP { optSystemInfo = True }
+systemInfoOpt opts = let system = optSystemOnTPTP opts in
+  Right opts { optSystemOnTPTP = system { optSystemInfo = True } }
 
 systemOnTSTPOpt ∷ MOptions
-systemOnTSTPOpt opts = Right opts { optSystemOnTPTP = newTPTP }
-  where
-    sTPTP ∷ SystemOnTPTP
-    sTPTP = optSystemOnTPTP opts
-
-    newTPTP ∷ SystemOnTPTP
-    newTPTP = sTPTP { optSystemOnTSTP = True }
+systemOnTSTPOpt opts = let system = optSystemOnTPTP opts in
+  Right opts { optSystemOnTPTP = system { optSystemOnTSTP = True } }
 
 soudnessOpt ∷ MOptions
-soudnessOpt opts = Right opts { optSystemOnTPTP = newTPTP }
-  where
-    sTPTP ∷ SystemOnTPTP
-    sTPTP = optSystemOnTPTP opts
-
-    newTPTP ∷ SystemOnTPTP
-    newTPTP = sTPTP { optSoundness = True }
+soudnessOpt opts = let system = optSystemOnTPTP opts in
+  Right opts { optSystemOnTPTP = system { optSoundness = True } }
 
 timeOpt ∷ String → MOptions
 timeOpt [] _ = Left $
@@ -232,13 +196,8 @@ timeOpt secs opts =
               <> pretty " requires a non-negative integer argument"
 
 tstpDataOpt ∷ MOptions
-tstpDataOpt opts = Right opts { optSystemOnTPTP = newTPTP }
-  where
-    sTPTP ∷ SystemOnTPTP
-    sTPTP = optSystemOnTPTP opts
-
-    newTPTP ∷ SystemOnTPTP
-    newTPTP = sTPTP { optTSTPData = True }
+tstpDataOpt opts = let system = optSystemOnTPTP opts in
+  Right opts { optSystemOnTPTP = system { optTSTPData = True } }
 
 versionOpt ∷ MOptions
 versionOpt opts = Right opts { optVersion = True }
@@ -252,13 +211,8 @@ withAllOpt ∷ MOptions
 withAllOpt opts = Right opts { optWithAll = True }
 
 x2tptpOpt ∷ MOptions
-x2tptpOpt opts = Right opts { optSystemOnTPTP = newTPTP }
-  where
-    sTPTP ∷ SystemOnTPTP
-    sTPTP = optSystemOnTPTP opts
-
-    newTPTP ∷ SystemOnTPTP
-    newTPTP = sTPTP { optX2TPTP = True }
+x2tptpOpt opts = let system = optSystemOnTPTP opts in
+  Right opts { optSystemOnTPTP = system { optX2TPTP = True } }
 
 -- | Description of the command-line 'Options'.
 options ∷ [OptDescr MOptions]
