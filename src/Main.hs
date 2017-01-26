@@ -80,6 +80,7 @@ main = do
           case atp of
             NoSystemATP → die "unknown ATP name. Check --list-atps"
             _           → putStrLn (getNameVersion atp) >> exitSuccess
+
       | otherwise → do
 
           file ← case optInputFile opts of

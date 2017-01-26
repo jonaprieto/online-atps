@@ -284,23 +284,41 @@ getSystemOnTPTP opts = do
 
   -- ---------------------------------------------------------------------------
   -- Update defaults info for SystemOnTPTP based on arguments
-  -- given on the command-line.
+  -- given on the command-line (They have priority)
 
   let finals ∷ SystemOnTPTP
       finals = let system = optSystemOnTPTP opts in
         defaults {
-          optCPUPassword  = case optCPUPassword system of
+          optAutoMode = case optAutoMode system of
+            []   → optAutoMode defaults
+            mode → mode
+        , optAutoModeSystemsLimit = case optAutoModeSystemsLimit system of
+            []   → optAutoModeSystemsLimit defaults
+            mode → mode
+        , optAutoModeTimeLimit = case optAutoModeTimeLimit system of
+            []   → optAutoModeTimeLimit defaults
+            mode → mode
+        ,  optCPUPassword  = case optCPUPassword system of
             []   → optCPUPassword defaults
             pass → pass
+        , optQuietFlag  = case optQuietFlag system of
+            []   → optQuietFlag defaults
+            flag → flag
         , optCompleteness = optCompleteness system || optCompleteness defaults
         , optCorrectness  = optCorrectness system  || optCorrectness defaults
         , optIDV          = optIDV system          || optIDV defaults
+        , optReportFlag  = case optReportFlag system of
+            []     → optReportFlag defaults
+            mode → mode
         , optSoundness    = optSoundness system    || optSoundness defaults
+        , optSubmitButton  = case optSubmitButton system of
+            []     → optSubmitButton defaults
+            action → action
         , optSystemInfo   = optSystemInfo system   || optSystemInfo defaults
         , optSystemOnTSTP = optSystemOnTSTP system || optSystemOnTSTP defaults
         , optTSTPData     = optTSTPData system     || optTSTPData defaults
         , optX2TPTP       = optX2TPTP system       || optX2TPTP defaults
-    }
+      }
 
   -- ---------------------------------------------------------------------------
 
