@@ -138,16 +138,19 @@ atpOpt name opts = Right opts { optATP = CommandOpt atps }
 atpListOpt ∷ MOptions
 atpListOpt opts = Right opts { optATPList = True }
 
+completenessOpt ∷ MOptions
+completenessOpt opts = let system = optSystemOnTPTP opts in
+  Right opts { optSystemOnTPTP = system { optCompleteness = True } }
+
+correctenessOpt ∷ MOptions
+correctenessOpt opts = let system = optSystemOnTPTP opts in
+  Right opts { optSystemOnTPTP = system { optCorrectness = True } }
+
 cpuPasswordOpt ∷ String → MOptions
 cpuPasswordOpt [] _ = Left $
   pretty "option " <> squotes "--cpu-password" <> pretty " requires an argument KEY"
-cpuPasswordOpt pass opts = Right opts { optSystemOnTPTP = newTPTP }
-  where
-    sTPTP ∷ SystemOnTPTP
-    sTPTP = optSystemOnTPTP opts
-
-    newTPTP ∷ SystemOnTPTP
-    newTPTP = sTPTP { optCPUPassword = pass }
+cpuPasswordOpt pass opts = let system = optSystemOnTPTP opts in
+  Right opts { optSystemOnTPTP = system { optCPUPassword = pass } }
 
 debugOpt ∷ MOptions
 debugOpt opts = Right opts { optDebug = True }
@@ -158,6 +161,10 @@ fofOpt opts = Right opts { optFOF = True }
 helpOpt ∷ MOptions
 helpOpt opts = Right opts { optHelp = True }
 
+idvOpt ∷ MOptions
+idvOpt opts = let system = optSystemOnTPTP opts in
+  Right opts { optSystemOnTPTP = system { optIDV = True } }
+
 inputFileOpt ∷ FilePath → MOptions
 inputFileOpt file opts =
   case optInputFile opts of
@@ -167,6 +174,18 @@ inputFileOpt file opts =
 onlyCheckOpt ∷ MOptions
 onlyCheckOpt opts = Right opts { optOnlyCheck = True }
 
+systemInfoOpt ∷ MOptions
+systemInfoOpt opts = let system = optSystemOnTPTP opts in
+  Right opts { optSystemOnTPTP = system { optSystemInfo = True } }
+
+systemOnTSTPOpt ∷ MOptions
+systemOnTSTPOpt opts = let system = optSystemOnTPTP opts in
+  Right opts { optSystemOnTPTP = system { optSystemOnTSTP = True } }
+
+soudnessOpt ∷ MOptions
+soudnessOpt opts = let system = optSystemOnTPTP opts in
+  Right opts { optSystemOnTPTP = system { optSoundness = True } }
+
 timeOpt ∷ String → MOptions
 timeOpt [] _ = Left $
   pretty "option " <> squotes "--time" <> pretty " requires an argument NUM"
@@ -175,6 +194,10 @@ timeOpt secs opts =
   then Right opts { optTime = read secs }
   else Left $ pretty "option " <> squotes "--time"
               <> pretty " requires a non-negative integer argument"
+
+tstpDataOpt ∷ MOptions
+tstpDataOpt opts = let system = optSystemOnTPTP opts in
+  Right opts { optSystemOnTPTP = system { optTSTPData = True } }
 
 versionOpt ∷ MOptions
 versionOpt opts = Right opts { optVersion = True }
@@ -187,31 +210,51 @@ versionATPOpt name opts = Right opts { optVersionATP = name }
 withAllOpt ∷ MOptions
 withAllOpt opts = Right opts { optWithAll = True }
 
+x2tptpOpt ∷ MOptions
+x2tptpOpt opts = let system = optSystemOnTPTP opts in
+  Right opts { optSystemOnTPTP = system { optX2TPTP = True } }
+
 -- | Description of the command-line 'Options'.
 options ∷ [OptDescr MOptions]
 options =
   [ Option []  ["atp"] (ReqArg atpOpt "NAME")
                "Set the ATP (online-e, online-vampire, online-z3, ...)\n"
+  , Option []  ["completeness"] (NoArg completenessOpt)
+                "Turn on the option completess"
+  , Option []  ["correcteness"] (NoArg correctenessOpt)
+                "Turn on the option correctness"
   , Option []  ["cpu-password"] (ReqArg cpuPasswordOpt "KEY")
                 "Set the CPU Password on SystemOnTPTP\n"
   , Option []  ["debug"] (NoArg debugOpt)
-                "Prints out debug information to check the form for SystemOnTPTP"
+                "Prints out the given options values"
   , Option []  ["fof"] (NoArg fofOpt)
                "Only use ATP for FOF"
   , Option []  ["help"] (NoArg helpOpt)
                "Show this help"
+  , Option []  ["idv"] (NoArg idvOpt)
+               "Turn on the option IDV"
   , Option []  ["list-atps"] (NoArg atpListOpt)
                "Consult all ATPs available in TPTP World"
   , Option []  ["only-check"] (NoArg onlyCheckOpt)
                "Only checks the output looking for a theorem."
+  , Option []  ["soudness"] (NoArg soudnessOpt)
+               "Turn on the option Soudness"
+  , Option []  ["system-info"] (NoArg systemInfoOpt)
+               "Turn on the option System Information"
+  , Option []  ["system-on-tstp"] (NoArg systemOnTSTPOpt)
+               "Turn on the option SystemOnTSTP"
   , Option []  ["time"] (ReqArg timeOpt "NUM")
                "Set timeout for the ATPs in seconds (default: 300)"
+  , Option []  ["tstp-data"] (NoArg tstpDataOpt)
+               "Turn on the option TSTP Data"
   , Option []  ["version"] (NoArg versionOpt)
                "Show version number"
   , Option []  ["version-atp"] (ReqArg versionATPOpt "NAME")
                "Show version of the atp NAME"
   , Option []  ["with-all"] (NoArg withAllOpt)
                "Use all ATPs available"
+  , Option []  ["x2tptp"] (NoArg x2tptpOpt)
+               "Turn on the option X2TPTP"
   ]
 
 usageHeader ∷ String → String

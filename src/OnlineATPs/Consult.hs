@@ -287,10 +287,19 @@ getSystemOnTPTP opts = do
   -- given on the command-line.
 
   let finals ∷ SystemOnTPTP
-      finals = defaults {
-          optCPUPassword = case optCPUPassword (optSystemOnTPTP opts) of
+      finals = let system = optSystemOnTPTP opts in
+        defaults {
+          optCPUPassword  = case optCPUPassword system of
             []   → optCPUPassword defaults
             pass → pass
+        , optCompleteness = optCompleteness system || optCompleteness defaults
+        , optCorrectness  = optCorrectness system  || optCorrectness defaults
+        , optIDV          = optIDV system          || optIDV defaults
+        , optSoundness    = optSoundness system    || optSoundness defaults
+        , optSystemInfo   = optSystemInfo system   || optSystemInfo defaults
+        , optSystemOnTSTP = optSystemOnTSTP system || optSystemOnTSTP defaults
+        , optTSTPData     = optTSTPData system     || optTSTPData defaults
+        , optX2TPTP       = optX2TPTP system       || optX2TPTP defaults
     }
 
   -- ---------------------------------------------------------------------------

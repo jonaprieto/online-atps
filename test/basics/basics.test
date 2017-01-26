@@ -5,16 +5,24 @@
 Usage: online-atps [OPTIONS] FILE
 
     --atp=NAME          Set the ATP (online-e, online-vampire, online-z3, ...)
+    --completeness      Turn on the option completess
+    --correcteness      Turn on the option correctness
     --cpu-password=KEY  Set the CPU Password on SystemOnTPTP
-    --debug             Prints out debug information to check the form for SystemOnTPTP
+    --debug             Prints out the given options values
     --fof               Only use ATP for FOF
     --help              Show this help
+    --idv               Turn on the option IDV
     --list-atps         Consult all ATPs available in TPTP World
     --only-check        Only checks the output looking for a theorem.
+    --soudness          Turn on the option Soudness
+    --system-info       Turn on the option System Information
+    --system-on-tstp    Turn on the option SystemOnTSTP
     --time=NUM          Set timeout for the ATPs in seconds (default: 300)
+    --tstp-data         Turn on the option TSTP Data
     --version           Show version number
     --version-atp=NAME  Show version of the atp NAME
     --with-all          Use all ATPs available
+    --x2tptp            Turn on the option X2TPTP
 
 >>>2
 >>>= 0
