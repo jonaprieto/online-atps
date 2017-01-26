@@ -4,25 +4,33 @@
 >>>
 Usage: online-atps [OPTIONS] FILE
 
-    --atp=NAME          Set the ATP (online-e, online-vampire, online-z3, ...)
-    --completeness      Turn on the option completess
-    --correcteness      Turn on the option correctness
-    --cpu-password=KEY  Set the CPU Password on SystemOnTPTP
-    --debug             Prints out the given options values
-    --fof               Only use ATP for FOF
-    --help              Show this help
-    --idv               Turn on the option IDV
-    --list-atps         Consult all ATPs available in TPTP World
-    --only-check        Only checks the output looking for a theorem.
-    --soudness          Turn on the option Soudness
-    --system-info       Turn on the option System Information
-    --system-on-tstp    Turn on the option SystemOnTSTP
-    --time=NUM          Set timeout for the ATPs in seconds (default: 300)
-    --tstp-data         Turn on the option TSTP Data
-    --version           Show version number
-    --version-atp=NAME  Show version of the atp NAME
-    --with-all          Use all ATPs available
-    --x2tptp            Turn on the option X2TPTP
+    --action=MODE                  Action to submit ("RunSelectedSystems", "RunParallel",
+                                   "RecommendSystems" or "ReportSelectedSystems").
+    --atp=NAME                     Set the ATP (e.g. "e" or "online-e", "vampire" or"online-vampire")
+    --auto-mode=MODE               Parellel Mode ("Selected", "Naive", "SSCPA"and "Eager SSCPA")
+    --auto-mode-system-limit=TIME  System time limet in the parallel mode
+    --auto-mode-time-limit=TIME    Time limit in the parallel mode
+    --completeness                 Turn on the option completess
+    --correcteness                 Turn on the option correctness
+    --cpu-password=KEY             Set the CPU Password on SystemOnTPTP
+    --debug                        Prints out the given options values
+    --fof                          Only use ATP for FOF
+    --help                         Show this help
+    --idv                          Turn on the option IDV
+    --list-atps                    Consult all ATPs available in TPTP World
+    --only-check                   Only checks the output looking for a theorem.
+    --quiet-mode=MODE              Set the Output Mode ("-q0" : Everything, "-q01" : System,
+                                   -q2" Progress, "-q3" : Result, and "-q4": Nothing)
+    --report=MODE                  Report flag for the "Recommend Systems"section ("-q2": Summary, "-q0": Full)
+    --soudness                     Turn on the option Soudness
+    --system-info                  Turn on the option System Information
+    --system-on-tstp               Turn on the option SystemOnTSTP
+    --time=NUM                     Set timeout for the ATPs in seconds (default: 300)
+    --tstp-data                    Turn on the option TSTP Data
+    --version                      Show version number
+    --version-atp=NAME             Show version of the atp NAME
+    --with-all                     Use all ATPs available
+    --x2tptp                       Turn on the option X2TPTP
 
 >>>2
 >>>= 0
@@ -89,3 +97,10 @@ awk '/\[CVC4\]/ || /\[E\]/ || /\[Metis\]/ || /\[SPASS\]/ || /\[Vampire\]/ || /\[
 >>>2
 >>>= 0
 
+
+../../dist/build/online-atps/online-atps basic.tptp --atp=ed
+<<<
+>>>
+>>>2
+online-atps: Check the ATPs names using --list-atps
+>>>= 1

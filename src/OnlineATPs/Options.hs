@@ -5,7 +5,8 @@
 {-# LANGUAGE UnicodeSyntax #-}
 
 module OnlineATPs.Options
-  ( getManageOpt
+  ( defaultOptions
+  , getManageOpt
   , options
   , ManageOption
   , MOptions  -- Required by Haddock.
@@ -40,21 +41,20 @@ import OnlineATPs.SystemOnTPTP
     , optCompleteness
     , optCorrectness
     , optCPUPassword
-    , optFORMULAEProblem
-    , optFormulaURL
+    -- , optFORMULAEProblem
+    -- , optFormulaURL
     , optIDV
-    , optNoHTML
-    , optProblemSource
+    -- , optNoHTML
+    -- , optProblemSource
     , optQuietFlag
     , optReportFlag
     , optSoundness
     , optSubmitButton
     , optSystemInfo
     , optSystemOnTSTP
-    , optSystems
-    , optTPTPProblem
+    -- , optTPTPProblem
     , optTSTPData
-    , optUPLOADProblem
+    -- , optUPLOADProblem
     , optX2TPTP
     )
   )
@@ -104,7 +104,7 @@ data Options = Options
   }
   deriving Show
 
-
+-- | Default record values for 'Options'.
 defaultOptions ∷ Options
 defaultOptions = Options
   { optATP            = DefaultOpt []
@@ -137,6 +137,24 @@ atpOpt name opts = Right opts { optATP = CommandOpt atps }
 
 atpListOpt ∷ MOptions
 atpListOpt opts = Right opts { optATPList = True }
+
+autoModeOpt ∷ String → MOptions
+autoModeOpt [] _ = Left $
+  pretty "option " <> squotes "--auto-mode" <> pretty " requires an argument MODE"
+autoModeOpt val opts = let system = optSystemOnTPTP opts in
+  Right opts { optSystemOnTPTP = system { optAutoMode = val } }
+
+autoModeSystemsLimitOpt ∷ String → MOptions
+autoModeSystemsLimitOpt [] _ = Left $
+  pretty "option " <> squotes "--auto-mode-timelimit" <> pretty " requires an argument TIME"
+autoModeSystemsLimitOpt val opts = let system = optSystemOnTPTP opts in
+  Right opts { optSystemOnTPTP = system { optAutoModeSystemsLimit = val } }
+
+autoModeTimeLimitOpt ∷ String → MOptions
+autoModeTimeLimitOpt [] _ = Left $
+  pretty "option " <> squotes "--auto-mode-timelimit" <> pretty " requires an argument TIME"
+autoModeTimeLimitOpt val opts = let system = optSystemOnTPTP opts in
+  Right opts { optSystemOnTPTP = system { optAutoModeTimeLimit = val } }
 
 completenessOpt ∷ MOptions
 completenessOpt opts = let system = optSystemOnTPTP opts in
@@ -174,6 +192,18 @@ inputFileOpt file opts =
 onlyCheckOpt ∷ MOptions
 onlyCheckOpt opts = Right opts { optOnlyCheck = True }
 
+quietOpt ∷ String → MOptions
+quietOpt [] _ = Left $
+  pretty "option " <> squotes "--quiet-mode" <> pretty " requires an argument MODE"
+quietOpt mode opts = let system = optSystemOnTPTP opts in
+  Right opts { optSystemOnTPTP = system { optQuietFlag = mode } }
+
+reportFlagOpt ∷ String → MOptions
+reportFlagOpt [] _ = Left $
+  pretty "option " <> squotes "--report-flag" <> pretty " requires an argument MODE"
+reportFlagOpt mode opts = let system = optSystemOnTPTP opts in
+  Right opts { optSystemOnTPTP = system { optReportFlag = mode } }
+
 systemInfoOpt ∷ MOptions
 systemInfoOpt opts = let system = optSystemOnTPTP opts in
   Right opts { optSystemOnTPTP = system { optSystemInfo = True } }
@@ -185,6 +215,11 @@ systemOnTSTPOpt opts = let system = optSystemOnTPTP opts in
 soudnessOpt ∷ MOptions
 soudnessOpt opts = let system = optSystemOnTPTP opts in
   Right opts { optSystemOnTPTP = system { optSoundness = True } }
+
+submitButtonOpt ∷ String → MOptions
+submitButtonOpt [] _ = Left $ pretty "option " <> squotes "--action" <> pretty " requires an argument MODE"
+submitButtonOpt mode opts = let system = optSystemOnTPTP opts in
+  Right opts { optSystemOnTPTP = system { optSubmitButton = mode } }
 
 timeOpt ∷ String → MOptions
 timeOpt [] _ = Left $
@@ -214,11 +249,23 @@ x2tptpOpt ∷ MOptions
 x2tptpOpt opts = let system = optSystemOnTPTP opts in
   Right opts { optSystemOnTPTP = system { optX2TPTP = True } }
 
+
 -- | Description of the command-line 'Options'.
 options ∷ [OptDescr MOptions]
 options =
-  [ Option []  ["atp"] (ReqArg atpOpt "NAME")
-               "Set the ATP (online-e, online-vampire, online-z3, ...)\n"
+  [ Option []  ["action"] (ReqArg submitButtonOpt "MODE") $
+                "Action to submit (\"RunSelectedSystems\", \"RunParallel\",\n"
+                ++ "\"RecommendSystems\" or \"ReportSelectedSystems\")."
+  , Option []  ["atp"] (ReqArg atpOpt "NAME") $
+               "Set the ATP (e.g. \"e\" or \"online-e\", \"vampire\" or"
+               ++ "\"online-vampire\")"
+  , Option []  ["auto-mode"] (ReqArg autoModeOpt "MODE") $
+                "Parellel Mode (\"Selected\", \"Naive\", \"SSCPA\""
+                ++ "and \"Eager SSCPA\")"
+  , Option []  ["auto-mode-system-limit"] (ReqArg autoModeSystemsLimitOpt "TIME")
+                "System time limet in the parallel mode"
+  , Option []  ["auto-mode-time-limit"] (ReqArg autoModeTimeLimitOpt "TIME")
+                "Time limit in the parallel mode"
   , Option []  ["completeness"] (NoArg completenessOpt)
                 "Turn on the option completess"
   , Option []  ["correcteness"] (NoArg correctenessOpt)
@@ -237,6 +284,12 @@ options =
                "Consult all ATPs available in TPTP World"
   , Option []  ["only-check"] (NoArg onlyCheckOpt)
                "Only checks the output looking for a theorem."
+  , Option []  ["quiet-mode"] (ReqArg quietOpt "MODE") $
+                "Set the Output Mode (\"-q0\" : Everything, \"-q01\" : System,\n"
+                ++ "-q2\" Progress, \"-q3\" : Result, and \"-q4\": Nothing)"
+  , Option []  ["report"] (ReqArg reportFlagOpt "MODE") $
+                "Report flag for the \"Recommend Systems\""
+                ++ "section (\"-q2\": Summary, \"-q0\": Full)"
   , Option []  ["soudness"] (NoArg soudnessOpt)
                "Turn on the option Soudness"
   , Option []  ["system-info"] (NoArg systemInfoOpt)

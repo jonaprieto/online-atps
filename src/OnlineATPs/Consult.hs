@@ -21,6 +21,7 @@ import Control.Applicative      ( (<$>) )
 #endif
 
 import Control.Arrow            ( (***) )
+
 #if __GLASGOW_HASKELL__ <= 710
 import Control.Monad.Reader     ( MonadIO ( liftIO ) )
 #else
@@ -60,11 +61,7 @@ import OnlineATPs.SystemOnTPTP
     , optCompleteness
     , optCorrectness
     , optCPUPassword
-    , optFORMULAEProblem
-    , optFormulaURL
     , optIDV
-    , optNoHTML
-    , optProblemSource
     , optQuietFlag
     , optReportFlag
     , optSoundness
@@ -72,14 +69,11 @@ import OnlineATPs.SystemOnTPTP
     , optSystemInfo
     , optSystemOnTSTP
     , optSystems
-    , optTPTPProblem
     , optTSTPData
-    , optUPLOADProblem
     , optX2TPTP
     )
   , getDataSystemOnTPTP
   , setFORMULAEProblem
-  , setSystems
   )
 import OnlineATPs.Urls          ( urlSystemOnTPTP, urlSystemOnTPTPReply )
 
@@ -272,48 +266,69 @@ getSystemOnTPTP opts = do
       listATPs =
         if optWithAll opts
           then atps
-          else  map (getSystemATPWith atps) (getManageOpt (optATP opts))
+          else map (getSystemATPWith atps) (getManageOpt (optATP opts))
 
   let time ∷ String
       time = show $ optTime opts
 
   let setATPs ∷ [SystemATP]
-      setATPs = map (`setTimeLimit` time) listATPs
+      setATPs = filter (NoSystemATP/=) (map (`setTimeLimit` time) listATPs)
 
-  defaults ∷ SystemOnTPTP ← getDefaults
-
-  -- ---------------------------------------------------------------------------
-  -- Update defaults info for SystemOnTPTP based on arguments
-  -- given on the command-line.
-
-  let finals ∷ SystemOnTPTP
-      finals = let system = optSystemOnTPTP opts in
-        defaults {
-          optCPUPassword  = case optCPUPassword system of
-            []   → optCPUPassword defaults
-            pass → pass
-        , optCompleteness = optCompleteness system || optCompleteness defaults
-        , optCorrectness  = optCorrectness system  || optCorrectness defaults
-        , optIDV          = optIDV system          || optIDV defaults
-        , optSoundness    = optSoundness system    || optSoundness defaults
-        , optSystemInfo   = optSystemInfo system   || optSystemInfo defaults
-        , optSystemOnTSTP = optSystemOnTSTP system || optSystemOnTSTP defaults
-        , optTSTPData     = optTSTPData system     || optTSTPData defaults
-        , optX2TPTP       = optX2TPTP system       || optX2TPTP defaults
-    }
-
-  -- ---------------------------------------------------------------------------
-
-  let file ∷ Maybe FilePath
-      file = optInputFile opts
-
-  if isNothing file
-    then return $ Left "Missing input file"
+  if null setATPs then return $ Left "Check the ATPs names using --list-atps"
     else do
+      defaults ∷ SystemOnTPTP ← getDefaults
 
-      contentFile ∷ String ← readFile $ fromJust file
+      -- -----------------------------------------------------------------------
+      -- Update defaults info for SystemOnTPTP based on arguments
+      -- given on the command-line (They have priority)
 
-      let form ∷ SystemOnTPTP
-          form  = setFORMULAEProblem (setSystems finals setATPs) contentFile
+      let finals ∷ SystemOnTPTP
+          finals = let system = optSystemOnTPTP opts in
+            defaults {
+              optAutoMode = case optAutoMode system of
+                []   → optAutoMode defaults
+                mode → mode
+            , optAutoModeSystemsLimit = case optAutoModeSystemsLimit system of
+                []   → optAutoModeSystemsLimit defaults
+                mode → mode
+            , optAutoModeTimeLimit    = case optAutoModeTimeLimit system of
+                []   → optAutoModeTimeLimit defaults
+                mode → mode
+            ,  optCPUPassword  = case optCPUPassword system of
+                []   → optCPUPassword defaults
+                pass → pass
+            , optQuietFlag     = case optQuietFlag system of
+                []   → optQuietFlag defaults
+                flag → flag
+            , optCompleteness = optCompleteness system || optCompleteness defaults
+            , optCorrectness  = optCorrectness system  || optCorrectness defaults
+            , optIDV          = optIDV system          || optIDV defaults
+            , optReportFlag   = case optReportFlag system of
+                []   → optReportFlag defaults
+                mode → mode
+            , optSoundness    = optSoundness system    || optSoundness defaults
+            , optSubmitButton = case optSubmitButton system of
+                []     → optSubmitButton defaults
+                action → action
+            , optSystemInfo   = optSystemInfo system   || optSystemInfo defaults
+            , optSystemOnTSTP = optSystemOnTSTP system || optSystemOnTSTP defaults
+            , optSystems      = setATPs
+            , optTSTPData     = optTSTPData system     || optTSTPData defaults
+            , optX2TPTP       = optX2TPTP system       || optX2TPTP defaults
+          }
 
-      return $ Right form
+      -- ---------------------------------------------------------------------------
+
+      let file ∷ Maybe FilePath
+          file = optInputFile opts
+
+      if isNothing file
+        then return $ Left "Missing input file"
+        else do
+
+          contentFile ∷ String ← readFile $ fromJust file
+
+          let form ∷ SystemOnTPTP
+              form  = setFORMULAEProblem finals contentFile
+
+          return $ Right form
