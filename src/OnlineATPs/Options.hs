@@ -174,6 +174,13 @@ inputFileOpt file opts =
 onlyCheckOpt ∷ MOptions
 onlyCheckOpt opts = Right opts { optOnlyCheck = True }
 
+quietOpt ∷ String → MOptions
+quietOpt [] _ = Left $
+  pretty "option " <> squotes "--quiet-mode" <> pretty " requires an argument MODE"
+quietOpt mode opts = let system = optSystemOnTPTP opts in
+  Right opts { optSystemOnTPTP = system { optQuietFlag = mode } }
+
+
 systemInfoOpt ∷ MOptions
 systemInfoOpt opts = let system = optSystemOnTPTP opts in
   Right opts { optSystemOnTPTP = system { optSystemInfo = True } }
@@ -185,6 +192,9 @@ systemOnTSTPOpt opts = let system = optSystemOnTPTP opts in
 soudnessOpt ∷ MOptions
 soudnessOpt opts = let system = optSystemOnTPTP opts in
   Right opts { optSystemOnTPTP = system { optSoundness = True } }
+
+submitButtonOpt ∷ String → MOptions
+submitButtonOpt [] _ = Left $ pretty "option " <> squotes "--action" <> pretty " requires an argument MODE"
 
 timeOpt ∷ String → MOptions
 timeOpt [] _ = Left $
@@ -217,7 +227,9 @@ x2tptpOpt opts = let system = optSystemOnTPTP opts in
 -- | Description of the command-line 'Options'.
 options ∷ [OptDescr MOptions]
 options =
-  [ Option []  ["atp"] (ReqArg atpOpt "NAME")
+  [Option []  ["action"] (ReqArg submitButtonOpt "MODE")
+                "Action to submit (\"RunSelectedSystems\",\"RunParallel\",\n\"RecommendSystems\" or \"ReportSelectedSystems\")."
+  , Option []  ["atp"] (ReqArg atpOpt "NAME")
                "Set the ATP (online-e, online-vampire, online-z3, ...)\n"
   , Option []  ["completeness"] (NoArg completenessOpt)
                 "Turn on the option completess"
@@ -237,6 +249,8 @@ options =
                "Consult all ATPs available in TPTP World"
   , Option []  ["only-check"] (NoArg onlyCheckOpt)
                "Only checks the output looking for a theorem."
+  , Option []  ["quiet-mode"] (ReqArg quietOpt "Mode")
+                "Set the Output Mode (\"-q0\" : Everything, \"-q01\" : System,\n\"-q2\" Progress, \"-q3\" : Result, and -q4 : Nothing)"
   , Option []  ["soudness"] (NoArg soudnessOpt)
                "Turn on the option Soudness"
   , Option []  ["system-info"] (NoArg systemInfoOpt)
