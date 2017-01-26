@@ -21,3 +21,15 @@ cabal.project.local
 talk/Output/*.*
 *.synctex.gz
 *.pdf
+
+
+  talk/onlineatps.bbl
+  talk/onlineatps.blg
+  talk/onlineatps.fdb_latexmk
+  talk/onlineatps.fls
+  talk/onlineatps.log
+  talk/onlineatps.nav
+  talk/onlineatps.out
+  talk/onlineatps.snm
+  talk/onlineatps.toc
+  talk/onlineatps.vrb

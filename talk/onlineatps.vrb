@@ -1,0 +1,7 @@
+\frametitle{Using EProver to get an answer}
+The output from the problem later using \eprover.
+\begin{lstlisting}
+$ eprover --auto --tptp3-format basic.tptp
+# Proof found!
+# SZS status Theorem
+\end{lstlisting}

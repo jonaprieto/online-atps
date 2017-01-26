@@ -10,7 +10,7 @@
 \section{The tool}
 
 \begin{frame}{Abstract}
-OnlineATPs is a Haskell program open source for connects to the web service SystemOnTPTP of the TPTP World.
+OnlineATPs is a command-line tool for connect to the web service SystemOnTPTP of the TPTP World.
 This new tool allows us to use ATPs without installing any of them. We can install it on Linux, Windows or Mac.
 With OnlineATPs you are capable to test a problem against at least sixty ATPs, check for unsatisfability, get some proofs and others functions.
 \end{frame}
@@ -106,13 +106,13 @@ Examples: logic, mathematics, computer science, engineering, and social science.
 \begin{frame}[fragile]{Installing one \atp }
 Did you try installing some \atp before with success at first try?\\
 \begin{itemize}
-\item \keyword{EProver} Is one of those easy guys.
+\item \keyword{EProver}
   \begin{lstlisting}
-  $ cd /home/jonaprieto
+  $ cd ~
   $ wget http://wwwlehre.dhbw-stuttgart.de/~sschulz/WORK/E_DOWNLOAD/V_1.9.1/E.tgz
   $ tar -xzf E.tgz
   $ cd E
-  $ ./configure --bindir=/home/jonaprieto/bin
+  $ ./configure --bindir=~/bin
   $ make
   $ make install
   \end{lstlisting}
@@ -131,13 +131,13 @@ Did you try installing some \atp before with success at first try?\\
 \begin{frame}[fragile]{Installing \onlineatps}
 \begin{itemize} \onlineatps
 \begin{lstlisting}
-$ git clone https://github.com/jonaprieto/onlineatps
-$ cd ~/onlineatps
+$ git clone https://github.com/jonaprieto/online-atps
+$ cd ~/online-atps
 $ cabal install
 \end{lstlisting}
-\item In the future (make a PR):
+\item In the future
 \begin{lstlisting}
-$ cabal install onlineatps
+$ cabal install online-atps
 \end{lstlisting}
 \end{itemize}
 \end{frame}
@@ -241,15 +241,14 @@ A few \atps use \keyword{TSTP} format.
 
 \begin{frame}{Future work}
 \begin{itemize}
-\item Close the issues (17) open on \texttt{Github}.
 \item We want to give full support for all features of TPTP World.
 \begin{itemize}
-  \item Customize the commands arguments you send for the \atps.
+  \item Customize the command arguments that you send for each \atps.
   \item Recommend Systems.
 \end{itemize}
 \item More features focus on \apia needs.
 \item YAML Configure files.
-\item Async calls.
+\item Asyncronic calls.
 \end{itemize}
 \end{frame}
 
@@ -317,10 +316,6 @@ Let's check some challenges inside the code!
 \end{block}
 \end{frame}
 
-
-\begin{frame}{The goodbye}
-Thanks
-\end{frame}
 
 \bibliography{biblio}
 \end{document}
