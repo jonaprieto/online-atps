@@ -97,3 +97,10 @@ awk '/\[CVC4\]/ || /\[E\]/ || /\[Metis\]/ || /\[SPASS\]/ || /\[Vampire\]/ || /\[
 >>>2
 >>>= 0
 
+
+../../dist/build/online-atps/online-atps basic.tptp --atp=ed
+<<<
+>>>
+>>>2
+online-atps: Check the ATPs names using --list-atps
+>>>= 1

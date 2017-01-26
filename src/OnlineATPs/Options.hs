@@ -5,7 +5,8 @@
 {-# LANGUAGE UnicodeSyntax #-}
 
 module OnlineATPs.Options
-  ( getManageOpt
+  ( defaultOptions
+  , getManageOpt
   , options
   , ManageOption
   , MOptions  -- Required by Haddock.
@@ -40,21 +41,20 @@ import OnlineATPs.SystemOnTPTP
     , optCompleteness
     , optCorrectness
     , optCPUPassword
-    , optFORMULAEProblem
-    , optFormulaURL
+    -- , optFORMULAEProblem
+    -- , optFormulaURL
     , optIDV
-    , optNoHTML
-    , optProblemSource
+    -- , optNoHTML
+    -- , optProblemSource
     , optQuietFlag
     , optReportFlag
     , optSoundness
     , optSubmitButton
     , optSystemInfo
     , optSystemOnTSTP
-    , optSystems
-    , optTPTPProblem
+    -- , optTPTPProblem
     , optTSTPData
-    , optUPLOADProblem
+    -- , optUPLOADProblem
     , optX2TPTP
     )
   )
@@ -104,7 +104,7 @@ data Options = Options
   }
   deriving Show
 
-
+-- | Default record values for 'Options'.
 defaultOptions ∷ Options
 defaultOptions = Options
   { optATP            = DefaultOpt []
