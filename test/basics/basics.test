@@ -1,4 +1,4 @@
-# --help
+# --------------------------------------------------------------------
 ../../dist/build/online-atps/online-atps --help
 <<<
 >>>
@@ -34,44 +34,40 @@ Usage: online-atps [OPTIONS] FILE
 
 >>>2
 >>>= 0
+# --------------------------------------------------------------------
 
+
+# --------------------------------------------------------------------
 # version
 ../../dist/build/online-atps/online-atps --version
 >>>
 Online-atps version 0.1.1
 >>>2
 >>>= 0
+# --------------------------------------------------------------------
 
-# missing the argument atp
-../../dist/build/online-atps/online-atps basic.tptp
-<<<
->>>
->>>2
-online-atps: missing --atp=NAME (try --help)
->>>= 1
 
-# proving a basic one
-../../dist/build/online-atps/online-atps basic.tptp --atp=e --only-check
-<<<
->>>
-Theorem
->>>2
->>>= 0
-
+# --------------------------------------------------------------------
 # saving the list of all atps
 ../../dist/build/online-atps/online-atps basic.tptp --list-atps > atps.txt
 <<<
 >>>
 >>>2
 >>>= 0
+# --------------------------------------------------------------------
 
+
+# --------------------------------------------------------------------
 awk '/\([0-9]+\) ATPs available/{print substr($0, 6)}' atps.txt
 <<<
 >>>
 ATPs available
 >>>2
 >>>= 0
+# --------------------------------------------------------------------
 
+
+# --------------------------------------------------------------------
 # check E
 awk '/\[Z3\]/{print}' atps.txt
 <<<
@@ -79,7 +75,10 @@ awk '/\[Z3\]/{print}' atps.txt
 [Z3]
 >>>2
 >>>= 0
+# --------------------------------------------------------------------
 
+
+# --------------------------------------------------------------------
 # check Z3
 awk '/\[CVC4\]/ || /\[E\]/ || /\[Metis\]/ || /\[SPASS\]/ || /\[Vampire\]/ || /\[Z3\]/ {print}' atps.txt
 <<<
@@ -96,11 +95,862 @@ awk '/\[CVC4\]/ || /\[E\]/ || /\[Metis\]/ || /\[SPASS\]/ || /\[Vampire\]/ || /\[
 [Z3]
 >>>2
 >>>= 0
+# --------------------------------------------------------------------
 
 
+# --------------------------------------------------------------------
 ../../dist/build/online-atps/online-atps basic.tptp --atp=ed
 <<<
 >>>
 >>>2
 online-atps: Check the ATPs names using --list-atps
 >>>= 1
+# --------------------------------------------------------------------
+
+
+# --------------------------------------------------------------------
+../../dist/build/online-atps/online-atps
+<<<
+>>>
+>>>2
+online-atps: missing input file (try --help)
+>>>= 1
+# --------------------------------------------------------------------
+
+
+# --------------------------------------------------------------------
+# MISSING THE ARGUMENT ATP
+../../dist/build/online-atps/online-atps basic.tptp
+<<<
+>>>
+>>>2
+online-atps: missing --atp=NAME (try --help)
+>>>= 1
+# --------------------------------------------------------------------
+
+
+# --------------------------------------------------------------------
+# METIS TEST
+../../dist/build/online-atps/online-atps basic.tptp --atp=metis --only-check
+<<<
+>>>
+Theorem
+>>>2
+>>>= 0
+# --------------------------------------------------------------------
+
+
+# --------------------------------------------------------------------
+# METIS TEST
+../../dist/build/online-atps/online-atps basic.tptp --atp=online-metis --only-check
+<<<
+>>>
+Theorem
+>>>2
+>>>= 0
+# --------------------------------------------------------------------
+
+
+# --------------------------------------------------------------------
+# EPROVER Test
+../../dist/build/online-atps/online-atps basic.tptp --atp=e --only-check
+<<<
+>>>
+Theorem
+>>>2
+>>>= 0
+# --------------------------------------------------------------------
+
+
+# --------------------------------------------------------------------
+# EPROVER Test
+../../dist/build/online-atps/online-atps basic.tptp --atp=online-e --only-check
+<<<
+>>>
+Theorem
+>>>2
+>>>= 0
+# --------------------------------------------------------------------
+
+
+# --------------------------------------------------------------------
+# Case Sensitive
+../../dist/build/online-atps/online-atps basic.tptp --atp=online-E --only-check
+<<<
+>>>
+>>>2
+online-atps: Check the ATPs names using --list-atps
+>>>= 1
+# --------------------------------------------------------------------
+
+
+# --------------------------------------------------------------------
+# Defaults
+../../dist/build/online-atps/online-atps --debug
+<<<
+>>>
+Options
+  { optATP = DefaultOpt []
+  , optATPList = False
+  , optDebug = True
+  , optFOF = False
+  , optHelp = False
+  , optInputFile = Nothing
+  , optSystemOnTPTP =
+      SystemOnTPTP
+        { optAutoMode = "-cE"
+        , optAutoModeSystemsLimit = "3"
+        , optAutoModeTimeLimit = "300"
+        , optCompleteness = False
+        , optCorrectness = False
+        , optCPUPassword = ""
+        , optFORMULAEProblem = ""
+        , optFormulaURL = ""
+        , optIDV = False
+        , optNoHTML = "1"
+        , optProblemSource = "FORMULAE"
+        , optQuietFlag = "-q01"
+        , optReportFlag = "-q0"
+        , optSoundness = False
+        , optSubmitButton = "RunSelectedSystems"
+        , optSystemInfo = False
+        , optSystemOnTSTP = False
+        , optSystems = []
+        , optTPTPProblem = ""
+        , optTSTPData = False
+        , optUPLOADProblem = ""
+        , optX2TPTP = False
+        }
+  , optOnlyCheck = False
+  , optTime = 240
+  , optVersion = False
+  , optVersionATP = ""
+  , optWithAll = False
+  }
+>>>2
+online-atps: missing input file (try --help)
+>>>= 1
+# --------------------------------------------------------------------
+
+
+# --------------------------------------------------------------------
+# Defaults
+# IT DOESN'T REPEAT THE ATP IN THE optATP
+../../dist/build/online-atps/online-atps --atp=e --atp=e --debug
+<<<
+>>>
+Options
+  { optATP = CommandOpt [ "e" ]
+  , optATPList = False
+  , optDebug = True
+  , optFOF = False
+  , optHelp = False
+  , optInputFile = Nothing
+  , optSystemOnTPTP =
+      SystemOnTPTP
+        { optAutoMode = "-cE"
+        , optAutoModeSystemsLimit = "3"
+        , optAutoModeTimeLimit = "300"
+        , optCompleteness = False
+        , optCorrectness = False
+        , optCPUPassword = ""
+        , optFORMULAEProblem = ""
+        , optFormulaURL = ""
+        , optIDV = False
+        , optNoHTML = "1"
+        , optProblemSource = "FORMULAE"
+        , optQuietFlag = "-q01"
+        , optReportFlag = "-q0"
+        , optSoundness = False
+        , optSubmitButton = "RunSelectedSystems"
+        , optSystemInfo = False
+        , optSystemOnTSTP = False
+        , optSystems = []
+        , optTPTPProblem = ""
+        , optTSTPData = False
+        , optUPLOADProblem = ""
+        , optX2TPTP = False
+        }
+  , optOnlyCheck = False
+  , optTime = 240
+  , optVersion = False
+  , optVersionATP = ""
+  , optWithAll = False
+  }
+>>>2
+online-atps: missing input file (try --help)
+>>>= 1
+# --------------------------------------------------------------------
+
+
+# --------------------------------------------------------------------
+# Defaults
+# More than one ATP
+../../dist/build/online-atps/online-atps --atp=e --atp=metis --debug
+<<<
+>>>
+Options
+  { optATP = CommandOpt [ "e" , "metis" ]
+  , optATPList = False
+  , optDebug = True
+  , optFOF = False
+  , optHelp = False
+  , optInputFile = Nothing
+  , optSystemOnTPTP =
+      SystemOnTPTP
+        { optAutoMode = "-cE"
+        , optAutoModeSystemsLimit = "3"
+        , optAutoModeTimeLimit = "300"
+        , optCompleteness = False
+        , optCorrectness = False
+        , optCPUPassword = ""
+        , optFORMULAEProblem = ""
+        , optFormulaURL = ""
+        , optIDV = False
+        , optNoHTML = "1"
+        , optProblemSource = "FORMULAE"
+        , optQuietFlag = "-q01"
+        , optReportFlag = "-q0"
+        , optSoundness = False
+        , optSubmitButton = "RunSelectedSystems"
+        , optSystemInfo = False
+        , optSystemOnTSTP = False
+        , optSystems = []
+        , optTPTPProblem = ""
+        , optTSTPData = False
+        , optUPLOADProblem = ""
+        , optX2TPTP = False
+        }
+  , optOnlyCheck = False
+  , optTime = 240
+  , optVersion = False
+  , optVersionATP = ""
+  , optWithAll = False
+  }
+>>>2
+online-atps: missing input file (try --help)
+>>>= 1
+# --------------------------------------------------------------------
+
+
+# --------------------------------------------------------------------
+# THE ORDER MATTERS FOR THE ATPS
+../../dist/build/online-atps/online-atps --atp=metis --atp=e --debug
+<<<
+>>>
+Options
+  { optATP = CommandOpt [ "metis" , "e" ]
+  , optATPList = False
+  , optDebug = True
+  , optFOF = False
+  , optHelp = False
+  , optInputFile = Nothing
+  , optSystemOnTPTP =
+      SystemOnTPTP
+        { optAutoMode = "-cE"
+        , optAutoModeSystemsLimit = "3"
+        , optAutoModeTimeLimit = "300"
+        , optCompleteness = False
+        , optCorrectness = False
+        , optCPUPassword = ""
+        , optFORMULAEProblem = ""
+        , optFormulaURL = ""
+        , optIDV = False
+        , optNoHTML = "1"
+        , optProblemSource = "FORMULAE"
+        , optQuietFlag = "-q01"
+        , optReportFlag = "-q0"
+        , optSoundness = False
+        , optSubmitButton = "RunSelectedSystems"
+        , optSystemInfo = False
+        , optSystemOnTSTP = False
+        , optSystems = []
+        , optTPTPProblem = ""
+        , optTSTPData = False
+        , optUPLOADProblem = ""
+        , optX2TPTP = False
+        }
+  , optOnlyCheck = False
+  , optTime = 240
+  , optVersion = False
+  , optVersionATP = ""
+  , optWithAll = False
+  }
+>>>2
+online-atps: missing input file (try --help)
+>>>= 1
+# --------------------------------------------------------------------
+
+
+# BOOLEAN FLAGS ------------------------------------------------------
+
+# --------------------------------------------------------------------
+# FOF FLAG
+../../dist/build/online-atps/online-atps --debug --fof
+<<<
+>>>
+Options
+  { optATP = DefaultOpt []
+  , optATPList = False
+  , optDebug = True
+  , optFOF = True
+  , optHelp = False
+  , optInputFile = Nothing
+  , optSystemOnTPTP =
+      SystemOnTPTP
+        { optAutoMode = "-cE"
+        , optAutoModeSystemsLimit = "3"
+        , optAutoModeTimeLimit = "300"
+        , optCompleteness = False
+        , optCorrectness = False
+        , optCPUPassword = ""
+        , optFORMULAEProblem = ""
+        , optFormulaURL = ""
+        , optIDV = False
+        , optNoHTML = "1"
+        , optProblemSource = "FORMULAE"
+        , optQuietFlag = "-q01"
+        , optReportFlag = "-q0"
+        , optSoundness = False
+        , optSubmitButton = "RunSelectedSystems"
+        , optSystemInfo = False
+        , optSystemOnTSTP = False
+        , optSystems = []
+        , optTPTPProblem = ""
+        , optTSTPData = False
+        , optUPLOADProblem = ""
+        , optX2TPTP = False
+        }
+  , optOnlyCheck = False
+  , optTime = 240
+  , optVersion = False
+  , optVersionATP = ""
+  , optWithAll = False
+  }
+>>>2
+online-atps: missing input file (try --help)
+>>>= 1
+# --------------------------------------------------------------------
+
+
+# --------------------------------------------------------------------
+# COMPLETENESS FLAG
+../../dist/build/online-atps/online-atps --debug --completeness
+<<<
+>>>
+Options
+  { optATP = DefaultOpt []
+  , optATPList = False
+  , optDebug = True
+  , optFOF = False
+  , optHelp = False
+  , optInputFile = Nothing
+  , optSystemOnTPTP =
+      SystemOnTPTP
+        { optAutoMode = "-cE"
+        , optAutoModeSystemsLimit = "3"
+        , optAutoModeTimeLimit = "300"
+        , optCompleteness = True
+        , optCorrectness = False
+        , optCPUPassword = ""
+        , optFORMULAEProblem = ""
+        , optFormulaURL = ""
+        , optIDV = False
+        , optNoHTML = "1"
+        , optProblemSource = "FORMULAE"
+        , optQuietFlag = "-q01"
+        , optReportFlag = "-q0"
+        , optSoundness = False
+        , optSubmitButton = "RunSelectedSystems"
+        , optSystemInfo = False
+        , optSystemOnTSTP = False
+        , optSystems = []
+        , optTPTPProblem = ""
+        , optTSTPData = False
+        , optUPLOADProblem = ""
+        , optX2TPTP = False
+        }
+  , optOnlyCheck = False
+  , optTime = 240
+  , optVersion = False
+  , optVersionATP = ""
+  , optWithAll = False
+  }
+>>>2
+online-atps: missing input file (try --help)
+>>>= 1
+# --------------------------------------------------------------------
+
+
+# --------------------------------------------------------------------
+# CORRECTENESS FLAG
+../../dist/build/online-atps/online-atps --debug --correcteness
+<<<
+>>>
+Options
+  { optATP = DefaultOpt []
+  , optATPList = False
+  , optDebug = True
+  , optFOF = False
+  , optHelp = False
+  , optInputFile = Nothing
+  , optSystemOnTPTP =
+      SystemOnTPTP
+        { optAutoMode = "-cE"
+        , optAutoModeSystemsLimit = "3"
+        , optAutoModeTimeLimit = "300"
+        , optCompleteness = False
+        , optCorrectness = True
+        , optCPUPassword = ""
+        , optFORMULAEProblem = ""
+        , optFormulaURL = ""
+        , optIDV = False
+        , optNoHTML = "1"
+        , optProblemSource = "FORMULAE"
+        , optQuietFlag = "-q01"
+        , optReportFlag = "-q0"
+        , optSoundness = False
+        , optSubmitButton = "RunSelectedSystems"
+        , optSystemInfo = False
+        , optSystemOnTSTP = False
+        , optSystems = []
+        , optTPTPProblem = ""
+        , optTSTPData = False
+        , optUPLOADProblem = ""
+        , optX2TPTP = False
+        }
+  , optOnlyCheck = False
+  , optTime = 240
+  , optVersion = False
+  , optVersionATP = ""
+  , optWithAll = False
+  }
+>>>2
+online-atps: missing input file (try --help)
+>>>= 1
+# --------------------------------------------------------------------
+
+
+# --------------------------------------------------------------------
+# IDV FLAG
+../../dist/build/online-atps/online-atps --debug --idv
+<<<
+>>>
+Options
+  { optATP = DefaultOpt []
+  , optATPList = False
+  , optDebug = True
+  , optFOF = False
+  , optHelp = False
+  , optInputFile = Nothing
+  , optSystemOnTPTP =
+      SystemOnTPTP
+        { optAutoMode = "-cE"
+        , optAutoModeSystemsLimit = "3"
+        , optAutoModeTimeLimit = "300"
+        , optCompleteness = False
+        , optCorrectness = False
+        , optCPUPassword = ""
+        , optFORMULAEProblem = ""
+        , optFormulaURL = ""
+        , optIDV = True
+        , optNoHTML = "1"
+        , optProblemSource = "FORMULAE"
+        , optQuietFlag = "-q01"
+        , optReportFlag = "-q0"
+        , optSoundness = False
+        , optSubmitButton = "RunSelectedSystems"
+        , optSystemInfo = False
+        , optSystemOnTSTP = False
+        , optSystems = []
+        , optTPTPProblem = ""
+        , optTSTPData = False
+        , optUPLOADProblem = ""
+        , optX2TPTP = False
+        }
+  , optOnlyCheck = False
+  , optTime = 240
+  , optVersion = False
+  , optVersionATP = ""
+  , optWithAll = False
+  }
+>>>2
+online-atps: missing input file (try --help)
+>>>= 1
+# --------------------------------------------------------------------
+
+
+# --------------------------------------------------------------------
+# SOUDNESS FLAG
+../../dist/build/online-atps/online-atps --debug --soudness
+<<<
+>>>
+Options
+  { optATP = DefaultOpt []
+  , optATPList = False
+  , optDebug = True
+  , optFOF = False
+  , optHelp = False
+  , optInputFile = Nothing
+  , optSystemOnTPTP =
+      SystemOnTPTP
+        { optAutoMode = "-cE"
+        , optAutoModeSystemsLimit = "3"
+        , optAutoModeTimeLimit = "300"
+        , optCompleteness = False
+        , optCorrectness = False
+        , optCPUPassword = ""
+        , optFORMULAEProblem = ""
+        , optFormulaURL = ""
+        , optIDV = False
+        , optNoHTML = "1"
+        , optProblemSource = "FORMULAE"
+        , optQuietFlag = "-q01"
+        , optReportFlag = "-q0"
+        , optSoundness = True
+        , optSubmitButton = "RunSelectedSystems"
+        , optSystemInfo = False
+        , optSystemOnTSTP = False
+        , optSystems = []
+        , optTPTPProblem = ""
+        , optTSTPData = False
+        , optUPLOADProblem = ""
+        , optX2TPTP = False
+        }
+  , optOnlyCheck = False
+  , optTime = 240
+  , optVersion = False
+  , optVersionATP = ""
+  , optWithAll = False
+  }
+>>>2
+online-atps: missing input file (try --help)
+>>>= 1
+# --------------------------------------------------------------------
+
+
+# --------------------------------------------------------------------
+# SystemInfo FLAG
+../../dist/build/online-atps/online-atps --debug --system-info
+<<<
+>>>
+Options
+  { optATP = DefaultOpt []
+  , optATPList = False
+  , optDebug = True
+  , optFOF = False
+  , optHelp = False
+  , optInputFile = Nothing
+  , optSystemOnTPTP =
+      SystemOnTPTP
+        { optAutoMode = "-cE"
+        , optAutoModeSystemsLimit = "3"
+        , optAutoModeTimeLimit = "300"
+        , optCompleteness = False
+        , optCorrectness = False
+        , optCPUPassword = ""
+        , optFORMULAEProblem = ""
+        , optFormulaURL = ""
+        , optIDV = False
+        , optNoHTML = "1"
+        , optProblemSource = "FORMULAE"
+        , optQuietFlag = "-q01"
+        , optReportFlag = "-q0"
+        , optSoundness = False
+        , optSubmitButton = "RunSelectedSystems"
+        , optSystemInfo = True
+        , optSystemOnTSTP = False
+        , optSystems = []
+        , optTPTPProblem = ""
+        , optTSTPData = False
+        , optUPLOADProblem = ""
+        , optX2TPTP = False
+        }
+  , optOnlyCheck = False
+  , optTime = 240
+  , optVersion = False
+  , optVersionATP = ""
+  , optWithAll = False
+  }
+>>>2
+online-atps: missing input file (try --help)
+>>>= 1
+# --------------------------------------------------------------------
+
+
+# --------------------------------------------------------------------
+# SystemOnTSTP FLAG
+../../dist/build/online-atps/online-atps --debug --system-on-tstp
+<<<
+>>>
+Options
+  { optATP = DefaultOpt []
+  , optATPList = False
+  , optDebug = True
+  , optFOF = False
+  , optHelp = False
+  , optInputFile = Nothing
+  , optSystemOnTPTP =
+      SystemOnTPTP
+        { optAutoMode = "-cE"
+        , optAutoModeSystemsLimit = "3"
+        , optAutoModeTimeLimit = "300"
+        , optCompleteness = False
+        , optCorrectness = False
+        , optCPUPassword = ""
+        , optFORMULAEProblem = ""
+        , optFormulaURL = ""
+        , optIDV = False
+        , optNoHTML = "1"
+        , optProblemSource = "FORMULAE"
+        , optQuietFlag = "-q01"
+        , optReportFlag = "-q0"
+        , optSoundness = False
+        , optSubmitButton = "RunSelectedSystems"
+        , optSystemInfo = False
+        , optSystemOnTSTP = True
+        , optSystems = []
+        , optTPTPProblem = ""
+        , optTSTPData = False
+        , optUPLOADProblem = ""
+        , optX2TPTP = False
+        }
+  , optOnlyCheck = False
+  , optTime = 240
+  , optVersion = False
+  , optVersionATP = ""
+  , optWithAll = False
+  }
+>>>2
+online-atps: missing input file (try --help)
+>>>= 1
+# --------------------------------------------------------------------
+
+
+# --------------------------------------------------------------------
+# TSTP Data FLAG
+../../dist/build/online-atps/online-atps --debug --tstp-data
+<<<
+>>>
+Options
+  { optATP = DefaultOpt []
+  , optATPList = False
+  , optDebug = True
+  , optFOF = False
+  , optHelp = False
+  , optInputFile = Nothing
+  , optSystemOnTPTP =
+      SystemOnTPTP
+        { optAutoMode = "-cE"
+        , optAutoModeSystemsLimit = "3"
+        , optAutoModeTimeLimit = "300"
+        , optCompleteness = False
+        , optCorrectness = False
+        , optCPUPassword = ""
+        , optFORMULAEProblem = ""
+        , optFormulaURL = ""
+        , optIDV = False
+        , optNoHTML = "1"
+        , optProblemSource = "FORMULAE"
+        , optQuietFlag = "-q01"
+        , optReportFlag = "-q0"
+        , optSoundness = False
+        , optSubmitButton = "RunSelectedSystems"
+        , optSystemInfo = False
+        , optSystemOnTSTP = False
+        , optSystems = []
+        , optTPTPProblem = ""
+        , optTSTPData = True
+        , optUPLOADProblem = ""
+        , optX2TPTP = False
+        }
+  , optOnlyCheck = False
+  , optTime = 240
+  , optVersion = False
+  , optVersionATP = ""
+  , optWithAll = False
+  }
+>>>2
+online-atps: missing input file (try --help)
+>>>= 1
+# --------------------------------------------------------------------
+
+
+# --------------------------------------------------------------------
+# X2TPTP FLAG
+../../dist/build/online-atps/online-atps --debug --x2tptp
+<<<
+>>>
+Options
+  { optATP = DefaultOpt []
+  , optATPList = False
+  , optDebug = True
+  , optFOF = False
+  , optHelp = False
+  , optInputFile = Nothing
+  , optSystemOnTPTP =
+      SystemOnTPTP
+        { optAutoMode = "-cE"
+        , optAutoModeSystemsLimit = "3"
+        , optAutoModeTimeLimit = "300"
+        , optCompleteness = False
+        , optCorrectness = False
+        , optCPUPassword = ""
+        , optFORMULAEProblem = ""
+        , optFormulaURL = ""
+        , optIDV = False
+        , optNoHTML = "1"
+        , optProblemSource = "FORMULAE"
+        , optQuietFlag = "-q01"
+        , optReportFlag = "-q0"
+        , optSoundness = False
+        , optSubmitButton = "RunSelectedSystems"
+        , optSystemInfo = False
+        , optSystemOnTSTP = False
+        , optSystems = []
+        , optTPTPProblem = ""
+        , optTSTPData = False
+        , optUPLOADProblem = ""
+        , optX2TPTP = True
+        }
+  , optOnlyCheck = False
+  , optTime = 240
+  , optVersion = False
+  , optVersionATP = ""
+  , optWithAll = False
+  }
+>>>2
+online-atps: missing input file (try --help)
+>>>= 1
+# --------------------------------------------------------------------
+
+
+# --------------------------------------------------------------------
+# ONLYCHECK FLAG
+../../dist/build/online-atps/online-atps --debug --only-check
+<<<
+>>>
+Options
+  { optATP = DefaultOpt []
+  , optATPList = False
+  , optDebug = True
+  , optFOF = False
+  , optHelp = False
+  , optInputFile = Nothing
+  , optSystemOnTPTP =
+      SystemOnTPTP
+        { optAutoMode = "-cE"
+        , optAutoModeSystemsLimit = "3"
+        , optAutoModeTimeLimit = "300"
+        , optCompleteness = False
+        , optCorrectness = False
+        , optCPUPassword = ""
+        , optFORMULAEProblem = ""
+        , optFormulaURL = ""
+        , optIDV = False
+        , optNoHTML = "1"
+        , optProblemSource = "FORMULAE"
+        , optQuietFlag = "-q01"
+        , optReportFlag = "-q0"
+        , optSoundness = False
+        , optSubmitButton = "RunSelectedSystems"
+        , optSystemInfo = False
+        , optSystemOnTSTP = False
+        , optSystems = []
+        , optTPTPProblem = ""
+        , optTSTPData = False
+        , optUPLOADProblem = ""
+        , optX2TPTP = False
+        }
+  , optOnlyCheck = True
+  , optTime = 240
+  , optVersion = False
+  , optVersionATP = ""
+  , optWithAll = False
+  }
+>>>2
+online-atps: missing input file (try --help)
+>>>= 1
+# --------------------------------------------------------------------
+
+
+# --------------------------------------------------------------------
+# VERSIONFLAG HAS MORE PRIORITY OVER --debug FLAG
+../../dist/build/online-atps/online-atps --debug --version
+<<<
+>>>
+Online-atps version 0.1.1
+>>>2
+>>>= 0
+# --------------------------------------------------------------------
+
+
+# --------------------------------------------------------------------
+# WITHALL FLAG
+../../dist/build/online-atps/online-atps --debug --with-all
+<<<
+>>>
+Options
+  { optATP = DefaultOpt []
+  , optATPList = False
+  , optDebug = True
+  , optFOF = False
+  , optHelp = False
+  , optInputFile = Nothing
+  , optSystemOnTPTP =
+      SystemOnTPTP
+        { optAutoMode = "-cE"
+        , optAutoModeSystemsLimit = "3"
+        , optAutoModeTimeLimit = "300"
+        , optCompleteness = False
+        , optCorrectness = False
+        , optCPUPassword = ""
+        , optFORMULAEProblem = ""
+        , optFormulaURL = ""
+        , optIDV = False
+        , optNoHTML = "1"
+        , optProblemSource = "FORMULAE"
+        , optQuietFlag = "-q01"
+        , optReportFlag = "-q0"
+        , optSoundness = False
+        , optSubmitButton = "RunSelectedSystems"
+        , optSystemInfo = False
+        , optSystemOnTSTP = False
+        , optSystems = []
+        , optTPTPProblem = ""
+        , optTSTPData = False
+        , optUPLOADProblem = ""
+        , optX2TPTP = False
+        }
+  , optOnlyCheck = False
+  , optTime = 240
+  , optVersion = False
+  , optVersionATP = ""
+  , optWithAll = True
+  }
+>>>2
+online-atps: missing input file (try --help)
+>>>= 1
+# --------------------------------------------------------------------
+# End of boolean flags
+
+
+# --------------------------------------------------------------------
+# EPROVER Version
+../../dist/build/online-atps/online-atps --version-atp=e --debug
+<<<
+>>>
+E---2.0
+>>>2
+>>>= 0
+# --------------------------------------------------------------------
+
+# --------------------------------------------------------------------
+# EPROVER Version
+../../dist/build/online-atps/online-atps --version-atp=metis --debug
+<<<
+>>>
+Metis---2.3
+>>>2
+>>>= 0
+# --------------------------------------------------------------------
