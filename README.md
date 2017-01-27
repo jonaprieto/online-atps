@@ -7,13 +7,13 @@
 
 #### Requirements
 
-* OnlineATPs has been built and tested using [GHC](https://www.haskell.org/ghc/) 7.6.3, 7.8.4, 7.10.3, and 8.0.2. Check your version.
+* OnlineATPs has been built and tested using [GHC](https://www.haskell.org/ghc/) 7.6.3, 7.8.4, 7.10.3, and 8.0.2. Check your version:
 
 ````bash
 $ ghc --version
 ````
 
-* Please install the last version of [Cabal](https://www.haskell.org/cabal/). OnlineATPs has been installed successfully using `cabal-1.22` and `cabal-1.24`.
+* Please install the last version of [Cabal](https://www.haskell.org/cabal/). OnlineATPs has been installed successfully using `cabal-1.22` and `cabal-1.24`
 
 ````bash
 $ cabal update
@@ -31,10 +31,12 @@ $ cabal install
 
 #### Usage
 
-The work flow using OnlineATPs consists mainly in provide a problem in
-[TSTP](http://www.cs.miami.edu/~tptp/TSTP/) format, and ATP name and then wait over a second while the request takes place in [TPTP World](http://www.cs.miami.edu/~tptp/) and returns with a response. Let's see.
+To take advantage of OnlineATPs, visit first
+[SystemOnTPTP](http://www.cs.miami.edu/~tptp/cgi-bin/SystemOnTPTP) to understand what is about and see all
+its options. Briefly, the work flow using OnlineATPs consists mainly in provide a problem in
+[TSTP](http://www.cs.miami.edu/~tptp/TSTP/) format and at least one ATP name, then executing it, we get an output pretty similar to the answer given by a local ATP. Let see.
 
-* See all ATPs available running the command
+* See all ATPs available. Run this command:
 
 ````bash
 $ online-atps --list-atps
@@ -46,7 +48,7 @@ $ online-atps --list-atps
 $ online-atps --help
 ````
 
-* Prove a small conjecture (using [TSTP Syntax](http://www.cs.miami.edu/~tptp/TPTP/SyntaxBNF.html)) like this:
+* We can check if a problem (written using [TSTP Syntax](http://www.cs.miami.edu/~tptp/TPTP/SyntaxBNF.html) is a theorem or not. For instance, we have a problem, in this case a conjecture, like this one:
 
 ````bash
 $ cat basic.tptp
@@ -58,8 +60,7 @@ fof(a4, conjecture, z).
 ````
 
 
-Prove the conjecture with the help of ATPs. You could use one from the list (`--list-atps` option) or with all ATPs available. For instance, let's try with
-[Vampire](http://www.vprover.org):
+We can now run the ATPS, in this example, we send the paramenter `--atp=vampire` specifying that we are going to use [Vampire](http://www.vprover.org) ATP to solve the problem described above. Then, we should run in our shell something like:
 
 ```
 $ online-atps basic.tptp --atp=vampire
@@ -97,13 +98,13 @@ OUTPUT: SOT_Xry401 - Vampire---4.1 says Refutation - CPU = 0.00 WC = 0.04
 
 ```
 
-* OnlineATPs accepts a name for a ATP using the prefix "online-" or not (e.g "vampire" or "online-vampire").
+* OnlineATPs accepts a name for a ATP using the prefix "online-" or not (e.g "vampire" or "online-vampire")
 
 ````bash
 $ online-atps basic.tptp --atp=online-metis
 ````
 
-* Check the example for a theorem.
+* Only check if a problem states a theorem or not using `--only-check`
 
 ````bash
 $ online-atps basic.tptp --atp=online-metis --only-check
