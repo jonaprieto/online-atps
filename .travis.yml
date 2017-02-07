@@ -40,7 +40,7 @@ matrix:
           , happy-1.19.5
           ]
           , sources: [hvr-ghc]}}
-    - env: CABAL_VER=1.24 GHCVER=8.0.2
+    - env: CABAL_VER=1.24 GHC_VER=8.0.2
       addons: {apt:
         { packages : [
             alex-3.1.7
@@ -60,6 +60,7 @@ before_install:
 
 
 install:
+ - ghc --version
  - cabal --version
  - cabal update
  - echo "$(ghc --version) [$(ghc --print-project-git-commit-id 2> /dev/null || echo '?')]"
