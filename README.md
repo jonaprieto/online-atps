@@ -60,7 +60,7 @@ fof(a4, conjecture, z).
 ````
 
 
-We can now run the ATPS, in this example, we send the paramenter `--atp=vampire` specifying that we are going to use [Vampire](http://www.vprover.org) ATP to solve the problem described above. Then, we should run in our shell something like:
+Using the option `--atp` we are able to use a ATP by his name. For instance, using `--atp=vampire` we specify that we are going to use [Vampire](http://www.vprover.org) ATP against the problem. Then, we should run in our shell something like:
 
 ```
 $ online-atps basic.tptp --atp=vampire
@@ -104,7 +104,7 @@ OUTPUT: SOT_Xry401 - Vampire---4.1 says Refutation - CPU = 0.00 WC = 0.04
 $ online-atps basic.tptp --atp=online-metis
 ````
 
-* Only check if a problem states a theorem or not using `--only-check`
+* Check if a problem states a theorem or not using `--only-check`
 
 ````bash
 $ online-atps basic.tptp --atp=online-metis --only-check
