@@ -255,8 +255,9 @@ getResponseSystemOnTPTP spec = withSocketsDo $ do
     let response = responseBody res
     return response
 
--- | The function 'getSystemOnTPTP' reads some options including the problem
--- file and it sends all this information to TPTP World.
+-- | The function 'getSystemOnTPTP' reads the options given by the user
+-- including the problem file and return a SystemOnTPTP data type
+-- with all settings.
 getSystemOnTPTP ∷ Options → IO (Either Msg SystemOnTPTP)
 getSystemOnTPTP opts = do
 

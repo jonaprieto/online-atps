@@ -37,6 +37,7 @@ import OnlineATPs.Options
     , optOnlyCheck
     , optVersion
     , optVersionATP
+    , optWithAll
     )
   , printUsage
   , processOptions
@@ -94,7 +95,9 @@ main = do
               atps =  getManageOpt $ optATP opts
 
           _ ← case atps of
-            [] → die "missing --atp=NAME (try --help)" opts
+            [] → if not (optWithAll opts)
+                   then die "missing --atp=NAME (try --help)" opts
+                   else return []
             o  → return o
 
           form ∷ Either Msg SystemOnTPTP ← getSystemOnTPTP opts
