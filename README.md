@@ -1,4 +1,4 @@
-# OnlineATPs [![Build Status](https://travis-ci.org/jonaprieto/online-atps.svg?branch=master)](https://travis-ci.org/jonaprieto/online-atps)
+# OnlineATPs [![Build Status](https://travis-ci.org/jonaprieto/online-atps.svg?branch=master)](https://travis-ci.org/jonaprieto/online-atps) [![DOI](https://zenodo.org/badge/65866897.svg)](https://zenodo.org/badge/latestdoi/65866897)
 
   OnlineATPs is a command-line client for
   [TPTP World](http://www.cs.miami.edu/~tptp/cgi-bin/SystemOnTPTP).
