@@ -35,6 +35,7 @@ import OnlineATPs.Options
     , optHelp
     , optInputFile
     , optOnlyCheck
+    , optSystemOnTPTP
     , optVersion
     , optVersionATP
     , optWithAll
@@ -47,7 +48,7 @@ import OnlineATPs.SystemATP
   , printListOnlineATPs
   , getNameVersion
   )
-import OnlineATPs.SystemOnTPTP    ( SystemOnTPTP )
+import OnlineATPs.SystemOnTPTP    ( SystemOnTPTP, optSubmitButton )
 import OnlineATPs.Utils.Monad     ( die )
 import OnlineATPs.Utils.Version   ( progNameVersion )
 
@@ -95,10 +96,12 @@ main = do
               atps =  getManageOpt $ optATP opts
 
           _ ← case atps of
-            [] → if not (optWithAll opts)
+            [] → if not (optWithAll opts ||
+                    optSubmitButton (optSystemOnTPTP opts) == "RecommendSystems")
                    then die "missing --atp=NAME (try --help)" opts
                    else return []
             o  → return o
+
 
           form ∷ Either Msg SystemOnTPTP ← getSystemOnTPTP opts
           case form of

@@ -13,7 +13,7 @@ TAGS :
 
 .PHONY : errors
 errors :
-	shelltest --color --execdir --precise  $(tests_path)/
+	shelltest --color --execdir --precise --extension=.test  $(tests_path)/
 	@echo "$@ succeeded!"
 
 # Hlint test

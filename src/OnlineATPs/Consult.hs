@@ -275,7 +275,9 @@ getSystemOnTPTP opts = do
   let setATPs ∷ [SystemATP]
       setATPs = filter (NoSystemATP/=) (map (`setTimeLimit` time) listATPs)
 
-  if null setATPs then return $ Left "Check the ATPs names using --list-atps"
+  if null setATPs &&
+    optSubmitButton (optSystemOnTPTP opts) /= "RecommendSystems"
+    then return $ Left "Check the ATPs names using --list-atps"
     else do
       defaults ∷ SystemOnTPTP ← getDefaults
 
