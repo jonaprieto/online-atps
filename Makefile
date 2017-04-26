@@ -7,6 +7,9 @@ tests_path = test/basics
 
 OnlineATPs = dist/build/online-atps/online-atps
 
+.PHONY: TAGS
+TAGS :
+	fast-tags -R -e src/
 
 .PHONY : errors
 errors :
