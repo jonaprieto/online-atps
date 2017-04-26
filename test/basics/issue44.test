@@ -1,0 +1,6 @@
+# version
+../../dist/build/online-atps/online-atps --with-all refl.fof
+>>>
+
+>>>2
+>>>= 0

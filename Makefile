@@ -10,7 +10,7 @@ OnlineATPs = dist/build/online-atps/online-atps
 
 .PHONY : errors
 errors :
-	shelltest --color --execdir --precise  $(tests_path)/basics.test
+	shelltest --color --execdir --precise  $(tests_path)/
 	@echo "$@ succeeded!"
 
 # Hlint test
