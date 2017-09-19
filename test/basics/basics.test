@@ -85,8 +85,7 @@ awk '/\[CVC4\]/ || /\[E\]/ || /\[Metis\]/ || /\[SPASS\]/ || /\[Vampire\]/ || /\[
 >>>
 [CVC4]
 [CVC4]
-[CVC4]
-[CVC4]
+[E]
 [E]
 [Metis]
 [SPASS]
@@ -940,7 +939,7 @@ online-atps: missing input file (try --help)
 ../../dist/build/online-atps/online-atps --version-atp=e --debug
 <<<
 >>>
-E---2.0
+E---2.1
 >>>2
 >>>= 0
 # --------------------------------------------------------------------
