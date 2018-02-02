@@ -49,6 +49,15 @@ matrix:
           , happy-1.19.5
           ]
           , sources: [hvr-ghc]}}
+    - env: CABAL_VER=1.24 GHC_VER=8.2.2
+      addons: {apt:
+        { packages : [
+            alex-3.1.7
+          , cabal-install-1.24
+          , ghc-8.0.2
+          , happy-1.19.5
+          ]
+          , sources: [hvr-ghc]}}          
 
 
 before_install:

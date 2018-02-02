@@ -21,7 +21,7 @@ import OnlineATPs.SystemOnTPTP ( SystemOnTPTP (..) )
 import OnlineATPs.Utils.Yaml
 
 import Paths_online_atps        ( getDataFileName )
-import Prelude hiding ( lookup )
+import Prelude
 
 import System.Directory
   ( doesFileExist

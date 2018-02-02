@@ -24,7 +24,7 @@ errors :
 hlint :
 	hlint --color=never Setup.hs
 	hlint --color=never \
-              --cpp-file=dist/build/autogen/cabal_macros.h \
+              --cpp-file=dist/build/online-atps/autogen/cabal_macros.h \
               --cpp-include=src/OnlineATPs/ \
               src/
 	@echo "$@ succeeded!"
