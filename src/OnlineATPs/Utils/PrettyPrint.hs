@@ -2,6 +2,7 @@
 -- | Utilities for pretty printing.
 -- Adapted from @Apia.Utils.PrettyPrint@
 
+{-# LANGUAGE CPP               #-}
 {-# LANGUAGE FlexibleInstances #-}
 {-# LANGUAGE UnicodeSyntax     #-}
 
@@ -13,8 +14,11 @@ module OnlineATPs.Utils.PrettyPrint
   , squotes
   ) where
 
-
 import Text.PrettyPrint
+
+#if MIN_VERSION_base(4,11,0)
+import Prelude hiding ( (<>) )
+#endif
 
 -- | Wrap a document in ‘...’.
 bquotes ∷ Doc → Doc
