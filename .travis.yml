@@ -16,23 +16,26 @@ before_cache:
 matrix:
   include:
     - env: CABAL_VER=1.22 GHC_VER=7.10.3
-      addons: {apt:
-        { packages : [
-            alex-3.1.7
-          , cabal-install-1.22
-          , ghc-7.10.3
-          , happy-1.19.5
-          ]
-          , sources: [hvr-ghc]}}
-    - env: CABAL_VER=1.24 GHC_VER=8.0.2
-      addons: {apt:
-        { packages : [
-            alex-3.1.7
-          , cabal-install-1.24
-          , ghc-8.0.2
-          , happy-1.19.5
-          ]
-          , sources: [hvr-ghc]}}
+      addons:
+        apt:
+          packages:
+            - alex-3.1.7
+            - cabal-install-1.22
+            - ghc-7.10.3
+            - happy-1.19.5
+          sources: [hvr-ghc]
+
+    - env: GHC_VER=8.0.2 CABAL_VER=1.24
+      addons:
+        apt:
+          packages:
+            - alex-3.1.7
+            - cabal-install-1.24
+            - ghc-8.0.2
+            - happy-1.19.5
+          sources:
+            - hvr-ghc
+
     - env: GHC_VER=8.2.2 BUILD=CABAL CABAL_VER=2.0
       addons:
         apt:
@@ -41,10 +44,19 @@ matrix:
             - cabal-install-2.0
             - ghc-8.2.2
             - happy-1.19.5
-            - texlive-binaries
           sources:
             - hvr-ghc
 
+    - env: GHC_VER=8.4.2 BUILD=CABAL CABAL_VER=2.2
+      addons:
+        apt:
+          packages:
+            - alex-3.1.7
+            - cabal-install-2.2
+            - ghc-8.4.2
+            - happy-1.19.5
+          sources:
+            - hvr-ghc
 
 before_install:
  - unset CC
