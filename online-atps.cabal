@@ -13,9 +13,10 @@ category:      Logic, Theorem Provers
 homepage:      https://github.com/jonaprieto/online-atps
 bug-reports:   https://github.com/jonaprieto/online-atps/issues/
 synopsis:      OnlineATPs is a command-line client for TPTP World and its ATPs.
-tested-with:   GHC == 7.10.3
-             , GHC == 8.0.2
-             , GHC == 8.2.2
+tested-with:   GHC == 8.4.2
+               GHC == 8.2.2
+               GHC == 8.0.2
+               GHC == 7.10.3
 description:
   This package provides an interface to use the
   automatic theorem provers (ATPs) of TPTP World.
