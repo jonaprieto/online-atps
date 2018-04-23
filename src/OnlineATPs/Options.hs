@@ -75,6 +75,10 @@ import System.Console.GetOpt
   )
 import System.Environment ( getProgName )
 
+#if MIN_VERSION_base(4,11,0)
+import Prelude hiding ( (<>) )
+#endif
+
 -- | 'ManageOption' handles the options from the defaults and the command
 -- line.
 data ManageOption a = DefaultOpt a | CommandOpt a
