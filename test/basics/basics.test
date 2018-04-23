@@ -939,7 +939,7 @@ online-atps: missing input file (try --help)
 ../../dist/build/online-atps/online-atps --version-atp=e --debug
 <<<
 >>>
-E---2.1
+E---FNT-2.1
 >>>2
 >>>= 0
 # --------------------------------------------------------------------
