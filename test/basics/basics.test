@@ -41,7 +41,7 @@ Usage: online-atps [OPTIONS] FILE
 # version
 ../../dist/build/online-atps/online-atps --version
 >>>
-Online-atps version 0.1.1
+Online-atps version 0.1.2
 >>>2
 >>>= 0
 # --------------------------------------------------------------------
@@ -878,7 +878,7 @@ online-atps: missing input file (try --help)
 ../../dist/build/online-atps/online-atps --debug --version
 <<<
 >>>
-Online-atps version 0.1.1
+Online-atps version 0.1.2
 >>>2
 >>>= 0
 # --------------------------------------------------------------------
