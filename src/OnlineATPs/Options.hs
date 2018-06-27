@@ -261,7 +261,7 @@ options =
                 "Action to submit (\"RunSelectedSystems\", \"RunParallel\",\n"
                 ++ "\"RecommendSystems\" or \"ReportSelectedSystems\")."
   , Option []  ["atp"] (ReqArg atpOpt "NAME") $
-               "Set the ATP (e.g. \"e\" or \"online-e\", \"vampire\" or"
+               "Set the ATP (e.g. \"e\" or \"online-e\", \"vampire\" or "
                ++ "\"online-vampire\")"
   , Option []  ["auto-mode"] (ReqArg autoModeOpt "MODE") $
                 "Parellel Mode (\"Selected\", \"Naive\", \"SSCPA\""
