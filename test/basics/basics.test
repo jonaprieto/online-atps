@@ -6,7 +6,7 @@ Usage: online-atps [OPTIONS] FILE
 
     --action=MODE                  Action to submit ("RunSelectedSystems", "RunParallel",
                                    "RecommendSystems" or "ReportSelectedSystems").
-    --atp=NAME                     Set the ATP (e.g. "e" or "online-e", "vampire" or"online-vampire")
+    --atp=NAME                     Set the ATP (e.g. "e" or "online-e", "vampire" or "online-vampire")
     --auto-mode=MODE               Parellel Mode ("Selected", "Naive", "SSCPA"and "Eager SSCPA")
     --auto-mode-system-limit=TIME  System time limet in the parallel mode
     --auto-mode-time-limit=TIME    Time limit in the parallel mode
@@ -939,7 +939,7 @@ online-atps: missing input file (try --help)
 ../../dist/build/online-atps/online-atps --version-atp=e --debug
 <<<
 >>>
-E---FNT-2.1
+E---2.2
 >>>2
 >>>= 0
 # --------------------------------------------------------------------
@@ -949,7 +949,7 @@ E---FNT-2.1
 ../../dist/build/online-atps/online-atps --version-atp=metis --debug
 <<<
 >>>
-Metis---2.3
+Metis---2.4
 >>>2
 >>>= 0
 # --------------------------------------------------------------------
