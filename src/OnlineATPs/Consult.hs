@@ -39,8 +39,8 @@ import Data.List                ( isPrefixOf )
 import Data.List.Split          ( splitOn )
 import Data.Maybe               ( fromJust, isNothing )
 
-import Network             ( withSocketsDo )
-import Network.HTTP        ( getRequest, getResponseBody, simpleHTTP )
+import Network.Socket           ( withSocketsDo )
+import Network.HTTP             ( getRequest, getResponseBody, simpleHTTP )
 import Network.HTTP.Client
   ( defaultManagerSettings
   , httpLbs
