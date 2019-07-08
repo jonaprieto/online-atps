@@ -9,7 +9,7 @@
 
 #### Requirements
 
-* OnlineATPs has been built and tested using [GHC](https://www.haskell.org/ghc/) 7.6.3, 7.8.4, 7.10.3, 8.0.2, and 8.4.2. Please, check your version with:
+* OnlineATPs has been built and tested using [GHC](https://www.haskell.org/ghc/) 8.6.5. Please, check your version with:
 
 ````bash
 $ ghc --version
